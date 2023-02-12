@@ -7,32 +7,25 @@ using TilemapGenerator.Utilities;
 
 namespace TilemapGenerator
 {
-    public class Application
+    public static class Application
     {
-        private readonly CommandLineOptions _options;
-
-        public Application(CommandLineOptions options)
+        public static void Run(CommandLineOptions options)
         {
-            _options = options;
-        }
-
-        public void Run()
-        {
-            ConfigureLogging(_options.Verbose);
-            if (!ImageUtility.TryLoadImages(_options.Input, out var images, out var canBeAnimated))
+            ConfigureLogging(options.Verbose);
+            if (!ImageUtility.TryLoadImages(options.Input, out var images, out var canBeAnimated))
             {
                 return;
             }
 
-            var color = Rgba32.ParseHex(_options.TransparentColor);
-            if (!ImageUtility.TryApplyPadding(images, _options.TileWidth, _options.TileHeight, color))
+            var color = Rgba32.ParseHex(options.TransparentColor);
+            if (!ImageUtility.TryApplyPadding(images, options.TileWidth, options.TileHeight, color))
             {
                 return;
             }
 
-            if (_options.Animation && !canBeAnimated)
+            if (options.Animation && !canBeAnimated)
             {
-                Log.Error("In order to process the collection as a single animation, " +
+                Log.Error("Could not process the collection as an animation, " +
                             "each image should be of the same size and should contain only a single frame.");
             }
 
