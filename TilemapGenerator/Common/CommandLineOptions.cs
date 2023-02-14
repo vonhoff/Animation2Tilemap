@@ -20,7 +20,7 @@
         public string Output { get; }
         public int TileHeight { get; }
         public int TileWidth { get; }
-        public string TransparentColor { get; } 
+        public string TransparentColor { get; }
         public bool Verbose { get; }
     }
 }

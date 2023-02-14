@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Serilog;
-using Serilog.Debugging;
+﻿using Serilog;
 using SixLabors.ImageSharp.PixelFormats;
 using TilemapGenerator.Common;
 using TilemapGenerator.Utilities;
@@ -25,8 +23,7 @@ namespace TilemapGenerator
 
             if (options.Animation && !canBeAnimated)
             {
-                Log.Error("Could not process the collection as an animation, " +
-                            "each image should be of the same size and should contain only a single frame.");
+                Log.Error("Could not process the collection as an animation.");
             }
 
             // Create tileset and tilemap.
@@ -34,7 +31,6 @@ namespace TilemapGenerator
 
         private static void ConfigureLogging(bool verbose)
         {
-            SelfLog.Enable(message => Trace.WriteLine($"INTERNAL ERROR: {message}"));
             var logConfig = new LoggerConfiguration();
 
             if (verbose)

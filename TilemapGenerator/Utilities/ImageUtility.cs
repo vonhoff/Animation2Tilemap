@@ -11,8 +11,15 @@ namespace TilemapGenerator.Utilities
     {
         public static bool TryApplyPadding(Dictionary<string, List<Image>> images, int tileWidth, int tileHeight, Rgba32 paddingColor)
         {
-            if (images.Count == 0 || tileWidth < 1 || tileHeight < 1)
+            if (!images.Any())
             {
+                Log.Error("The input images dictionary is empty.");
+                return false;
+            }
+
+            if (tileWidth <= 0 || tileHeight <= 0)
+            {
+                Log.Error("Invalid tile width or height.");
                 return false;
             }
 
@@ -21,6 +28,12 @@ namespace TilemapGenerator.Utilities
 
             foreach (var (fileName, frames) in images)
             {
+                if (frames.Count == 0)
+                {
+                    Log.Warning("The frames collection for file {File} is empty.", fileName);
+                    continue;
+                }
+
                 var initialFrame = frames[0];
                 var newWidth = (int)Math.Ceiling((double)initialFrame.Width / tileWidth) * tileWidth;
                 var newHeight = (int)Math.Ceiling((double)initialFrame.Height / tileHeight) * tileHeight;
@@ -73,7 +86,7 @@ namespace TilemapGenerator.Utilities
                         frames.Count, stopwatch.ElapsedMilliseconds);
                 }
             }
-            else if (Directory.Exists(path))
+            else if (Directory.Exists(path) && Directory.EnumerateFiles(path).Any())
             {
                 Log.Verbose("Input path leads to a directory.");
 
@@ -116,15 +129,15 @@ namespace TilemapGenerator.Utilities
                 Log.Information("Loaded {ImageCount} of {InputCount} file(s) containing a total of {FrameCount} frame(s). Took: {Elapsed}ms",
                     images.Count, files.Count, totalFrames, stopwatch.ElapsedMilliseconds);
             }
-            else
+            else if (!Directory.Exists(path))
             {
-                Log.Fatal("{Path} is not a valid file or directory path.", path);
+                Log.Error("The input path is invalid.");
                 return false;
             }
 
             if (!images.Any())
             {
-                Log.Fatal("{Path} does not contain any valid images.", path);
+                Log.Error("The input path does not lead to any valid images.", path);
                 return false;
             }
 

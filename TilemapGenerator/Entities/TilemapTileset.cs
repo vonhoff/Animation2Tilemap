@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace TilemapGenerator.Models
+namespace TilemapGenerator.Entities
 {
     [Serializable, XmlRoot("tileset")]
     public class TilemapTileset

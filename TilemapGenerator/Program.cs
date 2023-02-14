@@ -23,7 +23,7 @@ namespace TilemapGenerator
             rootCommand.Add(animationOption);
 
             var animationFrameDurationOption = new Option<int>(
-                name: "--delta",
+                name: "--duration",
                 description: "Animation frame duration",
                 getDefaultValue: () => 200);
             animationFrameDurationOption.AddAlias("-d");
@@ -31,7 +31,8 @@ namespace TilemapGenerator
 
             var inputOption = new Option<string>(
                 name: "--input",
-                description: "Input file or folder path");
+                description: "Input file or folder path",
+                getDefaultValue: () => string.Empty);
             inputOption.AddAlias("-i");
             inputOption.IsRequired = true;
             rootCommand.Add(inputOption);

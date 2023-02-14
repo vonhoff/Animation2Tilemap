@@ -39,11 +39,11 @@ namespace TilemapGenerator.Common
             return new CommandLineOptions(
                 bindingContext.ParseResult.GetValueForOption(_animationOption),
                 bindingContext.ParseResult.GetValueForOption(_animationFrameDurationOption),
-                bindingContext.ParseResult.GetValueForOption(_inputOption) ?? string.Empty,
-                bindingContext.ParseResult.GetValueForOption(_outputOption) ?? string.Empty,
+                bindingContext.ParseResult.GetValueForOption(_inputOption)!,
+                bindingContext.ParseResult.GetValueForOption(_outputOption)!,
                 bindingContext.ParseResult.GetValueForOption(_tileHeightOption),
                 bindingContext.ParseResult.GetValueForOption(_tileWidthOption),
-                bindingContext.ParseResult.GetValueForOption(_transparentColorOption) ?? string.Empty,
+                bindingContext.ParseResult.GetValueForOption(_transparentColorOption)!,
                 bindingContext.ParseResult.GetValueForOption(_verboseOption)
             );
         }
