@@ -64,10 +64,11 @@ namespace TilemapGenerator.Utilities
 
             for (var i = 0; i < frames.Count; i++)
             {
-                var frame = new Image<Rgba32>(alignedWidth, alignedHeight);
-                frame.Mutate(context => context.BackgroundColor(backgroundColor));
-                frame.Mutate(context => context.DrawImage(initialFrame, Point.Empty, 1f));
-                frames[i] = frame;
+                var frame = frames[i];
+                var alignedFrame = new Image<Rgba32>(alignedWidth, alignedHeight);
+                alignedFrame.Mutate(context => context.BackgroundColor(backgroundColor));
+                alignedFrame.Mutate(context => context.DrawImage(frame, Point.Empty, 1f));
+                frames[i] = alignedFrame;
             }
 
             if (alignedWidth == initialFrame.Width && alignedHeight == initialFrame.Height)
