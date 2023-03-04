@@ -100,7 +100,7 @@ namespace TilemapGenerator.Utilities
             }
 
             stopwatch.Stop();
-            Log.Information("Loaded {ImageCount} of {InputCount} file(s) containing a total of {FrameCount} frame(s). Took: {Elapsed}ms",
+            Log.Information("Loaded {ImageCount} of {InputCount} file(s) containing a total of {FrameCount} frame(s). Took: {Elapsed}ms.",
                 images.Count, files.Count, totalFrames, stopwatch.ElapsedMilliseconds);
             return images;
         }
@@ -124,7 +124,7 @@ namespace TilemapGenerator.Utilities
                 var format = Image.DetectFormat(stream);
                 if (format == null)
                 {
-                    Log.Warning("Unsupported format: {Path}", file);
+                    Log.Warning("Unsupported format: {Path}.", file);
                     return frames;
                 }
 
@@ -137,12 +137,12 @@ namespace TilemapGenerator.Utilities
                     frames.Add((Image<Rgba32>)frame);
                 }
 
-                Log.Verbose("Loaded {FrameCount} frame(s) from: {Path}", image.Frames.Count, file);
+                Log.Verbose("Loaded {FrameCount} frame(s) from: {Path}.", image.Frames.Count, file);
                 return frames;
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error loading image: {Path}", file);
+                Log.Error(ex, "Error loading image: {Path}.", file);
                 return frames;
             }
         }
