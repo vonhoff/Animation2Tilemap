@@ -9,7 +9,7 @@ namespace TilemapGenerator.Utilities
     public static class ImageLoader
     {
         /// <summary>
-        /// Tries to load images from the specified path and returns a dictionary of image frames keyed by file name.
+        /// Attempts to load images from the specified path and returns a dictionary of image frames keyed by file name.
         /// </summary>
         /// <remarks>
         /// If <paramref name="path"/> points to a file, the method will load that file as a single image.<br/>

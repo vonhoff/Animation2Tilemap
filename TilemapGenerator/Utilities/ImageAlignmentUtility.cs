@@ -30,14 +30,14 @@ namespace TilemapGenerator.Utilities
             var totalStopwatch = Stopwatch.StartNew();
             foreach (var (fileName, frames) in images)
             {
-                if (TryApplyTileAlignment(frames, tileSize, backgroundColor, fileName))
+                if (TryApplyAlignment(frames, tileSize, backgroundColor, fileName))
                 {
                     paddingApplied++;
                 }
             }
 
             totalStopwatch.Stop();
-            Log.Information("Applied padding to {PaddingCount} of {InputCount} image(s). Took: {Elapsed}ms",
+            Log.Information("Aligned {PaddingCount} of {InputCount} image(s). Took: {Elapsed}ms",
                 paddingApplied, images.Count, totalStopwatch.ElapsedMilliseconds);
             return true;
         }
@@ -47,10 +47,10 @@ namespace TilemapGenerator.Utilities
         /// </summary>
         /// <param name="frames">A collection of frames to align.</param>
         /// <param name="tileSize">The size of the tiles to align the frames to.</param>
-        /// <param name="backgroundColor">The color of the background to use for padding.</param>
+        /// <param name="backgroundColor">The color of the background to use.</param>
         /// <param name="fileName">The name of the file that the frames belong to.</param>
         /// <returns><see langword="true"/> if the frames were aligned, <see langword="false"/> otherwise.</returns>
-        public static bool TryApplyTileAlignment(List<Image<Rgba32>> frames, Size tileSize, Rgba32 backgroundColor, string fileName)
+        public static bool TryApplyAlignment(List<Image<Rgba32>> frames, Size tileSize, Rgba32 backgroundColor, string fileName)
         {
             if (!frames.Any())
             {
@@ -72,12 +72,12 @@ namespace TilemapGenerator.Utilities
 
             if (alignedWidth == initialFrame.Width && alignedHeight == initialFrame.Height)
             {
-                Log.Verbose("No padding needed for {File} ({Width}x{Height})",
+                Log.Verbose("No alignment needed for {File} ({Width}x{Height})",
                     fileName, initialFrame.Width, initialFrame.Height);
                 return false;
             }
 
-            Log.Verbose("Padding {File} ({Width}x{Height}) to ({AlignedWidth}x{AlignedHeight})",
+            Log.Verbose("Aligning {File} ({Width}x{Height}) to ({AlignedWidth}x{AlignedHeight})",
                 fileName, initialFrame.Width, initialFrame.Height, alignedWidth, alignedHeight);
             return true;
         }
