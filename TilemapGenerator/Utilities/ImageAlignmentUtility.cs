@@ -26,19 +26,19 @@ namespace TilemapGenerator.Utilities
                 return false;
             }
 
-            var paddingApplied = 0;
+            var alignmentApplied = 0;
             var totalStopwatch = Stopwatch.StartNew();
             foreach (var (fileName, frames) in images)
             {
                 if (TryApplyAlignment(frames, tileSize, backgroundColor, fileName))
                 {
-                    paddingApplied++;
+                    alignmentApplied++;
                 }
             }
 
             totalStopwatch.Stop();
-            Log.Information("Aligned {PaddingCount} of {InputCount} image(s). Took: {Elapsed}ms",
-                paddingApplied, images.Count, totalStopwatch.ElapsedMilliseconds);
+            Log.Information("Aligned {PaddingCount} of {InputCount} image(s). Took: {Elapsed}ms.",
+                alignmentApplied, images.Count, totalStopwatch.ElapsedMilliseconds);
             return true;
         }
 
@@ -64,20 +64,20 @@ namespace TilemapGenerator.Utilities
 
             for (var i = 0; i < frames.Count; i++)
             {
-                var alignedImage = new Image<Rgba32>(alignedWidth, alignedHeight);
-                alignedImage.Mutate(context => context.BackgroundColor(backgroundColor));
-                alignedImage.Mutate(context => context.DrawImage(initialFrame, Point.Empty, 1f));
-                frames[i] = alignedImage;
+                var frame = new Image<Rgba32>(alignedWidth, alignedHeight);
+                frame.Mutate(context => context.BackgroundColor(backgroundColor));
+                frame.Mutate(context => context.DrawImage(initialFrame, Point.Empty, 1f));
+                frames[i] = frame;
             }
 
             if (alignedWidth == initialFrame.Width && alignedHeight == initialFrame.Height)
             {
-                Log.Verbose("No alignment needed for {File} ({Width}x{Height})",
+                Log.Verbose("No alignment applied to {File} ({Width}x{Height}).",
                     fileName, initialFrame.Width, initialFrame.Height);
                 return false;
             }
 
-            Log.Verbose("Aligning {File} ({Width}x{Height}) to ({AlignedWidth}x{AlignedHeight})",
+            Log.Verbose("Aligned {File} ({Width}x{Height}) to ({AlignedWidth}x{AlignedHeight}).",
                 fileName, initialFrame.Width, initialFrame.Height, alignedWidth, alignedHeight);
             return true;
         }
