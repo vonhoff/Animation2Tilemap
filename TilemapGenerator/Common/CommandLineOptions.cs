@@ -1,16 +1,19 @@
-﻿namespace TilemapGenerator.Common
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+
+namespace TilemapGenerator.Common
 {
     public class CommandLineOptions
     {
-        public CommandLineOptions(bool animation, int animationFrameDuration, string input, string output, int tileHeight, int tileWidth, string transparentColor, bool verbose)
+        public CommandLineOptions(bool animation, int animationFrameDuration, string input, string output,
+            int tileHeight, int tileWidth, string transparentColor, bool verbose)
         {
             Animation = animation;
             AnimationFrameDuration = animationFrameDuration;
             Input = input;
             Output = output;
-            TileHeight = tileHeight;
-            TileWidth = tileWidth;
-            TransparentColor = transparentColor;
+            TileSize = new Size(tileWidth, tileHeight);
+            TransparentColor = Rgba32.ParseHex(transparentColor);
             Verbose = verbose;
         }
 
@@ -18,9 +21,8 @@
         public int AnimationFrameDuration { get; }
         public string Input { get; }
         public string Output { get; }
-        public int TileHeight { get; }
-        public int TileWidth { get; }
-        public string TransparentColor { get; }
+        public Size TileSize { get; }
+        public Rgba32 TransparentColor { get; }
         public bool Verbose { get; }
     }
 }

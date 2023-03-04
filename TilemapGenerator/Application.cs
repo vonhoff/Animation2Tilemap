@@ -1,5 +1,5 @@
 ﻿using Serilog;
-using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp;
 using TilemapGenerator.Common;
 using TilemapGenerator.Utilities;
 
@@ -10,23 +10,31 @@ namespace TilemapGenerator
         public static void Run(CommandLineOptions options)
         {
             ConfigureLogging(options.Verbose);
-            if (!ImageUtility.TryLoadImages(options.Input, out var images, out var canBeAnimated))
+            if (!ImageLoader.TryLoadImages(options.Input, out var images, out var suitableForAnimation))
             {
                 return;
             }
 
-            var color = Rgba32.ParseHex(options.TransparentColor);
-            if (!ImageUtility.TryApplyPadding(images, options.TileWidth, options.TileHeight, color))
+            if (!ImageAlignmentUtility.TryAlignImages(images, options.TileSize, options.TransparentColor))
             {
                 return;
             }
 
-            if (options.Animation && !canBeAnimated)
+            // Debug stuff
+            Log.Information("Suitable for animation: {Value}", suitableForAnimation);
+            foreach (var (filename, frames) in images)
             {
-                Log.Error("Could not process the collection as an animation.");
-            }
+                if (!Directory.Exists("output/" + filename))
+                {
+                    Directory.CreateDirectory("output/" + filename);
+                }
 
-            // Create tileset and tilemap.
+                for (var i = 0; i < frames.Count; i++)
+                {
+                    var newFilename = Path.Combine("output/" + filename, $"{i:D4}{Path.GetExtension(filename)}");
+                    frames[i].Save(newFilename);
+                }
+            }
         }
 
         private static void ConfigureLogging(bool verbose)
