@@ -32,7 +32,11 @@ namespace TilemapGenerator.Utilities
 
             if (File.Exists(path))
             {
-                images.Add(Path.GetFileName(path), LoadFromFile(path));
+                var frames = LoadFromFile(path);
+                if (frames.Any())
+                {
+                    images.Add(Path.GetFileName(path), frames);
+                }
             }
             else
             {
@@ -90,7 +94,7 @@ namespace TilemapGenerator.Utilities
                 if (suitableForAnimation)
                 {
                     var current = frames[0];
-                    if ((previous != null && !previous.Size().Equals(current.Size())) || frames.Count > 1)
+                    if ((previous != null && !previous.Size.Equals(current.Size)) || frames.Count > 1)
                     {
                         suitableForAnimation = false;
                     }
@@ -121,12 +125,7 @@ namespace TilemapGenerator.Utilities
             try
             {
                 using var stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
-                var format = Image.DetectFormat(stream);
-                if (format == null)
-                {
-                    Log.Warning("Unsupported format: {Path}.", file);
-                    return frames;
-                }
+                Image.DetectFormat(stream);
 
                 stream.Position = 0;
                 var image = Image.Load(stream);
@@ -137,12 +136,17 @@ namespace TilemapGenerator.Utilities
                     frames.Add((Image<Rgba32>)frame);
                 }
 
-                Log.Verbose("Loaded {FrameCount} frame(s) from: {Path}.", image.Frames.Count, file);
+                Log.Verbose("Loaded {FrameCount} frame(s) from: {Path}", image.Frames.Count, file);
+                return frames;
+            }
+            catch (UnknownImageFormatException)
+            {
+                Log.Warning("Unsupported format: {Path}", file);
                 return frames;
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error loading image: {Path}.", file);
+                Log.Error(ex, "Error loading image: {Path}", file);
                 return frames;
             }
         }

@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using SixLabors.ImageSharp;
+using System.Diagnostics;
 using TilemapGenerator.Common;
 using TilemapGenerator.Utilities;
 
@@ -15,25 +16,15 @@ namespace TilemapGenerator
                 return;
             }
 
-            if (!ImageAlignmentUtility.TryAlignImages(images, options.TileSize, options.TransparentColor))
-            {
-                return;
-            }
-
-            // Debug stuff
-            Log.Information("Suitable for animation: {Value}", suitableForAnimation);
             foreach (var (filename, frames) in images)
             {
-                if (!Directory.Exists("output/" + filename))
-                {
-                    Directory.CreateDirectory("output/" + filename);
-                }
-
                 for (var i = 0; i < frames.Count; i++)
                 {
-                    var newFilename = Path.Combine("output/" + filename, $"{i:D4}{Path.GetExtension(filename)}");
-                    frames[i].Save(newFilename);
+                    frames[i] = ImageFrameUtility.AlignFrame(frames[i], options.TileSize, options.TransparentColor);
                 }
+
+                Log.Information("Transformed {FrameCount} frames for {FileName}", 
+                    frames.Count, filename);
             }
         }
 

@@ -34,7 +34,6 @@ namespace TilemapGenerator
                 description: "Input file or folder path",
                 getDefaultValue: () => string.Empty);
             inputOption.AddAlias("-i");
-            inputOption.IsRequired = true;
             rootCommand.Add(inputOption);
 
             var outputOption = new Option<string>(
