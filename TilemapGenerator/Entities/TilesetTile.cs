@@ -9,5 +9,7 @@ namespace TilemapGenerator.Entities
 
         [XmlElement("animation")]
         public TilesetTileAnimation Animation { get; set; }
+
+
     }
 }

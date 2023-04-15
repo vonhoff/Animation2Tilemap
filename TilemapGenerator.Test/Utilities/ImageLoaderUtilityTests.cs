@@ -9,6 +9,7 @@ namespace TilemapGenerator.Test.Utilities
         {
             const string path = "invalid path";
             var result = ImageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
+            
             Assert.False(result);
             Assert.Empty(images);
             Assert.False(suitableForAnimation);
@@ -19,6 +20,7 @@ namespace TilemapGenerator.Test.Utilities
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "InvalidFolder");
             var result = ImageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
+            
             Assert.False(result);
             Assert.Empty(images);
             Assert.False(suitableForAnimation);
@@ -29,6 +31,7 @@ namespace TilemapGenerator.Test.Utilities
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Unicates", "кошка.png");
             var result = ImageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
+            
             Assert.True(result);
             Assert.Single(images);
             Assert.False(suitableForAnimation);
@@ -40,6 +43,7 @@ namespace TilemapGenerator.Test.Utilities
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Unicates", "dollarspindownd.gif");
             var result = ImageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
+            
             Assert.True(result);
             Assert.Single(images);
             Assert.False(suitableForAnimation);
@@ -51,6 +55,7 @@ namespace TilemapGenerator.Test.Utilities
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "AnimationFrames");
             var result = ImageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
+            
             Assert.True(result);
             Assert.Equal(8, images.Count);
             Assert.True(suitableForAnimation);
