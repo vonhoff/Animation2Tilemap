@@ -2,12 +2,11 @@
 
 namespace TilemapGenerator.Test.Utilities
 {
-    public class ImageNameUtilityTests
+    public class AlphanumericPatternUtilityTests
     {
         [Fact]
         public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsEnglishLettersAndUnderscores()
         {
-            // Arrange
             var strings = new List<string> {
                 "4_dragon_01",
                 "6_dragon_31",
@@ -20,17 +19,14 @@ namespace TilemapGenerator.Test.Utilities
                 "994_dragon_021"
             };
 
-            // Act
-            var result = ImageNameUtility.GetMostOccurringPattern(strings);
+            var result = AlphanumericPatternUtility.GetMostOccurringPattern(strings);
 
-            // Assert
             Assert.Equal("dragon", result);
         }
 
         [Fact]
         public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsEnglishLettersAndSpaces()
         {
-            // Arrange
             var strings = new List<string> {
                 "girjplayer",
                 "rgeplayerde",
@@ -42,11 +38,9 @@ namespace TilemapGenerator.Test.Utilities
                 "playeriji",
                 "983player"
             };
+            
+            var result = AlphanumericPatternUtility.GetMostOccurringPattern(strings);
 
-            // Act
-            var result = ImageNameUtility.GetMostOccurringPattern(strings);
-
-            // Assert
             Assert.Equal("player", result);
         }
 
@@ -55,26 +49,23 @@ namespace TilemapGenerator.Test.Utilities
         {
             // Arrange
             var strings = new List<string> {
-                "белка",
-                "белка2",
-                "синица",
-                "журавль",
-                "журавль2",
+                "___синица___0",
+                "xxxсиница2",
+                "sssсиница",
+                "dfdfdсиница",
+                "3синица2",
                 "синица2",
                 "синица3"
             };
+            
+            var result = AlphanumericPatternUtility.GetMostOccurringPattern(strings);
 
-            // Act
-            var result = ImageNameUtility.GetMostOccurringPattern(strings);
-
-            // Assert
             Assert.Equal("синица", result);
         }
 
         [Fact]
         public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsChineseCharacters()
         {
-            // Arrange
             var strings = new List<string> {
                 "青蛙",
                 "青蛙2",
@@ -85,10 +76,8 @@ namespace TilemapGenerator.Test.Utilities
                 "熊猫3"
             };
 
-            // Act
-            var result = ImageNameUtility.GetMostOccurringPattern(strings);
+            var result = AlphanumericPatternUtility.GetMostOccurringPattern(strings);
 
-            // Assert
             Assert.Equal("熊猫", result);
         }
     }
