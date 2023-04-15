@@ -3,14 +3,14 @@ using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Text;
 using System.Text.RegularExpressions;
-using TilemapGenerator.Common;
+using TilemapGenerator.CommandLine;
 
 namespace TilemapGenerator
 {
     public static class Program
     {
         private const string Description = """
-            TilemapGenerator is a command-line tool that generates a tileset and a tilemap from images. 
+            TilemapGenerator is a command-line tool that generates a tileset and a tilemap from images.
             The tool supports animation processing and allows you to set the duration of animation frames.
             """;
 

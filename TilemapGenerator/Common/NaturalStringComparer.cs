@@ -1,72 +1,64 @@
-﻿namespace TilemapGenerator.Common
+﻿using System.Globalization;
+
+namespace TilemapGenerator.Common
 {
     public class NaturalStringComparer : IComparer<string>
     {
+        private readonly StringComparison _culture;
+
+        public NaturalStringComparer() : this(StringComparison.InvariantCulture)
+        {
+        }
+
+        public NaturalStringComparer(StringComparison culture)
+        {
+            _culture = culture;
+        }
+
         public int Compare(string? x, string? y)
         {
-            if (x == null && y == null)
-            {
-                return 0;
-            }
+            if (x == null && y == null) return 0;
+            if (x == null) return -1;
+            if (y == null) return 1;
 
-            if (x == null)
-            {
-                return -1;
-            }
+            var lx = x.Length;
+            var ly = y.Length;
+            var mx = 0;
+            var my = 0;
 
-            if (y == null)
+            while (mx < lx && my < ly)
             {
-                return 1;
-            }
-
-            var length = x.Length;
-            var length2 = y.Length;
-            var i = 0;
-            var j = 0;
-            while (i < length && j < length2)
-            {
-                var c = x[i];
-                var c2 = y[j];
-                if (c is >= '0' and <= '9' && c2 is >= '0' and <= '9')
+                if (char.IsDigit(x[mx]) && char.IsDigit(y[my]))
                 {
-                    var num = 0;
-                    var num2 = 0;
-                    for (; i < length; i++)
-                    {
-                        if (c is < '0' or > '9')
-                        {
-                            break;
-                        }
+                    var vx = 0.0;
+                    var vy = 0.0;
 
-                        num = num * 10 + c - 48;
+                    while (mx < lx && char.IsDigit(x[mx]))
+                    {
+                        vx = vx * 10 + CharUnicodeInfo.GetNumericValue(x, mx);
+                        mx++;
                     }
 
-                    for (; j < length2; j++)
+                    while (my < ly && char.IsDigit(y[my]))
                     {
-                        if (c2 is < '0' or > '9')
-                        {
-                            break;
-                        }
-
-                        num2 = num2 * 10 + c2 - 48;
+                        vy = vy * 10 + CharUnicodeInfo.GetNumericValue(y, my);
+                        my++;
                     }
 
-                    if (num != num2)
-                    {
-                        return num > num2 ? 1 : -1;
-                    }
+                    if (Math.Abs(vx - vy) > 0)
+                        return vx > vy ? 1 : -1;
                 }
-
-                if (c != c2)
+                else
                 {
-                    return c > c2 ? 1 : -1;
+                    var cmp = string.Compare(x, mx, y, my, 1, _culture);
+                    if (cmp != 0)
+                        return cmp;
+                    mx++;
+                    my++;
                 }
-
-                i++;
-                j++;
             }
 
-            return length - i - (length2 - j);
+            return lx - ly;
         }
     }
 }

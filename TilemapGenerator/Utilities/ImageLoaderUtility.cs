@@ -43,6 +43,7 @@ namespace TilemapGenerator.Utilities
 
             if (images.Count == 0)
             {
+                suitableForAnimation = false;
                 Log.Error("The input path does not lead to any valid images.");
                 return false;
             }
