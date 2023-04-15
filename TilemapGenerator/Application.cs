@@ -1,6 +1,4 @@
 ﻿using Serilog;
-using SixLabors.ImageSharp;
-using System.Diagnostics;
 using TilemapGenerator.Common;
 using TilemapGenerator.Utilities;
 
@@ -20,10 +18,10 @@ namespace TilemapGenerator
             {
                 for (var i = 0; i < frames.Count; i++)
                 {
-                    frames[i] = ImageFrameUtility.AlignFrame(frames[i], options.TileSize, options.TransparentColor);
+                    frames[i] = ImageAlignmentUtility.AlignFrame(frames[i], options.TileSize, options.TransparentColor);
                 }
 
-                Log.Information("Transformed {FrameCount} frames for {FileName}", 
+                Log.Information("Aligned {FrameCount} frames for {FileName}",
                     frames.Count, filename);
             }
         }

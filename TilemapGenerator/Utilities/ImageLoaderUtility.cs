@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
 using Serilog;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using TilemapGenerator.Common;
 
 namespace TilemapGenerator.Utilities
@@ -12,12 +10,12 @@ namespace TilemapGenerator.Utilities
         /// Attempts to load images from the specified path and returns a dictionary of image frames keyed by file name.
         /// </summary>
         /// <remarks>
-        /// If <paramref name="path"/> points to a file, the method will load that file as a single image.<br/>
+        /// If <paramref name="path"/> points to a file, the method will load that file as a single image with its frames.<br/>
         /// If <paramref name="path"/> points to a directory, the method will load all supported images in that directory and return a dictionary of image frames keyed by file name.
         /// </remarks>
         /// <param name="path">The path of the file or directory to load images from.</param>
         /// <param name="images">Output parameter that contains the loaded images, if the method succeeds.</param>
-        /// <param name="suitableForAnimation">Output parameter that indicates whether the loaded images are suitable for animation.</param>
+        /// <param name="suitableForAnimation">Output parameter that indicates whether or not the loaded images are suitable for use as animation frames.</param>
         /// <returns><see langword="true"/> if images were loaded successfully, otherwise <see langword="false"/>.</returns>
         public static bool TryLoadImages(string path, out Dictionary<string, List<Image<Rgba32>>> images, out bool suitableForAnimation)
         {
@@ -57,7 +55,7 @@ namespace TilemapGenerator.Utilities
         /// </summary>
         /// <remarks>
         /// The method will only load images with supported formats. Unsupported formats will be skipped.<br/>
-        /// The method will also detect whether the images in the directory can be treated as animation frames, and sets the <paramref name="suitableForAnimation"/> parameter accordingly.
+        /// The method will also detect whether the images in the directory can be used as animation frames, and sets the <paramref name="suitableForAnimation"/> parameter accordingly.
         /// </remarks>
         /// <param name="path">The directory path to load images from.</param>
         /// <param name="suitableForAnimation"><see langword="true"/> if all images have the same size and contain a single frame, otherwise <see langword="false"/>.</param>

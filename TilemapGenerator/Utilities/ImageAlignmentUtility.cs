@@ -1,9 +1,6 @@
-﻿using System.Threading.Tasks;
-using Serilog;
-
-namespace TilemapGenerator.Utilities
+﻿namespace TilemapGenerator.Utilities
 {
-    public static class ImageFrameUtility
+    public static class ImageAlignmentUtility
     {
         /// <summary>
         /// Aligns an image frame to a tile size.

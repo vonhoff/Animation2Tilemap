@@ -1,7 +1,4 @@
-﻿using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-
-namespace TilemapGenerator.Common
+﻿namespace TilemapGenerator.Common
 {
     public class CommandLineOptions
     {

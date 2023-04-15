@@ -2,6 +2,7 @@
 using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Text;
+using System.Text.RegularExpressions;
 using TilemapGenerator.Common;
 
 namespace TilemapGenerator
@@ -10,11 +11,37 @@ namespace TilemapGenerator
     {
         public static async Task Main(string[] args)
         {
-            Console.InputEncoding = Encoding.Unicode;
-            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
 
             var rootCommand = new RootCommand();
+            var optionsBinder = BuildCommandLine(rootCommand);
+            rootCommand.SetHandler(Application.Run, optionsBinder);
 
+            var parser = new CommandLineBuilder(rootCommand)
+                .UseHelp("--help", "-?", "/?")
+                .UseEnvironmentVariableDirective()
+                .UseParseDirective()
+                .UseSuggestDirective()
+                .RegisterWithDotnetSuggest()
+                .UseTypoCorrections()
+                .UseParseErrorReporting()
+                .UseExceptionHandler()
+                .CancelOnProcessTermination()
+                .Build();
+
+            await parser.InvokeAsync(args);
+        }
+
+        /// <summary>
+        /// Creates the command line options used by the application.
+        /// </summary>
+        /// <param name="rootCommand">The root command for the application.</param>
+        /// <returns>
+        /// A <see cref="CommandLineOptionsBinder"/> to bind command line arguments to the application's options.
+        /// </returns>
+        private static CommandLineOptionsBinder BuildCommandLine(Command rootCommand)
+        {
             var animationOption = new Option<bool>(
                 name: "--animation",
                 description: "Enable animation processing",
@@ -28,6 +55,16 @@ namespace TilemapGenerator
                 getDefaultValue: () => 200);
             animationFrameDurationOption.AddAlias("-d");
             rootCommand.Add(animationFrameDurationOption);
+            rootCommand.AddValidator(result =>
+            {
+                var optionResult = result.FindResultFor(animationFrameDurationOption);
+                var duration = optionResult?.GetValueOrDefault<int>();
+                if (duration is <= 0)
+                {
+                    result.ErrorMessage = $"Invalid frame duration '{duration}'." +
+                                          " Animation frame duration should be greater than 0.";
+                }
+            });
 
             var inputOption = new Option<string>(
                 name: "--input",
@@ -49,6 +86,16 @@ namespace TilemapGenerator
                 getDefaultValue: () => 8);
             heightOption.AddAlias("-h");
             rootCommand.Add(heightOption);
+            rootCommand.AddValidator(result =>
+            {
+                var optionResult = result.FindResultFor(heightOption);
+                var height = optionResult?.GetValueOrDefault<int>();
+                if (height is <= 0)
+                {
+                    result.ErrorMessage = $"Invalid height '{height}'." +
+                                          " Height should be greater than 0.";
+                }
+            });
 
             var widthOption = new Option<int>(
                 name: "--width",
@@ -56,6 +103,16 @@ namespace TilemapGenerator
                 getDefaultValue: () => 8);
             widthOption.AddAlias("-w");
             rootCommand.Add(widthOption);
+            rootCommand.AddValidator(result =>
+            {
+                var optionResult = result.FindResultFor(widthOption);
+                var width = optionResult?.GetValueOrDefault<int>();
+                if (width is <= 0)
+                {
+                    result.ErrorMessage = $"Invalid width '{width}'." +
+                                          " Width should be greater than 0.";
+                }
+            });
 
             var transparentColorOption = new Option<string>(
                 name: "--transparent",
@@ -63,6 +120,16 @@ namespace TilemapGenerator
                 getDefaultValue: () => "00000000");
             transparentColorOption.AddAlias("-t");
             rootCommand.Add(transparentColorOption);
+            rootCommand.AddValidator(result =>
+            {
+                var optionResult = result.FindResultFor(transparentColorOption);
+                var transparentColor = optionResult?.GetValueOrDefault<string>();
+                if (transparentColor != null && !Regex.IsMatch(transparentColor, @"^([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$"))
+                {
+                    result.ErrorMessage = $"Invalid transparent color '{transparentColor}'." +
+                                          " Transparent color must be a valid RGBA color string.";
+                }
+            });
 
             var verboseOption = new Option<bool>(
                 name: "--verbose",
@@ -71,8 +138,7 @@ namespace TilemapGenerator
             verboseOption.AddAlias("-v");
             rootCommand.Add(verboseOption);
 
-            rootCommand.SetHandler(Application.Run,
-                new CommandLineOptionsBinder(
+            return new CommandLineOptionsBinder(
                 animationOption,
                 animationFrameDurationOption,
                 inputOption,
@@ -80,21 +146,7 @@ namespace TilemapGenerator
                 heightOption,
                 widthOption,
                 transparentColorOption,
-                verboseOption));
-
-            var parser = new CommandLineBuilder(rootCommand)
-                .UseHelp("--help", "-?", "/?")
-                .UseEnvironmentVariableDirective()
-                .UseParseDirective()
-                .UseSuggestDirective()
-                .RegisterWithDotnetSuggest()
-                .UseTypoCorrections()
-                .UseParseErrorReporting()
-                .UseExceptionHandler()
-                .CancelOnProcessTermination()
-                .Build();
-
-            await parser.InvokeAsync(args);
+                verboseOption);
         }
     }
 }
