@@ -1,6 +1,6 @@
 ﻿namespace TilemapGenerator.Utilities
 {
-    public static class ImageNameUtility
+    public static class AlphanumericPatternUtility
     {
         /// <summary>
         /// Returns the most commonly occurring pattern of alphanumeric characters in a list of strings.
