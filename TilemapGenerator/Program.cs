@@ -9,13 +9,18 @@ namespace TilemapGenerator
 {
     public static class Program
     {
+        private const string Description = """
+            TilemapGenerator is a command-line tool that generates a tileset and a tilemap from images. 
+            The tool supports animation processing and allows you to set the duration of animation frames.
+            """;
+
         public static async Task Main(string[] args)
         {
             Console.InputEncoding = Encoding.UTF8;
             Console.OutputEncoding = Encoding.UTF8;
 
-            var rootCommand = new RootCommand();
-            var optionsBinder = BuildCommandLine(rootCommand);
+            var rootCommand = new RootCommand(Description);
+            var optionsBinder = BuildCommandLineOptions(rootCommand);
             rootCommand.SetHandler(Application.Run, optionsBinder);
 
             var parser = new CommandLineBuilder(rootCommand)
@@ -40,7 +45,7 @@ namespace TilemapGenerator
         /// <returns>
         /// A <see cref="CommandLineOptionsBinder"/> to bind command line arguments to the application's options.
         /// </returns>
-        private static CommandLineOptionsBinder BuildCommandLine(Command rootCommand)
+        private static CommandLineOptionsBinder BuildCommandLineOptions(Command rootCommand)
         {
             var animationOption = new Option<bool>(
                 name: "--animation",
