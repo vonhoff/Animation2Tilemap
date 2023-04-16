@@ -3,7 +3,9 @@ using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Text;
 using System.Text.RegularExpressions;
+using Serilog;
 using TilemapGenerator.CommandLine;
+using TilemapGenerator.Services;
 
 namespace TilemapGenerator
 {
@@ -21,7 +23,13 @@ namespace TilemapGenerator
 
             var rootCommand = new RootCommand(Description);
             var optionsBinder = BuildCommandLineOptions(rootCommand);
-            rootCommand.SetHandler(Application.Run, optionsBinder);
+
+            var alphanumericPatternService = new AlphanumericPatternService();
+            var imageAlignmentService = new ImageAlignmentService();
+            var imageLoaderService = new ImageLoaderService(Log.Logger);
+            var application = new Application(alphanumericPatternService, imageLoaderService, imageAlignmentService, Log.Logger);
+
+            rootCommand.SetHandler(application.Run, optionsBinder);
 
             var parser = new CommandLineBuilder(rootCommand)
                 .UseHelp("--help", "-?", "/?")

@@ -1,6 +1,8 @@
-﻿namespace TilemapGenerator.Utilities
+﻿using TilemapGenerator.Contracts;
+
+namespace TilemapGenerator.Services
 {
-    public static class AlphanumericPatternUtility
+    public class AlphanumericPatternService : IAlphanumericPatternService
     {
         /// <summary>
         /// Returns the most commonly occurring pattern of alphanumeric characters in a list of strings.
@@ -13,7 +15,7 @@
         /// Patterns with a length of 1 are excluded from consideration, as are patterns with the
         /// same count as the most common pattern but a shorter length.
         /// </remarks>
-        public static string GetMostOccurringPattern(List<string> strings)
+        public string GetMostOccurringPattern(List<string> strings)
         {
             var patternCounts = new Dictionary<string, int>();
 
@@ -58,7 +60,7 @@
 
             foreach (var (pattern, count) in patternCounts)
             {
-                if (count > mostCommonCount || (count == mostCommonCount && pattern.Length > longestPatternLength && pattern.Length > 1))
+                if (count > mostCommonCount || count == mostCommonCount && pattern.Length > longestPatternLength && pattern.Length > 1)
                 {
                     mostCommonPattern = pattern;
                     mostCommonCount = count;

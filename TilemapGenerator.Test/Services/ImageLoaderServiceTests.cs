@@ -1,14 +1,29 @@
-﻿using TilemapGenerator.Utilities;
+﻿using Serilog;
+using TilemapGenerator.Contracts;
+using TilemapGenerator.Services;
+using Xunit.Abstractions;
 
-namespace TilemapGenerator.Test.Utilities
+namespace TilemapGenerator.Test.Services
 {
-    public class ImageLoaderUtilityTests
+    public class ImageLoaderServiceTests
     {
+        private readonly IImageLoaderService _imageLoader;
+
+        public ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
+        {
+            var logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
+                .CreateLogger();
+
+            _imageLoader = new ImageLoaderService(logger);
+        }
+
         [Fact]
         public void TryLoadImages_ShouldReturnFalse_WhenInputPathIsInvalid()
         {
             const string path = "invalid path";
-            var result = ImageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
+            var result = _imageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
 
             Assert.False(result);
             Assert.Empty(images);
@@ -19,7 +34,7 @@ namespace TilemapGenerator.Test.Utilities
         public void TryLoadImages_ShouldReturnFalse_WhenInputPathDoesNotLeadToAnyValidImages()
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "InvalidFolder");
-            var result = ImageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
+            var result = _imageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
 
             Assert.False(result);
             Assert.Empty(images);
@@ -30,7 +45,7 @@ namespace TilemapGenerator.Test.Utilities
         public void TryLoadImages_ShouldLoadSingleImage_WhenInputPathPointsToFile()
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Unicates", "кошка.png");
-            var result = ImageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
+            var result = _imageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
 
             Assert.True(result);
             Assert.Single(images);
@@ -42,7 +57,7 @@ namespace TilemapGenerator.Test.Utilities
         public void TryLoadImages_ShouldLoadGifAnimation_WhenInputPathPointsToFile()
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Unicates", "dollarspindownd.gif");
-            var result = ImageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
+            var result = _imageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
 
             Assert.True(result);
             Assert.Single(images);
@@ -54,7 +69,7 @@ namespace TilemapGenerator.Test.Utilities
         public void TryLoadImages_ShouldLoadImagesLikeAnimationFrames_WhenInputPathPointsToDirectory()
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "AnimationFrames");
-            var result = ImageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
+            var result = _imageLoader.TryLoadImages(path, out var images, out var suitableForAnimation);
 
             Assert.True(result);
             Assert.Equal(8, images.Count);
@@ -62,7 +77,7 @@ namespace TilemapGenerator.Test.Utilities
 
             foreach (var image in images)
             {
-                Assert.Equal(1, image.Value.Count);
+                Assert.Single(image.Value);
             }
         }
     }

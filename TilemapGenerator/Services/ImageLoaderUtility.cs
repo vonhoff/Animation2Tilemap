@@ -1,11 +1,19 @@
 ﻿using System.Diagnostics;
 using Serilog;
 using TilemapGenerator.Common;
+using TilemapGenerator.Contracts;
 
-namespace TilemapGenerator.Utilities
+namespace TilemapGenerator.Services
 {
-    public static class ImageLoader
+    public class ImageLoaderService : IImageLoaderService
     {
+        private readonly ILogger _logger;
+
+        public ImageLoaderService(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         /// <summary>
         /// Attempts to load images from the specified path and returns a dictionary of image frames keyed by file name.
         /// </summary>
@@ -17,14 +25,14 @@ namespace TilemapGenerator.Utilities
         /// <param name="images">Output parameter that contains the loaded images, if the method succeeds.</param>
         /// <param name="suitableForAnimation">Output parameter that indicates whether or not the loaded images are suitable for use as animation frames.</param>
         /// <returns><see langword="true"/> if images were loaded successfully, otherwise <see langword="false"/>.</returns>
-        public static bool TryLoadImages(string path, out Dictionary<string, List<Image<Rgba32>>> images, out bool suitableForAnimation)
+        public bool TryLoadImages(string path, out Dictionary<string, List<Image<Rgba32>>> images, out bool suitableForAnimation)
         {
             images = new Dictionary<string, List<Image<Rgba32>>>();
             suitableForAnimation = false;
 
             if (!Directory.Exists(path) && !File.Exists(path))
             {
-                Log.Error("The input path is invalid.");
+                _logger.Error("The input path is invalid.");
                 return false;
             }
 
@@ -44,7 +52,7 @@ namespace TilemapGenerator.Utilities
             if (images.Count == 0)
             {
                 suitableForAnimation = false;
-                Log.Error("The input path does not lead to any valid images.");
+                _logger.Error("The input path does not lead to any valid images.");
                 return false;
             }
 
@@ -61,7 +69,7 @@ namespace TilemapGenerator.Utilities
         /// <param name="path">The directory path to load images from.</param>
         /// <param name="suitableForAnimation"><see langword="true"/> if all images have the same size and contain a single frame, otherwise <see langword="false"/>.</param>
         /// <returns>A dictionary of image frames keyed by file name.</returns>
-        public static Dictionary<string, List<Image<Rgba32>>> LoadFromDirectory(string path, out bool suitableForAnimation)
+        public Dictionary<string, List<Image<Rgba32>>> LoadFromDirectory(string path, out bool suitableForAnimation)
         {
             var images = new Dictionary<string, List<Image<Rgba32>>>();
             var stopwatch = Stopwatch.StartNew();
@@ -71,7 +79,7 @@ namespace TilemapGenerator.Utilities
                 .ToList();
 
             stopwatch.Stop();
-            Log.Information("Collected {Count} file(s). Took: {Elapsed}ms",
+            _logger.Information("Collected {Count} file(s). Took: {Elapsed}ms",
                 files.Count, stopwatch.ElapsedMilliseconds);
 
             var totalFrames = 0;
@@ -93,7 +101,7 @@ namespace TilemapGenerator.Utilities
                 if (suitableForAnimation)
                 {
                     var current = frames[0];
-                    if ((previous != null && !previous.Size.Equals(current.Size)) || frames.Count > 1)
+                    if (previous != null && !previous.Size.Equals(current.Size) || frames.Count > 1)
                     {
                         suitableForAnimation = false;
                     }
@@ -103,7 +111,7 @@ namespace TilemapGenerator.Utilities
             }
 
             stopwatch.Stop();
-            Log.Information("Loaded {ImageCount} of {InputCount} file(s) containing a total of {FrameCount} frame(s). Took: {Elapsed}ms.",
+            _logger.Information("Loaded {ImageCount} of {InputCount} file(s) containing a total of {FrameCount} frame(s). Took: {Elapsed}ms.",
                 images.Count, files.Count, totalFrames, stopwatch.ElapsedMilliseconds);
             return images;
         }
@@ -117,7 +125,7 @@ namespace TilemapGenerator.Utilities
         /// </remarks>
         /// <param name="file">The path of the file to load the image from.</param>
         /// <returns>A list of image frames loaded from the file.</returns>
-        public static List<Image<Rgba32>> LoadFromFile(string file)
+        public List<Image<Rgba32>> LoadFromFile(string file)
         {
             var frames = new List<Image<Rgba32>>();
 
@@ -135,17 +143,17 @@ namespace TilemapGenerator.Utilities
                     frames.Add((Image<Rgba32>)frame);
                 }
 
-                Log.Verbose("Loaded {FrameCount} frame(s) from: {Path}", image.Frames.Count, file);
+                _logger.Verbose("Loaded {FrameCount} frame(s) from: {Path}", image.Frames.Count, file);
                 return frames;
             }
             catch (UnknownImageFormatException)
             {
-                Log.Warning("Unsupported format: {Path}", file);
+                _logger.Warning("Unsupported format: {Path}", file);
                 return frames;
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error loading image: {Path}", file);
+                _logger.Error(ex, "Error loading image: {Path}", file);
                 return frames;
             }
         }

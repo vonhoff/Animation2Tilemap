@@ -1,4 +1,5 @@
-﻿using TilemapGenerator.Common;
+﻿#pragma warning disable S4144
+using TilemapGenerator.Common;
 
 namespace TilemapGenerator.Test.Common
 {

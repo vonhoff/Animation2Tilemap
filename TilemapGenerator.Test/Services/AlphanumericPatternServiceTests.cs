@@ -1,9 +1,12 @@
-﻿using TilemapGenerator.Utilities;
+﻿using TilemapGenerator.Contracts;
+using TilemapGenerator.Services;
 
-namespace TilemapGenerator.Test.Utilities
+namespace TilemapGenerator.Test.Services
 {
-    public class AlphanumericPatternUtilityTests
+    public class AlphanumericPatternServiceTests
     {
+        private readonly IAlphanumericPatternService _patternService = new AlphanumericPatternService();
+
         [Fact]
         public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsEnglishLettersAndUnderscores()
         {
@@ -19,7 +22,7 @@ namespace TilemapGenerator.Test.Utilities
                 "994_dragon_021"
             };
 
-            var result = AlphanumericPatternUtility.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostOccurringPattern(strings);
 
             Assert.Equal("dragon", result);
         }
@@ -39,7 +42,7 @@ namespace TilemapGenerator.Test.Utilities
                 "983player"
             };
 
-            var result = AlphanumericPatternUtility.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostOccurringPattern(strings);
 
             Assert.Equal("player", result);
         }
@@ -57,7 +60,7 @@ namespace TilemapGenerator.Test.Utilities
                 "синица3"
             };
 
-            var result = AlphanumericPatternUtility.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostOccurringPattern(strings);
 
             Assert.Equal("синица", result);
         }
@@ -75,7 +78,7 @@ namespace TilemapGenerator.Test.Utilities
                 "熊猫3"
             };
 
-            var result = AlphanumericPatternUtility.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostOccurringPattern(strings);
 
             Assert.Equal("熊猫", result);
         }
