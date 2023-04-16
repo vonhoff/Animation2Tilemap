@@ -27,7 +27,7 @@ namespace TilemapGenerator.Test.Utilities
             var tileSize = new Size(4, 4);
             var backgroundColor = Rgba32.ParseHex("FFF");
             var alignedFrame = ImageAlignmentUtility.AlignFrame(frame, tileSize, backgroundColor);
-            
+
             Assert.Equal(frame.Width, alignedFrame.Width);
             Assert.Equal(frame.Height, alignedFrame.Height);
         }

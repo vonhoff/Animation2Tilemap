@@ -4,15 +4,15 @@ namespace TilemapGenerator.Common
 {
     public class NaturalStringComparer : IComparer<string>
     {
-        private readonly StringComparison _stringComparator;
+        private readonly StringComparison _stringComparison;
 
         public NaturalStringComparer() : this(StringComparison.InvariantCulture)
         {
         }
 
-        public NaturalStringComparer(StringComparison stringComparator)
+        public NaturalStringComparer(StringComparison stringComparison)
         {
-            _stringComparator = stringComparator;
+            _stringComparison = stringComparison;
         }
 
         public int Compare(string? x, string? y)
@@ -65,9 +65,12 @@ namespace TilemapGenerator.Common
                 }
                 else
                 {
-                    var cmp = string.Compare(x, mx, y, my, 1, _stringComparator);
+                    var cmp = string.Compare(x, mx, y, my, 1, _stringComparison);
                     if (cmp != 0)
+                    {
                         return cmp;
+                    }
+
                     mx++;
                     my++;
                 }

@@ -38,7 +38,7 @@ namespace TilemapGenerator.Test.Utilities
                 "playeriji",
                 "983player"
             };
-            
+
             var result = AlphanumericPatternUtility.GetMostOccurringPattern(strings);
 
             Assert.Equal("player", result);
@@ -47,7 +47,6 @@ namespace TilemapGenerator.Test.Utilities
         [Fact]
         public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsRussianLetters()
         {
-            // Arrange
             var strings = new List<string> {
                 "___синица___0",
                 "xxxсиница2",
@@ -57,7 +56,7 @@ namespace TilemapGenerator.Test.Utilities
                 "синица2",
                 "синица3"
             };
-            
+
             var result = AlphanumericPatternUtility.GetMostOccurringPattern(strings);
 
             Assert.Equal("синица", result);
