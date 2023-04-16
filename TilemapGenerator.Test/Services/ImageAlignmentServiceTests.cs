@@ -24,7 +24,7 @@ namespace TilemapGenerator.Test.Services
         }
 
         [Fact]
-        public void AlignFrame_ReturnsInputFrameIfAlreadyAligned()
+        public void AlignFrame_ShouldReturnInputSizeIfAlreadyAligned()
         {
             var frame = new Image<Rgba32>(16, 8);
             var tileSize = new Size(4, 4);

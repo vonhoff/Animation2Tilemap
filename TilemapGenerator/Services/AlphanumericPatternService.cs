@@ -13,11 +13,9 @@ namespace TilemapGenerator.Services
         /// This method searches through each string in the input <paramref name="strings"/> list,
         /// and extracts all possible patterns of alphanumeric characters from each string. <br/>
         /// The method then determines the most occurring pattern of alphanumeric characters
-        /// among all the strings and returns it. <br/>
-        /// If there are no alphanumeric patterns found, the method will return the most occurring
-        /// letter in the strings instead.
+        /// among all the strings and returns it.
         /// </remarks>
-        public string GetMostOccurringPattern(List<string> strings)
+        public string? GetMostOccurringPattern(List<string> strings)
         {
             var patternCounts = new Dictionary<string, int>();
 
@@ -56,7 +54,7 @@ namespace TilemapGenerator.Services
                 }
             }
 
-            var mostCommonPattern = string.Empty;
+            string? mostCommonPattern = null;
             var mostCommonCount = 0;
             var longestPatternLength = 0;
 
@@ -70,12 +68,36 @@ namespace TilemapGenerator.Services
                 }
             }
 
-            if (mostCommonPattern == string.Empty)
+            return mostCommonPattern;
+        }
+
+        /// <summary>
+        /// Gets the most occurring letter in a list of strings.
+        /// </summary>
+        /// <param name="strings">The list of strings to search for letters in.</param>
+        /// <returns>The most occurring letter in the list of strings.</returns>
+        /// <remarks>
+        /// This method searches through each string in the input <paramref name="strings"/> list, <br/>
+        /// and counts the occurrences of each letter. The method then determines the most occurring letter <br/>
+        /// among all the strings and returns it. If no letters are found in the input strings, <br/>
+        /// the method will return an empty string.
+        /// </remarks>
+        public string? GetMostOccurringLetter(List<string> strings)
+        {
+            var letterCounts = strings
+                .Where(str => !string.IsNullOrEmpty(str))
+                .SelectMany(str => str.Where(char.IsLetter))
+                .GroupBy(c => c)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            if (letterCounts.Count == 0)
             {
-                mostCommonPattern = GetMostOccurringLetter(strings);
+                return null;
             }
 
-            return mostCommonPattern;
+            var mostCommonLetter = letterCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+
+            return mostCommonLetter.ToString();
         }
 
         /// <summary>
@@ -114,35 +136,6 @@ namespace TilemapGenerator.Services
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Gets the most occurring letter in a list of strings.
-        /// </summary>
-        /// <param name="strings">The list of strings to search for letters in.</param>
-        /// <returns>The most occurring letter in the list of strings.</returns>
-        /// <remarks>
-        /// This method searches through each string in the input <paramref name="strings"/> list, <br/>
-        /// and counts the occurrences of each letter. The method then determines the most occurring letter <br/>
-        /// among all the strings and returns it. If no letters are found in the input strings, <br/>
-        /// the method will return an empty string.
-        /// </remarks>
-        private static string GetMostOccurringLetter(IEnumerable<string> strings)
-        {
-            var letterCounts = strings
-                .Where(str => !string.IsNullOrEmpty(str))
-                .SelectMany(str => str.Where(char.IsLetter))
-                .GroupBy(c => c)
-                .ToDictionary(g => g.Key, g => g.Count());
-
-            if (letterCounts.Count == 0)
-            {
-                return string.Empty;
-            }
-
-            var mostCommonLetter = letterCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-
-            return mostCommonLetter.ToString();
         }
     }
 }

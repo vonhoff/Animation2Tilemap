@@ -89,7 +89,11 @@ namespace TilemapGenerator
             _logger.Information("Animation processing is enabled. Images are treated as animation frames.");
 
             List<string> fileNames = images.Keys.Select(Path.GetFileNameWithoutExtension).ToList()!;
+
             var name = _alphanumericPatternService.GetMostOccurringPattern(fileNames);
+            name ??= _alphanumericPatternService.GetMostOccurringLetter(fileNames);
+            name ??= "Animation";
+
             var frames = images.Values.Select(v => v.First()).ToList();
             images = new Dictionary<string, List<Image<Rgba32>>>
             {

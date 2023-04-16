@@ -28,7 +28,7 @@ namespace TilemapGenerator.Test.Services
         }
 
         [Fact]
-        public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsSingleLetters()
+        public void GetMostOccurringPattern_ShouldReturnNull_WhenInputContainsSingleLetters()
         {
             var strings = new List<string> {
                 "a",
@@ -36,7 +36,7 @@ namespace TilemapGenerator.Test.Services
                 "a",
                 "b",
                 "b",
-                "b",
+                "0",
                 "b",
                 "a",
                 "a"
@@ -44,7 +44,7 @@ namespace TilemapGenerator.Test.Services
 
             var result = _patternService.GetMostOccurringPattern(strings);
 
-            Assert.Equal("a", result);
+            Assert.Null(result);
         }
 
         [Fact]
@@ -121,6 +121,55 @@ namespace TilemapGenerator.Test.Services
             var result = _patternService.GetMostOccurringPattern(strings);
 
             Assert.Equal("熊猫", result);
+        }
+
+        [Fact]
+        public void GetMostOccurringLetter_ShouldReturnCommonLetter_WhenInputContainsSingleCharacters()
+        {
+            var strings = new List<string> {
+                "青",
+                "青",
+                "熊",
+                "熊",
+                "猴",
+                "熊",
+                "熊"
+            };
+
+            var result = _patternService.GetMostOccurringLetter(strings);
+
+            Assert.Equal("熊", result);
+        }
+
+        [Fact]
+        public void GetMostOccurringLetter_ShouldReturnCommonLetter_WhenInputContainsSentences()
+        {
+            var strings = new List<string> {
+                "The fox jumps over the box.",
+                "Mix the ingredients well before baking the cake.",
+                "Max is an expert in complex mathematical equations.",
+                "The taxi driver drove us to the apex of the mountain.",
+                "I accidentally spilled my coffee on the fax machine.",
+                "The next exit on the highway is for the town of Apex.",
+                "The annex of the building was recently renovated."
+            };
+
+            var result = _patternService.GetMostOccurringLetter(strings);
+
+            Assert.Equal("e", result);
+        }
+
+        [Fact]
+        public void GetMostOccurringLetter_ShouldReturnNull_WhenInputIsEmpty()
+        {
+            var strings = new List<string> {
+                string.Empty,
+                string.Empty
+            };
+
+            var result = _patternService.GetMostOccurringLetter(strings);
+
+            Assert.Null(result);
         }
     }
 }
