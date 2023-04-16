@@ -28,6 +28,46 @@ namespace TilemapGenerator.Test.Services
         }
 
         [Fact]
+        public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsSingleLetters()
+        {
+            var strings = new List<string> {
+                "a",
+                "a",
+                "a",
+                "b",
+                "b",
+                "b",
+                "b",
+                "a",
+                "a"
+            };
+
+            var result = _patternService.GetMostOccurringPattern(strings);
+
+            Assert.Equal("a", result);
+        }
+
+        [Fact]
+        public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsIndexedNames()
+        {
+            var strings = new List<string> {
+                "barrel1",
+                "barrel2",
+                "barrel3",
+                "barrel4",
+                "barrel5",
+                "barrel6",
+                "barrel7",
+                "barrel8",
+                "barrel9"
+            };
+
+            var result = _patternService.GetMostOccurringPattern(strings);
+
+            Assert.Equal("barrel", result);
+        }
+
+        [Fact]
         public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsEnglishLettersAndSpaces()
         {
             var strings = new List<string> {

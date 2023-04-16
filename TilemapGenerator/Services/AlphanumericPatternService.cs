@@ -5,15 +5,17 @@ namespace TilemapGenerator.Services
     public class AlphanumericPatternService : IAlphanumericPatternService
     {
         /// <summary>
-        /// Returns the most commonly occurring pattern of alphanumeric characters in a list of strings.
+        /// Gets the most occurring pattern of alphanumeric characters in a list of strings.
         /// </summary>
-        /// <param name="strings">The list of strings to search for patterns.</param>
-        /// <returns>The most commonly occurring pattern of alphanumeric characters, or an empty string if no pattern is found.</returns>
+        /// <param name="strings">The list of strings to search for patterns in.</param>
+        /// <returns>The most occurring pattern of alphanumeric characters in the list of strings.</returns>
         /// <remarks>
-        /// This method searches each string in the list for patterns of alphanumeric characters
-        /// and returns the most commonly occurring pattern.
-        /// Patterns with a length of 1 are excluded from consideration, as are patterns with the
-        /// same count as the most common pattern but a shorter length.
+        /// This method searches through each string in the input <paramref name="strings"/> list,
+        /// and extracts all possible patterns of alphanumeric characters from each string. <br/>
+        /// The method then determines the most occurring pattern of alphanumeric characters
+        /// among all the strings and returns it. <br/>
+        /// If there are no alphanumeric patterns found, the method will return the most occurring
+        /// letter in the strings instead.
         /// </remarks>
         public string GetMostOccurringPattern(List<string> strings)
         {
@@ -68,7 +70,54 @@ namespace TilemapGenerator.Services
                 }
             }
 
+            if (mostCommonPattern == string.Empty)
+            {
+                mostCommonPattern = GetMostOccurringLetter(strings);
+            }
+
             return mostCommonPattern;
+        }
+
+        /// <summary>
+        /// Gets the most occurring letter in a list of strings.
+        /// </summary>
+        /// <param name="strings">The list of strings to search for letters in.</param>
+        /// <returns>The most occurring letter in the list of strings.</returns>
+        /// <remarks>
+        /// This method searches through each string in the input <paramref name="strings"/> list, <br/>
+        /// and counts the occurrences of each letter. The method then determines the most occurring letter <br/>
+        /// among all the strings and returns it. If no letters are found in the input strings, <br/>
+        /// the method will return an empty string.
+        /// </remarks>
+        private static string GetMostOccurringLetter(IEnumerable<string> strings)
+        {
+            var letterCounts = new Dictionary<char, int>();
+
+            foreach (var c in from str in strings from c in str where char.IsLetter(c) select c)
+            {
+                if (letterCounts.ContainsKey(c))
+                {
+                    letterCounts[c]++;
+                }
+                else
+                {
+                    letterCounts[c] = 1;
+                }
+            }
+
+            var mostCommonLetter = '\0';
+            var mostCommonCount = 0;
+
+            foreach (var (letter, count) in letterCounts)
+            {
+                if (count > mostCommonCount)
+                {
+                    mostCommonLetter = letter;
+                    mostCommonCount = count;
+                }
+            }
+
+            return mostCommonLetter.ToString();
         }
 
         /// <summary>
@@ -80,12 +129,17 @@ namespace TilemapGenerator.Services
         /// <param name="patternCounts">The dictionary to update with the count of each pattern found.</param>
         /// <remarks>
         /// This method extracts all possible patterns of alphanumeric characters from the substring starting at
-        /// <paramref name="startIndex"/> and with a length of <paramref name="length"/>, <br/>
-        /// and updates the dictionary <paramref name="patternCounts"/> with the count of each pattern found.
-        /// Patterns with a length of 1 are excluded from consideration.
+        /// <paramref name="startIndex"/> and with a length of <paramref name="length"/>, and updates the dictionary 
+        /// <paramref name="patternCounts"/> with the count of each pattern found. Patterns with a length of 1 or less 
+        /// are excluded from consideration because they are not considered to be patterns of alphanumeric characters.
         /// </remarks>
         private static void ExtractPatterns(string str, int startIndex, int length, IDictionary<string, int> patternCounts)
         {
+            if (length <= 1)
+            {
+                return;
+            }
+
             for (var i = 2; i <= length; i++)
             {
                 for (var j = 0; j <= length - i; j++)
