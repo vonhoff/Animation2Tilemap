@@ -25,7 +25,10 @@ namespace TilemapGenerator.Test.Common
         [InlineData("abc22def", "abc123def", -1)]
         public void Compare_ShouldReturnExpectedResult(string x, string y, int expected)
         {
+            // Act
             var result = _comparer.Compare(x, y);
+
+            // Assert
             Assert.Equal(expected, result);
         }
 
@@ -44,13 +47,17 @@ namespace TilemapGenerator.Test.Common
         [InlineData("١٢٣٤٥", "٤٥٦٧٨", -1)] // Arabic-Indic digits
         public void Compare_ShouldReturnExpectedResult_WithNonASCIIDigits(string x, string y, int expected)
         {
+            // Act
             var result = _comparer.Compare(x, y);
+
+            // Assert
             Assert.Equal(expected, result);
         }
 
         [Fact]
         public void Compare_ShouldReturnNaturalOrderedList()
         {
+            // Arrange
             var expected = new List<string>
             {
                 "frame_1.png",
@@ -129,13 +136,17 @@ namespace TilemapGenerator.Test.Common
                 "frame_99.png",
             };
 
+            // Act
             var actual = input.Order(_comparer).ToList();
+
+            // Assert
             Assert.Equal(expected, actual);
         }
 
         [Fact]
         public void Compare_ShouldReturnNaturalOrderedList_WithMixedCharacters()
         {
+            // Arrange
             var expected = new List<string> {
                 "item1.png",
                 "item2.png",
@@ -222,7 +233,10 @@ namespace TilemapGenerator.Test.Common
                 "картинка11.png",
             };
 
+            // Act
             var actual = input.Order(_comparer).ToList();
+
+            // Assert
             Assert.Equal(expected, actual);
         }
     }

@@ -1,4 +1,4 @@
-﻿using TilemapGenerator.Contracts;
+﻿using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services
 {

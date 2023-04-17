@@ -1,6 +1,6 @@
 ﻿using Serilog;
 using TilemapGenerator.CommandLine;
-using TilemapGenerator.Contracts;
+using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator
 {
@@ -33,6 +33,8 @@ namespace TilemapGenerator
             {
                 return;
             }
+
+
         }
 
         /// <summary>

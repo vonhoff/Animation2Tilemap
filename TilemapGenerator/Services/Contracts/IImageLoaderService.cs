@@ -1,4 +1,4 @@
-﻿namespace TilemapGenerator.Contracts
+﻿namespace TilemapGenerator.Services.Contracts
 {
     public interface IImageLoaderService
     {

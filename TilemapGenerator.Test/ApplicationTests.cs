@@ -3,7 +3,7 @@ using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using TilemapGenerator.CommandLine;
-using TilemapGenerator.Contracts;
+using TilemapGenerator.Services.Contracts;
 using Xunit.Abstractions;
 
 namespace TilemapGenerator.Test
