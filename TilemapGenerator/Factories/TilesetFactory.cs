@@ -1,12 +1,19 @@
-﻿using TilemapGenerator.Entities;
+﻿using Serilog;
+using TilemapGenerator.Entities;
 using TilemapGenerator.Factories.Contracts;
-using TilemapGenerator.Records;
 
 namespace TilemapGenerator.Factories
 {
     public class TilesetFactory : ITilesetFactory
     {
-        public Tileset FromTileRecords(List<TileRecord> tileRecords, Size tileSize)
+        private readonly ILogger _logger;
+
+        public TilesetFactory(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+        public Tileset FromTiles(List<TilesetTile> tileRecords, Size tileSize)
         {
             var groupedRecords = tileRecords
                 .GroupBy(tileRecord => tileRecord.Location)

@@ -10,22 +10,29 @@ namespace TilemapGenerator.Services
         private const int Prime4 = 668265263;
         private const int Prime5 = 374761393;
         private const int Prime6 = 258915779;
-        private const int Prime7 = 58864111;
 
-        public int Compute(Rgba32 pixelColor, int baseValue, int tileX, int tileY)
+        public int Compute(Image<Rgba32> image, Size tileSize, int x, int y)
         {
-            unchecked
+            var hash = Prime1;
+
+            for (var tileX = x; tileX < x + tileSize.Width; tileX++)
             {
-                var hash = Prime1;
-                hash = (hash * Prime1) ^ pixelColor.R;
-                hash = (hash * Prime2) ^ pixelColor.G;
-                hash = (hash * Prime3) ^ pixelColor.B;
-                hash = (hash * Prime4) ^ pixelColor.A;
-                hash = (hash * Prime5) ^ baseValue;
-                hash = (hash * Prime6) ^ tileX;
-                hash = (hash * Prime7) ^ tileY;
-                return hash;
+                for (var tileY = y; tileY < y + tileSize.Height; tileY++)
+                {
+                    var pixelColor = image[tileX, tileY];
+                    unchecked
+                    {
+                        hash = (hash * Prime1) ^ pixelColor.R;
+                        hash = (hash * Prime2) ^ pixelColor.G;
+                        hash = (hash * Prime3) ^ pixelColor.B;
+                        hash = (hash * Prime4) ^ pixelColor.A;
+                        hash = (hash * Prime5) ^ tileX;
+                        hash = (hash * Prime6) ^ tileY;
+                    }
+                }
             }
+
+            return hash;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace TilemapGenerator
             services.AddSingleton<IImageAlignmentService, ImageAlignmentService>();
             services.AddSingleton<IImageLoaderService, ImageLoaderService>();
             services.AddSingleton<ITileHashService, TileHashService>();
-            services.AddSingleton<ITileRecordService, TileRecordService>();
+            services.AddSingleton<ITilesetTileFactory, TilesetTileFactory>();
             services.AddSingleton<ITilesetFactory, TilesetFactory>();
             services.AddSingleton<Application>();
         }

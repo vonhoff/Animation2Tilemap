@@ -2,6 +2,6 @@
 {
     public interface ITileHashService
     {
-        int Compute(Rgba32 pixelColor, int baseValue, int tileX, int tileY);
+        int Compute(Image<Rgba32> image, Size tileSize, int x, int y);
     }
 }

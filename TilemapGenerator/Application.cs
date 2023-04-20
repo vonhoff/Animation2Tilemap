@@ -17,7 +17,7 @@ namespace TilemapGenerator
         private readonly IImageAlignmentService _imageAlignmentService;
         private readonly IImageLoaderService _imageLoaderService;
         private readonly ILogger _logger;
-        private readonly ITileRecordService _tileRecordService;
+        private readonly ITilesetTileFactory _tileRecordService;
         private readonly ITilesetFactory _tilesetFactory;
         private readonly CommandLineOptions _options;
 
@@ -26,7 +26,7 @@ namespace TilemapGenerator
             IImageAlignmentService imageAlignmentService,
             IImageLoaderService imageLoaderService,
             ILogger logger, 
-            ITileRecordService tileRecordService,
+            ITilesetTileFactory tileRecordService,
             ITilesetFactory tilesetFactory,
             CommandLineOptions options)
         {
@@ -97,7 +97,7 @@ namespace TilemapGenerator
             foreach (var (fileName, frames) in images)
             {
                 var tileRecords = _tileRecordService.FromFrames(frames, _options.TileSize);
-                var tileset = _tilesetFactory.FromTileRecords(tileRecords, _options.TileSize);
+                var tileset = _tilesetFactory.FromTiles(tileRecords, _options.TileSize);
 
                 var serializer = new XmlSerializer(typeof(Tileset));
                 using (var memoryStream = new MemoryStream())
