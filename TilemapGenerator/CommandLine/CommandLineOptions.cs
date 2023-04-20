@@ -3,7 +3,7 @@
     public class CommandLineOptions
     {
         public CommandLineOptions(
-            bool animation,
+            bool animated,
             int animationFrameDuration,
             string input,
             string output,
@@ -12,7 +12,7 @@
             string transparentColor,
             bool verbose)
         {
-            Animation = animation;
+            Animated = animated;
             AnimationFrameDuration = animationFrameDuration;
             Input = input;
             Output = output;
@@ -21,7 +21,7 @@
             Verbose = verbose;
         }
 
-        public bool Animation { get; }
+        public bool Animated { get; }
         public int AnimationFrameDuration { get; }
         public string Input { get; }
         public string Output { get; }

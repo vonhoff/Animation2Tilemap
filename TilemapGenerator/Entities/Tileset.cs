@@ -6,7 +6,7 @@ namespace TilemapGenerator.Entities
     public class Tileset
     {
         [XmlAttribute("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [XmlAttribute("tilewidth")]
         public int TileWidth { get; set; }
@@ -21,9 +21,9 @@ namespace TilemapGenerator.Entities
         public int Columns { get; set; }
 
         [XmlElement("image")]
-        public TilesetImage Image { get; set; }
+        public TilesetImage? Image { get; set; }
 
         [XmlElement("tile")]
-        public List<TilesetTile> Tiles { get; set; }
+        public List<TilesetTile>? Tiles { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace TilemapGenerator.Entities
         public int FirstGid { get; set; }
 
         [XmlAttribute("source")]
-        public string Source { get; set; }
+        public string? Source { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace TilemapGenerator.Entities
     public class TilemapLayer
     {
         [XmlAttribute("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [XmlAttribute("width")]
         public int Width { get; set; }
@@ -15,6 +15,6 @@ namespace TilemapGenerator.Entities
         public int Height { get; set; }
 
         [XmlElement("data")]
-        public TilemapLayerData Data { get; set; }
+        public TilemapLayerData? Data { get; set; }
     }
 }

@@ -79,7 +79,7 @@ namespace TilemapGenerator.Services
                 .ToList();
 
             stopwatch.Stop();
-            _logger.Information("Collected {Count} file(s). Took: {Elapsed}ms",
+            _logger.Information("Collected {count} file(s). Took: {elapsed}ms",
                 files.Count, stopwatch.ElapsedMilliseconds);
 
             var totalFrames = 0;
@@ -111,7 +111,7 @@ namespace TilemapGenerator.Services
             }
 
             stopwatch.Stop();
-            _logger.Information("Loaded {ImageCount} of {InputCount} file(s) containing a total of {FrameCount} frame(s). Took: {Elapsed}ms.",
+            _logger.Information("Loaded {imageCount} of {inputCount} file(s) containing a total of {frameCount} frame(s). Took: {elapsed}ms.",
                 images.Count, files.Count, totalFrames, stopwatch.ElapsedMilliseconds);
             return images;
         }
@@ -143,17 +143,17 @@ namespace TilemapGenerator.Services
                     frames.Add((Image<Rgba32>)frame);
                 }
 
-                _logger.Verbose("Loaded {FrameCount} frame(s) from: {Path}", image.Frames.Count, file);
+                _logger.Verbose("Loaded {frameCount} frame(s) from: {path}", image.Frames.Count, file);
                 return frames;
             }
             catch (UnknownImageFormatException)
             {
-                _logger.Warning("Unsupported format: {Path}", file);
+                _logger.Warning("Unsupported format: {path}", file);
                 return frames;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Error loading image: {Path}", file);
+                _logger.Error(ex, "Error loading image: {path}", file);
                 return frames;
             }
         }

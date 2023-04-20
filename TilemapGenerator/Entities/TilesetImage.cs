@@ -5,10 +5,10 @@ namespace TilemapGenerator.Entities
     public class TilesetImage
     {
         [XmlAttribute("source")]
-        public string Source { get; set; }
+        public string? Source { get; set; }
 
         [XmlAttribute("trans")]
-        public string Trans { get; set; }
+        public string? Trans { get; set; }
 
         [XmlAttribute("width")]
         public int Width { get; set; }

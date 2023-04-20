@@ -1,55 +1,55 @@
 ﻿using TilemapGenerator.Entities;
 using TilemapGenerator.Factories.Contracts;
-using TilemapGenerator.Services.Contracts;
+using TilemapGenerator.Records;
 
 namespace TilemapGenerator.Factories
 {
     public class TilesetFactory : ITilesetFactory
     {
-        private readonly ITileHashService _hashService;
-
-        public TilesetFactory(ITileHashService hashService)
+        public Tileset FromTileRecords(List<TileRecord> tileRecords, Size tileSize)
         {
-            _hashService = hashService;
-        }
+            var groupedRecords = tileRecords
+                .GroupBy(tileRecord => tileRecord.Location)
+                .Where(grouping => grouping.Count() > 1);
 
-        public Tileset FromFrames(List<Image<Rgba32>> frames, Size tileSize)
-        {
-            throw new NotImplementedException();
-        }
+            var tiles = new List<TilesetTile>();
 
-        public Tileset FromFramesConsolidated(List<Image<Rgba32>> frames, Size tileSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        private Dictionary<int, Point> GetUniqueTiles(Image<Rgba32> inputImage, Size tileSize)
-        {
-            var uniqueTiles = new Dictionary<int, Point>();
-
-            for (var x = 0; x < inputImage.Width; x += tileSize.Width)
+            foreach (var group in groupedRecords)
             {
-                for (var y = 0; y < inputImage.Height; y += tileSize.Height)
+                var animation = new TilesetTileAnimation();
+
+                foreach (var record in group)
                 {
-                    var tileHash = 17;
-
-                    for (var tileX = x; tileX < x + tileSize.Width; tileX++)
+                    var frame = new TilesetTileAnimationFrame
                     {
-                        for (var tileY = y; tileY < y + tileSize.Height; tileY++)
-                        {
-                            var pixelColor = inputImage[tileX, tileY];
-                            tileHash = _hashService.Compute(pixelColor, tileHash, tileX, tileY);
-                        }
-                    }
+                        TileId = record.Id,
+                        Duration = 0 // TODO: Set this to the actual duration
+                    };
 
-                    if (!uniqueTiles.ContainsKey(tileHash))
-                    {
-                        uniqueTiles.Add(tileHash, new Point(x, y));
-                    }
+                    animation.Frames.Add(frame);
                 }
+
+                var tile = new TilesetTile
+                {
+                    Id = group.First().Id,
+                    Animation = animation
+                };
+
+                tiles.Add(tile);
             }
 
-            return uniqueTiles;
+            var tileset = new Tileset
+            {
+                TileWidth = tileSize.Width,
+                TileHeight = tileSize.Height,
+                Columns = 0, // TODO: Calculate this based on the tileset image size
+                TileCount = tiles.Count,
+                Image = null, // TODO: Set this to the tileset image data if available
+                Name = "", // TODO: Set this to a meaningful name if available
+                Tiles = tiles
+            };
+
+            return tileset;
         }
     }
 }

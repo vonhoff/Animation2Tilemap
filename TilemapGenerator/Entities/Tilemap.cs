@@ -6,13 +6,13 @@ namespace TilemapGenerator.Entities
     public class Tilemap
     {
         [XmlAttribute("version")]
-        public string Version { get; set; }
+        public string? Version { get; set; }
 
         [XmlAttribute("orientation")]
-        public string Orientation { get; set; }
+        public string? Orientation { get; set; }
 
         [XmlAttribute("renderorder")]
-        public string RenderOrder { get; set; }
+        public string? RenderOrder { get; set; }
 
         [XmlAttribute("width")]
         public int Width { get; set; }
@@ -30,9 +30,9 @@ namespace TilemapGenerator.Entities
         public int NextObjectId { get; set; }
 
         [XmlElement("tileset")]
-        public TilemapTileset Tileset { get; set; }
+        public TilemapTileset? Tileset { get; set; }
 
         [XmlElement("layer")]
-        public TilemapLayer TilemapLayer { get; set; }
+        public TilemapLayer? TilemapLayer { get; set; }
     }
 }

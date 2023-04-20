@@ -1,5 +1,12 @@
-﻿using Serilog;
+﻿using System.Globalization;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
+using Serilog;
 using TilemapGenerator.CommandLine;
+using TilemapGenerator.Entities;
+using TilemapGenerator.Factories;
+using TilemapGenerator.Factories.Contracts;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator
@@ -7,60 +14,78 @@ namespace TilemapGenerator
     public class Application
     {
         private readonly IAlphanumericPatternService _alphanumericPatternService;
-        private readonly IImageLoaderService _imageLoaderService;
         private readonly IImageAlignmentService _imageAlignmentService;
+        private readonly IImageLoaderService _imageLoaderService;
         private readonly ILogger _logger;
+        private readonly ITileRecordService _tileRecordService;
+        private readonly ITilesetFactory _tilesetFactory;
+        private readonly CommandLineOptions _options;
 
         public Application(
             IAlphanumericPatternService alphanumericPatternService,
-            IImageLoaderService imageLoaderService,
             IImageAlignmentService imageAlignmentService,
-            ILogger logger)
+            IImageLoaderService imageLoaderService,
+            ILogger logger, 
+            ITileRecordService tileRecordService,
+            ITilesetFactory tilesetFactory,
+            CommandLineOptions options)
         {
             _alphanumericPatternService = alphanumericPatternService;
-            _imageLoaderService = imageLoaderService;
             _imageAlignmentService = imageAlignmentService;
+            _imageLoaderService = imageLoaderService;
             _logger = logger;
-        }
-
-        /// <summary>
-        /// Runs the application with the specified command-line options.
-        /// </summary>
-        /// <param name="options">The command-line options.</param>
-        public void Run(CommandLineOptions options)
-        {
-            if (!LoadAndAlignImages(options, out var images))
-            {
-                return;
-            }
-
-
+            _tileRecordService = tileRecordService;
+            _tilesetFactory = tilesetFactory;
+            _options = options;
         }
 
         /// <summary>
         /// Loads and aligns images based on the specified command-line options.
         /// </summary>
-        /// <param name="options">The command-line options.</param>
         /// <param name="images">The loaded and aligned images, grouped by filename.</param>
+        /// <param name="suitableForAnimation"><see langword="true"/> if all images have the same size and contain a single frame, otherwise <see langword="false"/>.</param>
         /// <returns>A value indicating whether the loading and alignment succeeded.</returns>
-        public bool LoadAndAlignImages(CommandLineOptions options, out Dictionary<string, List<Image<Rgba32>>> images)
+        public bool LoadAndAlignImages(out Dictionary<string, List<Image<Rgba32>>> images, out bool suitableForAnimation)
         {
-            if (!_imageLoaderService.TryLoadImages(options.Input, out images, out var suitableForAnimation))
+            if (!_imageLoaderService.TryLoadImages(_options.Input, out images, out suitableForAnimation))
             {
                 return false;
+            }
+
+            foreach (var (fileName, frames) in images)
+            {
+                for (var i = 0; i < frames.Count; i++)
+                {
+                    frames[i] = _imageAlignmentService.AlignFrame(frames[i], _options.TileSize, _options.TransparentColor);
+                }
+
+                _logger.Information("Aligned {frameCount} frame(s) for {fileName}", frames.Count, fileName);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Runs the application.
+        /// </summary>
+        public void Run()
+        {
+            if (!LoadAndAlignImages(out var images, out var suitableForAnimation))
+            {
+                return;
             }
 
             if (suitableForAnimation)
             {
                 _logger.Information("The loaded image files can be used as animation frames.");
 
-                if (options.Animation)
+                if (_options.Animated)
                 {
                     TransformImagesToAnimation(ref images);
                 }
                 else
                 {
-                    _logger.Warning("Animation processing is disabled. Images will be processed individually.");
+                    _logger.Warning("Animation processing is not requested. Images will be processed individually.");
                 }
             }
             else
@@ -69,19 +94,29 @@ namespace TilemapGenerator
                                 "Images will be processed individually.");
             }
 
-            foreach (var (filename, frames) in images)
+            foreach (var (fileName, frames) in images)
             {
-                for (var i = 0; i < frames.Count; i++)
+                var tileRecords = _tileRecordService.FromFrames(frames, _options.TileSize);
+                var tileset = _tilesetFactory.FromTileRecords(tileRecords, _options.TileSize);
+
+                var serializer = new XmlSerializer(typeof(Tileset));
+                using (var memoryStream = new MemoryStream())
                 {
-                    frames[i] = _imageAlignmentService.AlignFrame(frames[i], options.TileSize, options.TransparentColor);
+                    var namespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+                    var settings = new XmlWriterSettings
+                    {
+                        Encoding = new UTF8Encoding(false), // specify UTF-8 encoding without BOM
+                        Indent = true // format the output with indentation
+                    };
+                    using (var xmlWriter = XmlWriter.Create(memoryStream, settings))
+                    {
+                        serializer.Serialize(xmlWriter, tileset, namespaces);
+                    }
+                    var xml = Encoding.UTF8.GetString(memoryStream.ToArray());
+                    Log.Information("(name: {fileName}, amount: {amount}) \n{content}", fileName, frames.Count, xml);
                 }
-
-                _logger.Information("Aligned {FrameCount} frame(s) for {FileName}", frames.Count, filename);
             }
-
-            return true;
         }
-
         /// <summary>
         /// Groups the loaded and aligned images into a single animation.
         /// </summary>
@@ -94,7 +129,12 @@ namespace TilemapGenerator
 
             var name = _alphanumericPatternService.GetMostOccurringPattern(fileNames);
             name ??= _alphanumericPatternService.GetMostOccurringLetter(fileNames);
-            name ??= "Animation";
+
+            if (name == null)
+            {
+                var fileName = "Animation_" + DateTime.Now.ToLocalTime();
+                name = string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
+            }
 
             var frames = images.Values.Select(v => v.First()).ToList();
             images = new Dictionary<string, List<Image<Rgba32>>>

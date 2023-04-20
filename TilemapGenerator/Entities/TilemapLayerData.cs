@@ -6,12 +6,12 @@ namespace TilemapGenerator.Entities
     public class TilemapLayerData
     {
         [XmlAttribute("encoding")]
-        public string Encoding { get; set; }
+        public string? Encoding { get; set; }
 
         [XmlAttribute("compression")]
-        public string Compression { get; set; }
+        public string? Compression { get; set; }
 
         [XmlText]
-        public string Text { get; set; }
+        public string? Text { get; set; }
     }
 }

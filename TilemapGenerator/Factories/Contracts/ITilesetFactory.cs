@@ -1,10 +1,10 @@
 ﻿using TilemapGenerator.Entities;
+using TilemapGenerator.Records;
 
 namespace TilemapGenerator.Factories.Contracts
 {
     public interface ITilesetFactory
     {
-        Tileset FromFrames(List<Image<Rgba32>> frames, Size tileSize);
-        Tileset FromFramesConsolidated(List<Image<Rgba32>> frames, Size tileSize);
+        Tileset FromTileRecords(List<TileRecord> tileRecords, Size tileSize);
     }
 }

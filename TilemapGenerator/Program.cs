@@ -3,9 +3,7 @@ using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Text;
 using System.Text.RegularExpressions;
-using Serilog;
 using TilemapGenerator.CommandLine;
-using TilemapGenerator.Services;
 
 namespace TilemapGenerator
 {
@@ -24,12 +22,12 @@ namespace TilemapGenerator
             var rootCommand = new RootCommand(Description);
             var optionsBinder = BuildCommandLineOptions(rootCommand);
 
-            var alphanumericPatternService = new AlphanumericPatternService();
-            var imageAlignmentService = new ImageAlignmentService();
-            var imageLoaderService = new ImageLoaderService(Log.Logger);
-            var application = new Application(alphanumericPatternService, imageLoaderService, imageAlignmentService, Log.Logger);
-
-            rootCommand.SetHandler(application.Run, optionsBinder);
+            rootCommand.SetHandler(options =>
+            {
+                var startup = new Startup(options);
+                var application = startup.BuildApplication();
+                application.Run();
+            }, optionsBinder);
 
             var parser = new CommandLineBuilder(rootCommand)
                 .UseHelp("--help", "-?", "/?")
@@ -46,13 +44,6 @@ namespace TilemapGenerator
             await parser.InvokeAsync(args);
         }
 
-        /// <summary>
-        /// Creates the command line options used by the application.
-        /// </summary>
-        /// <param name="rootCommand">The root command for the application.</param>
-        /// <returns>
-        /// A <see cref="CommandLineOptionsBinder"/> to bind command line arguments to the application's options.
-        /// </returns>
         private static CommandLineOptionsBinder BuildCommandLineOptions(Command rootCommand)
         {
             var animationOption = new Option<bool>(
