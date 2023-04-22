@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using System.Diagnostics;
+using Serilog;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services
@@ -25,6 +26,7 @@ namespace TilemapGenerator.Services
         /// </remarks>
         public string? GetMostOccurringPattern(List<string> strings)
         {
+            var stopwatch = Stopwatch.StartNew();
             var patternCounts = new Dictionary<string, int>();
 
             foreach (var str in strings)
@@ -76,6 +78,17 @@ namespace TilemapGenerator.Services
                 }
             }
 
+            if (mostCommonPattern == null)
+            {
+                _logger.Warning("Could not find a repeating pattern of alphanumeric characters in the provided filename list. Took: {elapsed}ms",
+                    stopwatch.ElapsedMilliseconds);
+            }
+            else
+            {
+                _logger.Information("The most occurring pattern of alphanumeric characters is {mostCommonPattern}. Took: {elapsed}ms", 
+                    mostCommonPattern, stopwatch.ElapsedMilliseconds);
+            }
+
             return mostCommonPattern;
         }
 
@@ -92,6 +105,7 @@ namespace TilemapGenerator.Services
         /// </remarks>
         public string? GetMostOccurringLetter(List<string> strings)
         {
+            var stopwatch = Stopwatch.StartNew();
             var letterCounts = strings
                 .Where(str => !string.IsNullOrEmpty(str))
                 .SelectMany(str => str.Where(char.IsLetter))
@@ -100,11 +114,13 @@ namespace TilemapGenerator.Services
 
             if (letterCounts.Count == 0)
             {
+                _logger.Warning("Could not find a repeating letter in the provided filename list. Took: {elapsed}", stopwatch.ElapsedMilliseconds);
                 return null;
             }
 
             var mostCommonLetter = letterCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
 
+            _logger.Information("The most occurring letter is {Letter}. Took {elapsed}", mostCommonLetter, stopwatch.ElapsedMilliseconds);
             return mostCommonLetter.ToString();
         }
 

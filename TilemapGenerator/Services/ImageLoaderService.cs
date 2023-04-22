@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Serilog;
 using TilemapGenerator.Common;
+using TilemapGenerator.Common.CommandLine;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services
@@ -9,51 +10,52 @@ namespace TilemapGenerator.Services
     {
         private readonly ILogger _logger;
         private readonly IAlphanumericPatternService _alphanumericPatternService;
+        private readonly string _path;
+        private readonly bool _requestAnimation;
 
-        public ImageLoaderService(ILogger logger, IAlphanumericPatternService alphanumericPatternService)
+        public ImageLoaderService(
+            ILogger logger, 
+            IAlphanumericPatternService alphanumericPatternService,
+            CommandLineOptions options)
         {
             _alphanumericPatternService = alphanumericPatternService;
             _logger = logger;
+            _path = options.Input;
+            _requestAnimation = options.Animation;
         }
 
         /// <summary>
         /// Attempts to load images from the specified path and returns a dictionary of image frames keyed by file name.
         /// </summary>
-        /// <remarks>
-        /// If <paramref name="path"/> points to a file, the method will load that file as a single image with its frames.<br/>
-        /// If <paramref name="path"/> points to a directory, the method will load all supported images in that directory and return a dictionary of image frames keyed by file name.
-        /// </remarks>
-        /// <param name="path">The path of the file or directory to load images from.</param>
-        /// <param name="requestAnimation">Requests the images to be treated as animation frames.</param>
         /// <param name="images">Output parameter that contains the loaded images, if the method succeeds.</param>
         /// <returns><see langword="true"/> if images were loaded successfully, otherwise <see langword="false"/>.</returns>
-        public bool TryLoadImages(string path, bool requestAnimation, out Dictionary<string, List<Image<Rgba32>>> images)
+        public bool TryLoadImages(out Dictionary<string, List<Image<Rgba32>>> images)
         {
             images = new Dictionary<string, List<Image<Rgba32>>>();
 
-            if (!Directory.Exists(path) && !File.Exists(path))
+            if (!Directory.Exists(_path) && !File.Exists(_path))
             {
                 _logger.Error("The input path is invalid.");
                 return false;
             }
 
-            if (File.Exists(path))
+            if (File.Exists(_path))
             {
-                var frames = LoadFromFile(path);
+                var frames = LoadFromFile(_path);
                 if (frames.Any())
                 {
-                    images.Add(Path.GetFileName(path), frames);
+                    images.Add(Path.GetFileName(_path), frames);
                 }
             }
             else
             {
-                images = LoadFromDirectory(path, out var suitableForAnimation);
+                images = LoadFromDirectory(_path, out var suitableForAnimation);
 
                 if (suitableForAnimation)
                 {
                     _logger.Information("The loaded image files can be used as animation frames.");
 
-                    if (requestAnimation)
+                    if (_requestAnimation)
                     {
                         _logger.Information("Animation processing is requested. Images are treated as animation frames.");
                         TransformImagesToAnimation(ref images);
@@ -91,6 +93,7 @@ namespace TilemapGenerator.Services
                 name = string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
             }
 
+            _logger.Information("Using {name} as the animation name.", name);
             var frames = images.Values.Select(v => v.First()).ToList();
             images = new Dictionary<string, List<Image<Rgba32>>>
             {

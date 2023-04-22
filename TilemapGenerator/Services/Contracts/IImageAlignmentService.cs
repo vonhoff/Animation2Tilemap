@@ -2,6 +2,6 @@
 {
     public interface IImageAlignmentService
     {
-        void AlignCollection(Dictionary<string, List<Image<Rgba32>>> images, Size tileSize, Rgba32 transparentColor);
+        void AlignCollection(Dictionary<string, List<Image<Rgba32>>> images);
     }
 }

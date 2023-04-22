@@ -1,9 +1,17 @@
-﻿using TilemapGenerator.Services.Contracts;
+﻿using TilemapGenerator.Common.CommandLine;
+using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services
 {
     public class TileHashService : ITileHashService
     {
+        private readonly Size _tileSize;
+
+        public TileHashService(CommandLineOptions options)
+        {
+            _tileSize = options.TileSize;
+        }
+
         private const int Prime1 = 486187739;
         private const int Prime2 = 76624727;
         private const int Prime3 = 179424673;
@@ -11,13 +19,13 @@ namespace TilemapGenerator.Services
         private const int Prime5 = 374761393;
         private const int Prime6 = 258915779;
 
-        public int Compute(Image<Rgba32> image, Size tileSize, int x, int y)
+        public int Compute(Image<Rgba32> image, int x, int y)
         {
             var hash = Prime1;
 
-            for (var tileX = x; tileX < x + tileSize.Width; tileX++)
+            for (var tileX = x; tileX < x + _tileSize.Width; tileX++)
             {
-                for (var tileY = y; tileY < y + tileSize.Height; tileY++)
+                for (var tileY = y; tileY < y + _tileSize.Height; tileY++)
                 {
                     var pixelColor = image[tileX, tileY];
                     unchecked
