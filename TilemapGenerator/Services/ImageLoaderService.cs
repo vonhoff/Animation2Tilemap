@@ -181,7 +181,7 @@ namespace TilemapGenerator.Services
                 for (var i = 0; i < image.Frames.Count; i++)
                 {
                     var frame = image.Frames.CloneFrame(i);
-                    frames.Add((Image<Rgba32>)frame);
+                    frames.Add(frame.CloneAs<Rgba32>());
                 }
 
                 _logger.Verbose("Loaded {frameCount} frame(s) from: {path}", image.Frames.Count, Path.GetFileName(file));
