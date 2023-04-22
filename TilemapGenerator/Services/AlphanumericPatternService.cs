@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 using Serilog;
 using TilemapGenerator.Services.Contracts;
 
@@ -31,61 +32,64 @@ namespace TilemapGenerator.Services
 
             foreach (var str in strings)
             {
-                var inWord = false;
-                var wordStartIndex = -1;
-
                 for (var i = 0; i < str.Length; i++)
                 {
-                    var c = str[i];
-
-                    if (char.IsLetterOrDigit(c))
+                    // Find the start of a pattern
+                    if (char.IsLetter(str[i]))
                     {
-                        if (!inWord)
+                        var pattern = new StringBuilder();
+                        pattern.Append(str[i]);
+
+                        // Continue building the pattern until a non-alphanumeric character is encountered
+                        for (var j = i + 1; j < str.Length; j++)
                         {
-                            inWord = true;
-                            wordStartIndex = i;
+                            if (char.IsLetter(str[j]))
+                            {
+                                pattern.Append(str[j]);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        // Add the pattern to the dictionary or increment its count if it already exists
+                        var patternString = pattern.ToString();
+                        if (patternString.Length > 1)
+                        {
+                            if (patternCounts.ContainsKey(patternString))
+                            {
+                                patternCounts[patternString]++;
+                            }
+                            else
+                            {
+                                patternCounts[patternString] = 1;
+                            }
                         }
                     }
-                    else
-                    {
-                        if (inWord)
-                        {
-                            inWord = false;
-                            var wordLength = i - wordStartIndex;
-                            ExtractPatterns(str, wordStartIndex, wordLength, patternCounts);
-                        }
-                    }
-                }
-
-                if (inWord)
-                {
-                    var wordLength = str.Length - wordStartIndex;
-                    ExtractPatterns(str, wordStartIndex, wordLength, patternCounts);
                 }
             }
 
             string? mostCommonPattern = null;
             var mostCommonCount = 0;
-            var longestPatternLength = 0;
 
             foreach (var (pattern, count) in patternCounts)
             {
-                if (count > mostCommonCount || count == mostCommonCount && pattern.Length > longestPatternLength && pattern.Length > 1)
+                if (count > mostCommonCount)
                 {
                     mostCommonPattern = pattern;
                     mostCommonCount = count;
-                    longestPatternLength = pattern.Length;
                 }
             }
 
             if (mostCommonPattern == null)
             {
-                _logger.Warning("Could not find a repeating pattern of alphanumeric characters in the provided filename list. Took: {elapsed}ms",
+                _logger.Warning("Could not find a repeating pattern of alphanumeric characters. Took: {elapsed}ms",
                     stopwatch.ElapsedMilliseconds);
             }
             else
             {
-                _logger.Information("The most occurring pattern of alphanumeric characters is {mostCommonPattern}. Took: {elapsed}ms", 
+                _logger.Information("The most occurring pattern of alphanumeric characters is {mostCommonPattern}. Took: {elapsed}ms",
                     mostCommonPattern, stopwatch.ElapsedMilliseconds);
             }
 
@@ -114,13 +118,13 @@ namespace TilemapGenerator.Services
 
             if (letterCounts.Count == 0)
             {
-                _logger.Warning("Could not find a repeating letter in the provided filename list. Took: {elapsed}", stopwatch.ElapsedMilliseconds);
+                _logger.Warning("Could not find a repeating letter in the provided filename list. Took: {elapsed}ms", stopwatch.ElapsedMilliseconds);
                 return null;
             }
 
             var mostCommonLetter = letterCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
 
-            _logger.Information("The most occurring letter is {Letter}. Took {elapsed}", mostCommonLetter, stopwatch.ElapsedMilliseconds);
+            _logger.Information("The most occurring letter is {Letter}. Took {elapsed}ms", mostCommonLetter, stopwatch.ElapsedMilliseconds);
             return mostCommonLetter.ToString();
         }
 

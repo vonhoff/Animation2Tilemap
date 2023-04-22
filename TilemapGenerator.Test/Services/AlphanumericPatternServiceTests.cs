@@ -1,11 +1,23 @@
-﻿using TilemapGenerator.Services;
+﻿using Serilog;
+using TilemapGenerator.Services;
 using TilemapGenerator.Services.Contracts;
+using Xunit.Abstractions;
 
 namespace TilemapGenerator.Test.Services
 {
     public class AlphanumericPatternServiceTests
     {
-        private readonly IAlphanumericPatternService _patternService = new AlphanumericPatternService();
+        private readonly IAlphanumericPatternService _patternService;
+
+        public AlphanumericPatternServiceTests(ITestOutputHelper testOutputHelper)
+        {
+            var logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
+                .CreateLogger();
+
+            _patternService = new AlphanumericPatternService(logger);
+        }
 
         [Fact]
         public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsEnglishLettersAndUnderscores()
@@ -28,6 +40,28 @@ namespace TilemapGenerator.Test.Services
 
             // Assert
             Assert.Equal("dragon", result);
+        }
+
+        [Fact]
+        public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsMultiplePatterns()
+        {
+            // Arrange
+            var strings = new List<string> {
+                "telephone",
+                "telephone_add",
+                "telephone_delete",
+                "telephone_edit",
+                "telephone_error",
+                "telephone_go",
+                "telephone_key",
+                "telephone_link"
+            };
+
+            // Act
+            var result = _patternService.GetMostOccurringPattern(strings);
+
+            // Assert
+            Assert.Equal("telephone", result);
         }
 
         [Fact]

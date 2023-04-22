@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TilemapGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "-i \"C:\\Users\\Simon\\Downloads\\famfamfam_silk_icons_v013\\icons\" -v -a"
+    }
+  }
+}
