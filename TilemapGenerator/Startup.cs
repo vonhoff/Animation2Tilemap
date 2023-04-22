@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using TilemapGenerator.CommandLine;
-using TilemapGenerator.Common;
-using TilemapGenerator.Factories;
-using TilemapGenerator.Factories.Contracts;
+using TilemapGenerator.Logging;
 using TilemapGenerator.Services;
 using TilemapGenerator.Services.Contracts;
 
@@ -36,8 +34,6 @@ namespace TilemapGenerator
             services.AddSingleton<IImageAlignmentService, ImageAlignmentService>();
             services.AddSingleton<IImageLoaderService, ImageLoaderService>();
             services.AddSingleton<ITileHashService, TileHashService>();
-            services.AddSingleton<ITilesetTileFactory, TilesetTileFactory>();
-            services.AddSingleton<ITilesetFactory, TilesetFactory>();
             services.AddSingleton<Application>();
         }
 
@@ -54,7 +50,12 @@ namespace TilemapGenerator
                 logConfig.MinimumLevel.Information();
             }
 
-            logConfig.WriteTo.Console(theme: CustomConsoleThemes.Literate);
+            logConfig
+                .Enrich.WithCaller()
+                .WriteTo.Console(
+                    outputTemplate: "[{Caller} {Level:u3}] {Message:lj}{NewLine}{Exception}",
+                    theme: SerilogConsoleThemes.CustomLiterate);
+
             Log.Logger = logConfig.CreateLogger();
         }
     }

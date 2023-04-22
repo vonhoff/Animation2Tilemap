@@ -2,6 +2,6 @@
 {
     public interface IImageAlignmentService
     {
-        Image<Rgba32> AlignFrame(Image<Rgba32> frame, Size tileSize, Rgba32 backgroundColor);
+        void AlignCollection(Dictionary<string, List<Image<Rgba32>>> images, Size tileSize, Rgba32 transparentColor);
     }
 }

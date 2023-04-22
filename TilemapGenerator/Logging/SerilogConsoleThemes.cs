@@ -1,10 +1,10 @@
 ﻿using Serilog.Sinks.SystemConsole.Themes;
 
-namespace TilemapGenerator.Common
+namespace TilemapGenerator.Logging
 {
-    public static class CustomConsoleThemes
+    public static class SerilogConsoleThemes
     {
-        public static SystemConsoleTheme Literate { get; } = new(
+        public static SystemConsoleTheme CustomLiterate { get; } = new(
             new Dictionary<ConsoleThemeStyle, SystemConsoleThemeStyle>
             {
                 [ConsoleThemeStyle.Text] = new() { Foreground = ConsoleColor.White },
@@ -17,7 +17,7 @@ namespace TilemapGenerator.Common
                 [ConsoleThemeStyle.Number] = new() { Foreground = ConsoleColor.Yellow },
                 [ConsoleThemeStyle.Boolean] = new() { Foreground = ConsoleColor.Blue },
                 [ConsoleThemeStyle.Scalar] = new() { Foreground = ConsoleColor.Green },
-                [ConsoleThemeStyle.LevelVerbose] = new() { Foreground = ConsoleColor.Gray },
+                [ConsoleThemeStyle.LevelVerbose] = new() { Foreground = ConsoleColor.DarkCyan },
                 [ConsoleThemeStyle.LevelDebug] = new() { Foreground = ConsoleColor.Gray },
                 [ConsoleThemeStyle.LevelInformation] = new() { Foreground = ConsoleColor.Green },
                 [ConsoleThemeStyle.LevelWarning] = new() { Foreground = ConsoleColor.Yellow },

@@ -8,9 +8,11 @@ namespace TilemapGenerator.Services
     public class ImageLoaderService : IImageLoaderService
     {
         private readonly ILogger _logger;
+        private readonly IAlphanumericPatternService _alphanumericPatternService;
 
-        public ImageLoaderService(ILogger logger)
+        public ImageLoaderService(ILogger logger, IAlphanumericPatternService alphanumericPatternService)
         {
+            _alphanumericPatternService = alphanumericPatternService;
             _logger = logger;
         }
 
@@ -22,13 +24,12 @@ namespace TilemapGenerator.Services
         /// If <paramref name="path"/> points to a directory, the method will load all supported images in that directory and return a dictionary of image frames keyed by file name.
         /// </remarks>
         /// <param name="path">The path of the file or directory to load images from.</param>
+        /// <param name="requestAnimation">Requests the images to be treated as animation frames.</param>
         /// <param name="images">Output parameter that contains the loaded images, if the method succeeds.</param>
-        /// <param name="suitableForAnimation">Output parameter that indicates whether or not the loaded images are suitable for use as animation frames.</param>
         /// <returns><see langword="true"/> if images were loaded successfully, otherwise <see langword="false"/>.</returns>
-        public bool TryLoadImages(string path, out Dictionary<string, List<Image<Rgba32>>> images, out bool suitableForAnimation)
+        public bool TryLoadImages(string path, bool requestAnimation, out Dictionary<string, List<Image<Rgba32>>> images)
         {
             images = new Dictionary<string, List<Image<Rgba32>>>();
-            suitableForAnimation = false;
 
             if (!Directory.Exists(path) && !File.Exists(path))
             {
@@ -46,17 +47,55 @@ namespace TilemapGenerator.Services
             }
             else
             {
-                images = LoadFromDirectory(path, out suitableForAnimation);
+                images = LoadFromDirectory(path, out var suitableForAnimation);
+
+                if (suitableForAnimation)
+                {
+                    _logger.Information("The loaded image files can be used as animation frames.");
+
+                    if (requestAnimation)
+                    {
+                        _logger.Information("Animation processing is requested. Images are treated as animation frames.");
+                        TransformImagesToAnimation(ref images);
+                    }
+                    else
+                    {
+                        _logger.Warning("Animation processing is not requested. Images will be processed individually.");
+                    }
+                }
+                else
+                {
+                    _logger.Warning("The loaded image files cannot be used as animation frames.");
+                }
             }
 
             if (images.Count == 0)
             {
-                suitableForAnimation = false;
                 _logger.Error("The input path does not lead to any valid images.");
                 return false;
             }
 
             return true;
+        }
+
+        private void TransformImagesToAnimation(ref Dictionary<string, List<Image<Rgba32>>> images)
+        {
+            List<string> fileNames = images.Keys.Select(Path.GetFileNameWithoutExtension).ToList()!;
+
+            var name = _alphanumericPatternService.GetMostOccurringPattern(fileNames);
+            name ??= _alphanumericPatternService.GetMostOccurringLetter(fileNames);
+
+            if (name == null)
+            {
+                var fileName = "Animation_" + DateTime.Now.ToLocalTime();
+                name = string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
+            }
+
+            var frames = images.Values.Select(v => v.First()).ToList();
+            images = new Dictionary<string, List<Image<Rgba32>>>
+            {
+                { name, frames }
+            };
         }
 
         /// <summary>

@@ -2,7 +2,7 @@
 {
     public interface IImageLoaderService
     {
-        bool TryLoadImages(string path, out Dictionary<string, List<Image<Rgba32>>> images, out bool suitableForAnimation);
+        bool TryLoadImages(string path, bool requestAnimation, out Dictionary<string, List<Image<Rgba32>>> images);
 
         Dictionary<string, List<Image<Rgba32>>> LoadFromDirectory(string path, out bool suitableForAnimation);
 
