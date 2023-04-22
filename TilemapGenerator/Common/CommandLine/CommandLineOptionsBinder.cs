@@ -1,7 +1,7 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Binding;
 
-namespace TilemapGenerator.CommandLine
+namespace TilemapGenerator.Common.CommandLine
 {
     public class CommandLineOptionsBinder : BinderBase<CommandLineOptions>
     {

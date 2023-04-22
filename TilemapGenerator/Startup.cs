@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using TilemapGenerator.CommandLine;
-using TilemapGenerator.Logging;
+using TilemapGenerator.Common.CommandLine;
+using TilemapGenerator.Common.Serilog;
 using TilemapGenerator.Services;
 using TilemapGenerator.Services.Contracts;
 
@@ -40,22 +40,21 @@ namespace TilemapGenerator
         private void ConfigureLogging()
         {
             var logConfig = new LoggerConfiguration();
+            string template;
 
             if (_options.Verbose)
             {
+                template = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (at: {Caller}){NewLine}{Exception}";
+                logConfig.Enrich.WithCaller();
                 logConfig.MinimumLevel.Verbose();
             }
             else
             {
+                template = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {NewLine}{Exception}";
                 logConfig.MinimumLevel.Information();
             }
 
-            logConfig
-                .Enrich.WithCaller()
-                .WriteTo.Console(
-                    outputTemplate: "[{Caller} {Level:u3}] {Message:lj}{NewLine}{Exception}",
-                    theme: SerilogConsoleThemes.CustomLiterate);
-
+            logConfig.WriteTo.Console(outputTemplate: template, theme: SerilogConsoleThemes.CustomLiterate);
             Log.Logger = logConfig.CreateLogger();
         }
     }

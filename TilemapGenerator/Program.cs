@@ -3,7 +3,7 @@ using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Text;
 using System.Text.RegularExpressions;
-using TilemapGenerator.CommandLine;
+using TilemapGenerator.Common.CommandLine;
 
 namespace TilemapGenerator
 {

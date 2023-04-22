@@ -1,5 +1,5 @@
 ﻿using Serilog;
-using TilemapGenerator.CommandLine;
+using TilemapGenerator.Common.CommandLine;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator

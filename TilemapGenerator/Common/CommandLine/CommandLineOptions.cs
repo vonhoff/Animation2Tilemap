@@ -1,4 +1,4 @@
-﻿namespace TilemapGenerator.CommandLine
+﻿namespace TilemapGenerator.Common.CommandLine
 {
     public class CommandLineOptions
     {

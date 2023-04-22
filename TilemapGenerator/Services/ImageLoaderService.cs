@@ -118,8 +118,8 @@ namespace TilemapGenerator.Services
                 .ToList();
 
             stopwatch.Stop();
-            _logger.Information("Collected {count} file(s). Took: {elapsed}ms",
-                files.Count, stopwatch.ElapsedMilliseconds);
+            _logger.Information("Collected {count} file(s) from {directory}. Took: {elapsed}ms",
+                files.Count, path, stopwatch.ElapsedMilliseconds);
 
             var totalFrames = 0;
             stopwatch.Restart();
@@ -149,8 +149,7 @@ namespace TilemapGenerator.Services
                 }
             }
 
-            stopwatch.Stop();
-            _logger.Information("Loaded {imageCount} of {inputCount} file(s) containing a total of {frameCount} frame(s). Took: {elapsed}ms.",
+            _logger.Information("Loaded {imageCount} of {inputCount} file(s) containing a total of {frameCount} frame(s). Took: {elapsed}ms",
                 images.Count, files.Count, totalFrames, stopwatch.ElapsedMilliseconds);
             return images;
         }
@@ -182,7 +181,7 @@ namespace TilemapGenerator.Services
                     frames.Add((Image<Rgba32>)frame);
                 }
 
-                _logger.Verbose("Loaded {frameCount} frame(s) from: {path}", image.Frames.Count, file);
+                _logger.Verbose("Loaded {frameCount} frame(s) from: {path}", image.Frames.Count, Path.GetFileName(file));
                 return frames;
             }
             catch (UnknownImageFormatException)

@@ -1,9 +1,17 @@
-﻿using TilemapGenerator.Services.Contracts;
+﻿using Serilog;
+using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services
 {
     public class AlphanumericPatternService : IAlphanumericPatternService
     {
+        private readonly ILogger _logger;
+
+        public AlphanumericPatternService(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         /// <summary>
         /// Gets the most occurring pattern of alphanumeric characters in a list of strings.
         /// </summary>
