@@ -44,7 +44,7 @@ namespace TilemapGenerator.Services
                     processedCount++;
                 }
 
-                _logger.Verbose("Aligned {frameCount} frame(s) for {fileName}. Took: {elapsed}ms",
+                _logger.Verbose("Aligned {frameCount} frame(s) of {fileName}. Took: {elapsed}ms",
                     frames.Count, fileName, alignmentStopwatch.ElapsedMilliseconds);
             }
 
