@@ -30,7 +30,7 @@ namespace TilemapGenerator
         {
             services.AddSingleton(_options);
             services.AddSingleton(Log.Logger);
-            services.AddSingleton<IAlphanumericPatternService, AlphanumericPatternService>();
+            services.AddSingleton<INamePatternService, NamePatternService>();
             services.AddSingleton<IImageAlignmentService, ImageAlignmentService>();
             services.AddSingleton<IImageLoaderService, ImageLoaderService>();
             services.AddSingleton<ITileHashService, TileHashService>();

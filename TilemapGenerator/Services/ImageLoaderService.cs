@@ -9,16 +9,16 @@ namespace TilemapGenerator.Services
     public class ImageLoaderService : IImageLoaderService
     {
         private readonly ILogger _logger;
-        private readonly IAlphanumericPatternService _alphanumericPatternService;
+        private readonly INamePatternService _namePatternService;
         private readonly string _path;
         private readonly bool _requestAnimation;
 
         public ImageLoaderService(
             ILogger logger, 
-            IAlphanumericPatternService alphanumericPatternService,
+            INamePatternService namePatternService,
             CommandLineOptions options)
         {
-            _alphanumericPatternService = alphanumericPatternService;
+            _namePatternService = namePatternService;
             _logger = logger;
             _path = options.Input;
             _requestAnimation = options.Animation;
@@ -84,8 +84,8 @@ namespace TilemapGenerator.Services
         {
             List<string> fileNames = images.Keys.Select(Path.GetFileNameWithoutExtension).ToList()!;
 
-            var name = _alphanumericPatternService.GetMostOccurringPattern(fileNames);
-            name ??= _alphanumericPatternService.GetMostOccurringLetter(fileNames);
+            var name = _namePatternService.GetMostOccurringPattern(fileNames);
+            name ??= _namePatternService.GetMostOccurringLetter(fileNames);
 
             if (name == null)
             {

@@ -1,6 +1,6 @@
 ﻿namespace TilemapGenerator.Services.Contracts
 {
-    public interface IAlphanumericPatternService
+    public interface INamePatternService
     {
         string? GetMostOccurringPattern(List<string> strings);
 
