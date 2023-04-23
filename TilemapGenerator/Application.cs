@@ -23,7 +23,7 @@ namespace TilemapGenerator
                 return;
             }
 
-            _imageAlignmentService.AlignCollection(images);
+            _imageAlignmentService.AlignImageCollection(images);
         }
     }
 }

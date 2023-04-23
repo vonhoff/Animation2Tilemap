@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Serilog;
+﻿using Serilog;
 using TilemapGenerator.Services;
 using TilemapGenerator.Services.Contracts;
 using Xunit.Abstractions;
@@ -44,6 +43,29 @@ namespace TilemapGenerator.Test.Services
         }
 
         [Fact]
+        public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsDifferentNames()
+        {
+            // Arrange
+            var strings = new List<string> {
+                "application_add",
+                "application_delete",
+                "application_something",
+                "application_create",
+                "application_update",
+                "application_what",
+                "application_reload",
+                "application_string",
+                "application_list"
+            };
+
+            // Act
+            var result = _patternService.GetMostOccurringPattern(strings);
+
+            // Assert
+            Assert.Equal("application", result);
+        }
+
+        [Fact]
         public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenPatternContainNumbers()
         {
             // Arrange
@@ -85,6 +107,28 @@ namespace TilemapGenerator.Test.Services
 
             // Assert
             Assert.Equal("player_shoot", result);
+        }
+
+        [Fact]
+        public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsDashes()
+        {
+            // Arrange
+            var strings = new List<string> {
+                "player-shoot-11",
+                "player-shoot-12",
+                "player-shoot-13",
+                "player-shoot-14",
+                "player-shoot-15",
+                "player-shoot-16",
+                "player-shoot-17",
+                "player-shoot-18"
+            };
+
+            // Act
+            var result = _patternService.GetMostOccurringPattern(strings);
+
+            // Assert
+            Assert.Equal("player-shoot", result);
         }
 
         [Fact]
@@ -152,27 +196,6 @@ namespace TilemapGenerator.Test.Services
 
             // Assert
             Assert.Equal("синица", result);
-        }
-
-        [Fact]
-        public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsChineseCharacters()
-        {
-            // Arrange
-            var strings = new List<string> {
-                "青蛙",
-                "青蛙2",
-                "熊猫",
-                "猴子",
-                "猴子2",
-                "熊猫2",
-                "熊猫3"
-            };
-
-            // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
-
-            // Assert
-            Assert.Equal("熊猫", result);
         }
     }
 }

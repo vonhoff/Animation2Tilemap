@@ -18,7 +18,7 @@ namespace TilemapGenerator.Services
             _transparentColor = options.TransparentColor;
         }
 
-        public void AlignCollection(Dictionary<string, List<Image<Rgba32>>> images)
+        public void AlignImageCollection(Dictionary<string, List<Image<Rgba32>>> images)
         {
             var totalStopwatch = Stopwatch.StartNew();
             var alignmentStopwatch = new Stopwatch();
@@ -41,7 +41,7 @@ namespace TilemapGenerator.Services
                     }
                     catch (ImageProcessingException e)
                     {
-                        _logger.Error(e, "Could not apply transformations on {fileName}", fileName);
+                        _logger.Error(e, "Could not apply transformations on {FileName}", fileName);
                         break;
                     }
 
@@ -49,11 +49,11 @@ namespace TilemapGenerator.Services
                     processedCount++;
                 }
 
-                _logger.Verbose("Aligned {frameCount} frame(s) of {fileName}. Took: {elapsed}ms",
+                _logger.Verbose("Aligned {FrameCount} frame(s) of {FileName}. Took: {Elapsed}ms",
                     frames.Count, fileName, alignmentStopwatch.ElapsedMilliseconds);
             }
 
-            _logger.Information("Aligned a total of {processedCount} frame(s) of {inputCount} image(s). Took: {elapsed}ms",
+            _logger.Information("Aligned a total of {ProcessedCount} frame(s) in {InputCount} image(s). Took: {Elapsed}ms",
                 processedCount, images.Count, totalStopwatch.ElapsedMilliseconds);
         }
     }

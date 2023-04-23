@@ -2,6 +2,6 @@
 {
     public interface INamePatternService
     {
-        string? GetMostOccurringPattern(List<string> strings);
+        string? GetMostOccurringPattern(List<string> names);
     }
 }

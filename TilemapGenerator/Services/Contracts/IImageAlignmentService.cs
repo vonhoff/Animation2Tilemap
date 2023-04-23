@@ -2,6 +2,6 @@
 {
     public interface IImageAlignmentService
     {
-        void AlignCollection(Dictionary<string, List<Image<Rgba32>>> images);
+        void AlignImageCollection(Dictionary<string, List<Image<Rgba32>>> images);
     }
 }

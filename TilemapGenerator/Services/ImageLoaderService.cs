@@ -91,7 +91,7 @@ namespace TilemapGenerator.Services
                 name = string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
             }
 
-            _logger.Information("Using {name} as the animation name.", name);
+            _logger.Information("Using {Name} as the animation name.", name);
             var frames = images.Values.Select(v => v.First()).ToList();
             images = new Dictionary<string, List<Image<Rgba32>>>
             {
@@ -119,7 +119,7 @@ namespace TilemapGenerator.Services
                 .ToList();
 
             stopwatch.Stop();
-            _logger.Information("Collected {count} file(s) from {directory}. Took: {elapsed}ms",
+            _logger.Information("Found {Count} file(s) in {Directory}. Took: {Elapsed}ms",
                 files.Count, path, stopwatch.ElapsedMilliseconds);
 
             var totalFrames = 0;
@@ -150,7 +150,7 @@ namespace TilemapGenerator.Services
                 }
             }
 
-            _logger.Information("Loaded {imageCount} of {inputCount} file(s) containing a total of {frameCount} frame(s). Took: {elapsed}ms",
+            _logger.Information("Loaded {ImageCount} of {InputCount} file(s) containing a total of {FrameCount} frame(s). Took: {Elapsed}ms",
                 images.Count, files.Count, totalFrames, stopwatch.ElapsedMilliseconds);
             return images;
         }
@@ -182,17 +182,17 @@ namespace TilemapGenerator.Services
                     frames.Add(frame.CloneAs<Rgba32>());
                 }
 
-                _logger.Verbose("Loaded {frameCount} frame(s) from: {path}", image.Frames.Count, Path.GetFileName(file));
+                _logger.Verbose("Loaded {FrameCount} frame(s) from {Path}", image.Frames.Count, file);
                 return frames;
             }
             catch (UnknownImageFormatException)
             {
-                _logger.Warning("Unsupported format: {path}", file);
+                _logger.Warning("Unsupported format: {Path}", file);
                 return frames;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Error loading image: {path}", file);
+                _logger.Error(ex, "Error loading image: {Path}", file);
                 return frames;
             }
         }
