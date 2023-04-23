@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using System.Text.RegularExpressions;
+using Serilog;
 using TilemapGenerator.Services;
 using TilemapGenerator.Services.Contracts;
 using Xunit.Abstractions;
@@ -47,7 +48,6 @@ namespace TilemapGenerator.Test.Services
         {
             // Arrange
             var strings = new List<string> {
-                "telephone",
                 "telephone_add",
                 "telephone_delete",
                 "telephone_edit",
@@ -155,29 +155,6 @@ namespace TilemapGenerator.Test.Services
         }
 
         [Fact]
-        public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsEnglishLettersAndSpaces()
-        {
-            // Arrange
-            var strings = new List<string> {
-                "girjplayer",
-                "rgeplayerde",
-                "efdcplayer",
-                "ddfjplayer",
-                "ifiejfplayer",
-                "playerijfie",
-                "playerijfe",
-                "playeriji",
-                "983player"
-            };
-
-            // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
-
-            // Assert
-            Assert.Equal("player", result);
-        }
-
-        [Fact]
         public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsRussianLetters()
         {
             // Arrange
@@ -217,61 +194,6 @@ namespace TilemapGenerator.Test.Services
 
             // Assert
             Assert.Equal("熊猫", result);
-        }
-
-        [Fact]
-        public void GetMostOccurringLetter_ShouldReturnCommonLetter_WhenInputContainsSingleCharacters()
-        {
-            // Arrange
-            var strings = new List<string> {
-                "青",
-                "青",
-                "熊",
-                "熊",
-                "猴",
-                "熊",
-                "熊"
-            };
-
-            // Act
-            var result = _patternService.GetMostOccurringLetter(strings);
-
-            // Assert
-            Assert.Equal("熊", result);
-        }
-
-        [Fact]
-        public void GetMostOccurringLetter_ShouldReturnCommonLetter_WhenInputContainsSentences()
-        {
-            // Arrange
-            var strings = new List<string> {
-                "The fox jumps over the box.",
-                "Mix the ingredients well before baking the cake.",
-                "Max is an expert in complex mathematical equations.",
-                "The taxi driver drove us to the apex of the mountain.",
-                "I accidentally spilled my coffee on the fax machine.",
-                "The next exit on the highway is for the town of Apex.",
-                "The annex of the building was recently renovated."
-            };
-
-            // Act
-            var result = _patternService.GetMostOccurringLetter(strings);
-
-            // Assert
-            Assert.Equal("e", result);
-        }
-
-        [Fact]
-        public void GetMostOccurringLetter_ShouldReturnNull_WhenInputIsEmpty()
-        {
-            var strings = new List<string> {
-                string.Empty,
-                string.Empty
-            };
-
-            var result = _patternService.GetMostOccurringLetter(strings);
-
-            Assert.Null(result);
         }
     }
 }

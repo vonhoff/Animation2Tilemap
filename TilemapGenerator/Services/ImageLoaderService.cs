@@ -85,8 +85,6 @@ namespace TilemapGenerator.Services
             List<string> fileNames = images.Keys.Select(Path.GetFileNameWithoutExtension).ToList()!;
 
             var name = _namePatternService.GetMostOccurringPattern(fileNames);
-            name ??= _namePatternService.GetMostOccurringLetter(fileNames);
-
             if (name == null)
             {
                 var fileName = "Animation_" + DateTime.Now.ToLocalTime();
