@@ -61,12 +61,12 @@ namespace TilemapGenerator.Services
 
             if (mostCommonPattern == null)
             {
-                _logger.Warning("Could not find a repeating name pattern in the provided name list. Took: {elapsed}ms",
+                _logger.Warning("Could not find a repeating name pattern. Took: {elapsed}ms",
                     stopwatch.ElapsedMilliseconds);
             }
             else
             {
-                _logger.Information("The most occurring name pattern is {mostCommonPattern}. Took: {elapsed}ms",
+                _logger.Information("A notable name pattern is {mostCommonPattern}. Took: {elapsed}ms",
                     mostCommonPattern, stopwatch.ElapsedMilliseconds);
             }
 

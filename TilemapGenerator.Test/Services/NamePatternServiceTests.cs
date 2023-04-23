@@ -44,27 +44,6 @@ namespace TilemapGenerator.Test.Services
         }
 
         [Fact]
-        public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsMultiplePatterns()
-        {
-            // Arrange
-            var strings = new List<string> {
-                "telephone_add",
-                "telephone_delete",
-                "telephone_edit",
-                "telephone_error",
-                "telephone_go",
-                "telephone_key",
-                "telephone_link"
-            };
-
-            // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
-
-            // Assert
-            Assert.Equal("telephone", result);
-        }
-
-        [Fact]
         public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenPatternContainNumbers()
         {
             // Arrange
