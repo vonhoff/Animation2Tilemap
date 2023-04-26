@@ -4,6 +4,6 @@ namespace TilemapGenerator.Factories.Contracts
 {
     public interface ITilesetFactory
     {
-        List<Tileset> FromImageCollection(Dictionary<string, List<Image<Rgba32>>> images);
+        Tileset CreateFromImage(string fileName, List<Image<Rgba32>> frames);
     }
 }

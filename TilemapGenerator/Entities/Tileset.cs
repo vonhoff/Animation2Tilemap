@@ -24,6 +24,9 @@ namespace TilemapGenerator.Entities
         public TilesetImage? Image { get; set; }
 
         [XmlElement("tile")]
-        public List<TilesetTile>? Tiles { get; set; }
+        public List<TilesetTile>? AnimatedTiles { get; set; }
+
+        [XmlIgnore] 
+        public List<TilesetTile> RegisteredTiles { get; set; } = new();
     }
 }

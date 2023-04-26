@@ -19,13 +19,13 @@ namespace TilemapGenerator.Services
         private const int Prime5 = 374761393;
         private const int Prime6 = 258915779;
 
-        public int Compute(Image<Rgba32> image, int x, int y)
+        public int Compute(Image<Rgba32> image)
         {
             var hash = Prime1;
 
-            for (var tileX = x; tileX < x + _tileSize.Width; tileX++)
+            for (var tileX = 0; tileX < _tileSize.Width; tileX++)
             {
-                for (var tileY = y; tileY < y + _tileSize.Height; tileY++)
+                for (var tileY = 0; tileY < _tileSize.Height; tileY++)
                 {
                     var pixelColor = image[tileX, tileY];
                     unchecked

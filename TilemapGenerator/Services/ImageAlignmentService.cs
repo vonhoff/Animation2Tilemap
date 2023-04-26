@@ -18,43 +18,33 @@ namespace TilemapGenerator.Services
             _transparentColor = options.TransparentColor;
         }
 
-        public void AlignImageCollection(Dictionary<string, List<Image<Rgba32>>> images)
+        public bool TryAlignImage(string fileName, List<Image<Rgba32>> frames)
         {
-            var totalStopwatch = Stopwatch.StartNew();
             var alignmentStopwatch = new Stopwatch();
-            var processedCount = 0;
-
-            foreach (var (fileName, frames) in images)
+     
+            for (var i = 0; i < frames.Count; i++)
             {
-                alignmentStopwatch.Restart();
-                for (var i = 0; i < frames.Count; i++)
+                var frame = frames[i];
+                var alignedWidth = (int)Math.Ceiling((double)frame.Width / _tileSize.Width) * _tileSize.Width;
+                var alignedHeight = (int)Math.Ceiling((double)frame.Height / _tileSize.Height) * _tileSize.Height;
+                var alignedFrame = new Image<Rgba32>(alignedWidth, alignedHeight);
+
+                try
                 {
-                    var frame = frames[i];
-                    var alignedWidth = (int)Math.Ceiling((double)frame.Width / _tileSize.Width) * _tileSize.Width;
-                    var alignedHeight = (int)Math.Ceiling((double)frame.Height / _tileSize.Height) * _tileSize.Height;
-                    var alignedFrame = new Image<Rgba32>(alignedWidth, alignedHeight);
-
-                    try
-                    {
-                        alignedFrame.Mutate(context => context.BackgroundColor(_transparentColor));
-                        alignedFrame.Mutate(context => context.DrawImage(frame, Point.Empty, 1f));
-                    }
-                    catch (ImageProcessingException e)
-                    {
-                        _logger.Error(e, "Could not apply transformations on {FileName}", fileName);
-                        break;
-                    }
-
-                    frames[i] = alignedFrame;
-                    processedCount++;
+                    alignedFrame.Mutate(context => context.BackgroundColor(_transparentColor));
+                    alignedFrame.Mutate(context => context.DrawImage(frame, Point.Empty, 1f));
+                }
+                catch (ImageProcessingException e)
+                {
+                    _logger.Error(e, "Could not apply transformations on {FileName}", fileName);
+                    return false;
                 }
 
-                _logger.Verbose("Aligned {FrameCount} frame(s) of {FileName}. Took: {Elapsed}ms",
-                    frames.Count, fileName, alignmentStopwatch.ElapsedMilliseconds);
+                frames[i] = alignedFrame;
             }
 
-            _logger.Information("Aligned a total of {ProcessedCount} frame(s) in {InputCount} image(s). Took: {Elapsed}ms",
-                processedCount, images.Count, totalStopwatch.ElapsedMilliseconds);
+            _logger.Verbose("Aligned {FrameCount} frame(s) of {FileName}. Took: {Elapsed}ms", frames.Count, fileName, alignmentStopwatch.ElapsedMilliseconds);
+            return true;
         }
     }
 }

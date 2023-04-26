@@ -2,6 +2,8 @@
 using Serilog;
 using TilemapGenerator.Common.CommandLine;
 using TilemapGenerator.Common.Serilog;
+using TilemapGenerator.Factories;
+using TilemapGenerator.Factories.Contracts;
 using TilemapGenerator.Services;
 using TilemapGenerator.Services.Contracts;
 
@@ -34,6 +36,8 @@ namespace TilemapGenerator
             services.AddSingleton<IImageAlignmentService, ImageAlignmentService>();
             services.AddSingleton<IImageLoaderService, ImageLoaderService>();
             services.AddSingleton<ITileHashService, TileHashService>();
+            services.AddSingleton<ITilesetFactory, TilesetFactory>();
+            services.AddSingleton<ITilesetSerializerService, TilesetSerializerService>();
             services.AddSingleton<Application>();
         }
 

@@ -2,6 +2,6 @@
 {
     public interface ITileHashService
     {
-        int Compute(Image<Rgba32> image, int x, int y);
+        int Compute(Image<Rgba32> image);
     }
 }
