@@ -1,7 +1,6 @@
-﻿namespace TilemapGenerator.Services.Contracts
+﻿namespace TilemapGenerator.Services.Contracts;
+
+public interface IImageAlignmentService
 {
-    public interface IImageAlignmentService
-    {
-        bool TryAlignImage(string fileName, List<Image<Rgba32>> frames);
-    }
+    bool TryAlignImage(string fileName, List<Image<Rgba32>> frames);
 }

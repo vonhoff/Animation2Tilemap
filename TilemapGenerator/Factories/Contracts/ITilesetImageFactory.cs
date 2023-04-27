@@ -1,9 +1,8 @@
 ﻿using TilemapGenerator.Entities;
 
-namespace TilemapGenerator.Factories.Contracts
+namespace TilemapGenerator.Factories.Contracts;
+
+public interface ITilesetImageFactory
 {
-    public interface ITilesetImageFactory
-    {
-        TilesetImage CreateFromTiles(List<TilesetTile> tileRegister, string fileName);
-    }
+    TilesetImage CreateFromTiles(List<TilesetTile> tileRegister, string fileName);
 }

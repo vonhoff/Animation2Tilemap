@@ -1,47 +1,46 @@
 ﻿using TilemapGenerator.Factories.Contracts;
 using TilemapGenerator.Services.Contracts;
 
-namespace TilemapGenerator
-{
-    public class Application
-    {
-        private readonly IImageAlignmentService _imageAlignmentService;
-        private readonly IImageLoaderService _imageLoaderService;
-        private readonly ITilesetFactory _tilesetFactory;
-        private readonly ITilesetSerializerService _tilesetSerializerService;
+namespace TilemapGenerator;
 
-        public Application(
-            IImageAlignmentService imageAlignmentService,
-            IImageLoaderService imageLoaderService,
-            ITilesetFactory tilesetFactory,
-            ITilesetSerializerService tilesetSerializerService)
+public class Application
+{
+    private readonly IImageAlignmentService _imageAlignmentService;
+    private readonly IImageLoaderService _imageLoaderService;
+    private readonly ITilesetFactory _tilesetFactory;
+    private readonly ITilesetSerializerService _tilesetSerializerService;
+
+    public Application(
+        IImageAlignmentService imageAlignmentService,
+        IImageLoaderService imageLoaderService,
+        ITilesetFactory tilesetFactory,
+        ITilesetSerializerService tilesetSerializerService)
+    {
+        _imageAlignmentService = imageAlignmentService;
+        _imageLoaderService = imageLoaderService;
+        _tilesetFactory = tilesetFactory;
+        _tilesetSerializerService = tilesetSerializerService;
+    }
+
+    public void Run()
+    {
+        if (!_imageLoaderService.TryLoadImages(out var images))
         {
-            _imageAlignmentService = imageAlignmentService;
-            _imageLoaderService = imageLoaderService;
-            _tilesetFactory = tilesetFactory;
-            _tilesetSerializerService = tilesetSerializerService;
+            return;
         }
 
-        public void Run()
+        foreach (var (fileName, frames) in images)
         {
-            if (!_imageLoaderService.TryLoadImages(out var images))
+            if (!_imageAlignmentService.TryAlignImage(fileName, frames))
             {
-                return;
+                continue;
             }
 
-            foreach (var (fileName, frames) in images)
-            {
-                if (!_imageAlignmentService.TryAlignImage(fileName, frames))
-                {
-                    continue;
-                }
+            var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
+            tileset.Image.Data.SaveAsPng(tileset.Image.Path + ".png");
 
-                var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
-                tileset.Image.Data.SaveAsPng(tileset.Image.Path + ".png");
-
-                var output = _tilesetSerializerService.Serialize(tileset);
-                File.WriteAllText(tileset.Image.Path + ".tsx", output);
-            }
+            var output = _tilesetSerializerService.Serialize(tileset);
+            File.WriteAllText(tileset.Image.Path + ".tsx", output);
         }
     }
 }

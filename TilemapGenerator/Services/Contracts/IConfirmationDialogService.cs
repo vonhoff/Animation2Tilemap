@@ -1,7 +1,6 @@
-﻿namespace TilemapGenerator.Services.Contracts
+﻿namespace TilemapGenerator.Services.Contracts;
+
+public interface IConfirmationDialogService
 {
-    public interface IConfirmationDialogService
-    {
-        bool Confirm(string message, bool defaultOption);
-    }
+    bool Confirm(string message, bool defaultOption);
 }

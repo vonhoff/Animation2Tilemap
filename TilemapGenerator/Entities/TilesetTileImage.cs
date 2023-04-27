@@ -1,35 +1,34 @@
-﻿namespace TilemapGenerator.Entities
+﻿namespace TilemapGenerator.Entities;
+
+public class TilesetTileImage : IEquatable<TilesetTileImage>
 {
-    public class TilesetTileImage : IEquatable<TilesetTileImage>
+    private readonly int _hash;
+
+    public TilesetTileImage(Image<Rgba32> data, int hash)
     {
-        private readonly int _hash;
+        Data = data;
+        _hash = hash;
+    }
 
-        public TilesetTileImage(Image<Rgba32> data, int hash)
+    public Image<Rgba32> Data { get; }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as TilesetTileImage);
+    }
+
+    public bool Equals(TilesetTileImage? other)
+    {
+        if (other == null || GetType() != other.GetType())
         {
-            Data = data;
-            _hash = hash;
+            return false;
         }
 
-        public Image<Rgba32> Data { get; }
+        return _hash == other._hash;
+    }
 
-        public override bool Equals(object? obj)
-        {
-            return Equals(obj as TilesetTileImage);
-        }
-
-        public bool Equals(TilesetTileImage? other)
-        {
-            if (other == null || GetType() != other.GetType())
-            {
-                return false;
-            }
-
-            return _hash == other._hash;
-        }
-
-        public override int GetHashCode()
-        {
-            return _hash;
-        }
+    public override int GetHashCode()
+    {
+        return _hash;
     }
 }

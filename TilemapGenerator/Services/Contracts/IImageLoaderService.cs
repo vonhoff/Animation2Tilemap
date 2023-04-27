@@ -1,7 +1,6 @@
-﻿namespace TilemapGenerator.Services.Contracts
+﻿namespace TilemapGenerator.Services.Contracts;
+
+public interface IImageLoaderService
 {
-    public interface IImageLoaderService
-    {
-        bool TryLoadImages(out Dictionary<string, List<Image<Rgba32>>> images);
-    }
+    bool TryLoadImages(out Dictionary<string, List<Image<Rgba32>>> images);
 }

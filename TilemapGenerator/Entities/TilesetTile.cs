@@ -1,16 +1,15 @@
 ﻿using System.Xml.Serialization;
 
-namespace TilemapGenerator.Entities
+namespace TilemapGenerator.Entities;
+
+public class TilesetTile
 {
-    public class TilesetTile
-    {
-        [XmlAttribute("id")]
-        public int Id { get; set; }
+    [XmlAttribute("id")]
+    public int Id { get; set; }
 
-        [XmlElement("animation")]
-        public TilesetTileAnimation? Animation { get; set; }
+    [XmlElement("animation")]
+    public TilesetTileAnimation? Animation { get; set; }
 
-        [XmlIgnore]
-        public TilesetTileImage Image { get; set; } = null!;
-    }
+    [XmlIgnore]
+    public TilesetTileImage Image { get; init; } = null!;
 }

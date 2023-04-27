@@ -1,9 +1,8 @@
 ﻿using TilemapGenerator.Entities;
 
-namespace TilemapGenerator.Services.Contracts
+namespace TilemapGenerator.Services.Contracts;
+
+public interface ITilesetSerializerService
 {
-    public interface ITilesetSerializerService
-    {
-        string Serialize(Tileset tileset);
-    }
+    string Serialize(Tileset tileset);
 }
