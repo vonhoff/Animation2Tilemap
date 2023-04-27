@@ -8,7 +8,7 @@ namespace TilemapGenerator.Entities
         public int Id { get; set; }
 
         [XmlElement("animation")] 
-        public TilesetTileAnimation Animation { get; set; }
+        public TilesetTileAnimation? Animation { get; set; }
 
         [XmlIgnore]
         public TilesetTileImage Image { get; set; }

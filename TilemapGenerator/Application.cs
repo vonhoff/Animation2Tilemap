@@ -1,7 +1,9 @@
-﻿using Serilog;
+﻿using System.IO;
+using Serilog;
 using TilemapGenerator.Entities;
 using TilemapGenerator.Factories.Contracts;
 using TilemapGenerator.Services.Contracts;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TilemapGenerator
 {
@@ -39,8 +41,10 @@ namespace TilemapGenerator
                 }
 
                 var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
+                tileset.Image.Data.SaveAsPng(tileset.Image.Path + ".png");
+
                 var output = _tilesetSerializerService.Serialize(tileset);
-                Log.Information("Content: \n{Content}", output);
+                File.WriteAllText(tileset.Image.Path + ".tsx", output);
             }
         }
     }

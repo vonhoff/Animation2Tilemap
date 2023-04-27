@@ -2,15 +2,15 @@
 {
     public class TilesetTileImage : IEquatable<TilesetTileImage>
     {
-        private readonly int _hash;
-
         public TilesetTileImage(Image<Rgba32> data, int hash)
         {
             Data = data;
-            _hash = hash;
+            Hash = hash;
         }
 
         public Image<Rgba32> Data { get; }
+
+        public int Hash { get; }
 
         public override bool Equals(object? obj)
         {
@@ -24,12 +24,12 @@
                 return false;
             }
 
-            return _hash == other._hash;
+            return Hash == other.Hash;
         }
 
         public override int GetHashCode()
         {
-            return _hash;
+            return Hash;
         }
     }
 }
