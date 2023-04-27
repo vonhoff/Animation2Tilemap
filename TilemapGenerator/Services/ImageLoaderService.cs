@@ -11,7 +11,7 @@ public class ImageLoaderService : IImageLoaderService
     private readonly IConfirmationDialogService _confirmationDialogService;
     private readonly ILogger _logger;
     private readonly INamePatternService _namePatternService;
-    private readonly string _path;
+    private readonly string _inputPath;
 
     public ImageLoaderService(
         ILogger logger,
@@ -22,7 +22,7 @@ public class ImageLoaderService : IImageLoaderService
         _namePatternService = namePatternService;
         _confirmationDialogService = confirmationDialogService;
         _logger = logger;
-        _path = options.Input;
+        _inputPath = options.Input;
     }
 
     /// <summary>
@@ -134,23 +134,23 @@ public class ImageLoaderService : IImageLoaderService
     {
         images = new Dictionary<string, List<Image<Rgba32>>>();
 
-        if (!Directory.Exists(_path) && !File.Exists(_path))
+        if (!Directory.Exists(_inputPath) && !File.Exists(_inputPath))
         {
             _logger.Error("The input path is invalid.");
             return false;
         }
 
-        if (File.Exists(_path))
+        if (File.Exists(_inputPath))
         {
-            var frames = LoadFromFile(_path);
+            var frames = LoadFromFile(_inputPath);
             if (frames.Any())
             {
-                images.Add(Path.GetFileName(_path), frames);
+                images.Add(Path.GetFileName(_inputPath), frames);
             }
         }
         else
         {
-            images = LoadFromDirectory(_path, out var suitableForAnimation);
+            images = LoadFromDirectory(_inputPath, out var suitableForAnimation);
 
             if (suitableForAnimation)
             {

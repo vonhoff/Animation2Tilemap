@@ -2,7 +2,7 @@
   "profiles": {
     "TilemapGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "-i \"C:\\repos\\TilemapGenerator\\TilemapGenerator.Test\\Resources\\AnimationFrames\" -a -v"
+      "commandLineArgs": "-i \"C:\\Users\\Simon\\Downloads\\devilfire\" -v"
     }
   }
 }
