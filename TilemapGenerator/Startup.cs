@@ -11,11 +11,11 @@ namespace TilemapGenerator;
 
 public class Startup
 {
-    private readonly ApplicationOptions _applicationOptions;
+    private readonly ApplicationOptions _options;
 
-    public Startup(ApplicationOptions applicationOptions)
+    public Startup(ApplicationOptions options)
     {
-        _applicationOptions = applicationOptions;
+        _options = options;
     }
 
     public Application BuildApplication()
@@ -30,14 +30,14 @@ public class Startup
 
     private void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton(_applicationOptions);
+        services.AddSingleton(_options);
         services.AddSingleton(Log.Logger);
 
         services.AddSingleton<INamePatternService, NamePatternService>();
         services.AddSingleton<IImageAlignmentService, ImageAlignmentService>();
         services.AddSingleton<IImageLoaderService, ImageLoaderService>();
         services.AddSingleton<IImageHashService, ImageHashService>();
-        services.AddSingleton<ITilesetSerializerService, TilesetSerializerService>();
+        services.AddSingleton<IXmlSerializerService, XmlSerializerService>();
         services.AddSingleton<IConfirmationDialogService, ConfirmationDialogService>();
 
         services.AddSingleton<ITilesetFactory, TilesetFactory>();
@@ -49,17 +49,21 @@ public class Startup
     private void ConfigureLogging()
     {
         var logConfig = new LoggerConfiguration();
+        string template;
 
-        if (_applicationOptions.Verbose)
+        if (_options.Verbose)
         {
+            template = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (at: {Caller}){NewLine}{Exception}";
+            logConfig.Enrich.WithCaller();
             logConfig.MinimumLevel.Verbose();
         }
         else
         {
+            template = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {NewLine}{Exception}";
             logConfig.MinimumLevel.Information();
         }
 
-        logConfig.WriteTo.Console(theme: SerilogConsoleThemes.CustomLiterate);
+        logConfig.WriteTo.Console(outputTemplate: template, theme: SerilogConsoleThemes.CustomLiterate);
         Log.Logger = logConfig.CreateLogger();
     }
 }

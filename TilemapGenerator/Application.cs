@@ -11,7 +11,7 @@ public class Application
     private readonly IImageAlignmentService _imageAlignmentService;
     private readonly IImageLoaderService _imageLoaderService;
     private readonly ITilesetFactory _tilesetFactory;
-    private readonly ITilesetSerializerService _tilesetSerializerService;
+    private readonly IXmlSerializerService _xmlSerializerService;
     private readonly ILogger _logger;
     private readonly string _outputFolder;
     
@@ -19,14 +19,14 @@ public class Application
         IImageAlignmentService imageAlignmentService,
         IImageLoaderService imageLoaderService,
         ITilesetFactory tilesetFactory,
-        ITilesetSerializerService tilesetSerializerService,
+        IXmlSerializerService xmlSerializerService,
         ILogger logger,
         ApplicationOptions options)
     {
         _imageAlignmentService = imageAlignmentService;
         _imageLoaderService = imageLoaderService;
         _tilesetFactory = tilesetFactory;
-        _tilesetSerializerService = tilesetSerializerService;
+        _xmlSerializerService = xmlSerializerService;
         _logger = logger;
         _outputFolder = options.Output;
     }
@@ -54,7 +54,7 @@ public class Application
                 var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
                 tileset.Image.Data.SaveAsPng(tilesetImageOutput);
           
-                var serializedTileset = _tilesetSerializerService.Serialize(tileset);
+                var serializedTileset = _xmlSerializerService.Serialize(tileset);
                 File.WriteAllText(tilesetOutput, serializedTileset);
                 stopwatch.Stop();
                 

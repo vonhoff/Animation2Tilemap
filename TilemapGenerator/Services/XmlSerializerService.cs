@@ -1,16 +1,15 @@
 ﻿using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using TilemapGenerator.Entities;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services;
 
-public class TilesetSerializerService : ITilesetSerializerService
+public class XmlSerializerService : IXmlSerializerService
 {
-    public string Serialize(Tileset tileset)
+    public string Serialize<T>(T obj) where T : class
     {
-        var serializer = new XmlSerializer(typeof(Tileset));
+        var serializer = new XmlSerializer(typeof(T));
         using var memoryStream = new MemoryStream();
         var namespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
         var settings = new XmlWriterSettings
@@ -21,7 +20,7 @@ public class TilesetSerializerService : ITilesetSerializerService
 
         using (var xmlWriter = XmlWriter.Create(memoryStream, settings))
         {
-            serializer.Serialize(xmlWriter, tileset, namespaces);
+            serializer.Serialize(xmlWriter, obj, namespaces);
         }
 
         return Encoding.UTF8.GetString(memoryStream.ToArray());

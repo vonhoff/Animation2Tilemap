@@ -42,7 +42,7 @@ public class TilesetFactory : ITilesetFactory
         }
 
         var distinctHashAccumulations = tileHashAccumulations.DistinctBy(a => a.Value).ToList();
-        _logger.Verbose("Computed {hashCount} distinct hash accumulations for {fileName}. Took: {elapsed}ms",
+        _logger.Verbose("Computed {hashCount} distinct hash accumulation(s) for {fileName}. Took: {elapsed}ms",
             distinctHashAccumulations.Count, fileName, stopwatch.ElapsedMilliseconds);
 
         stopwatch.Restart();
@@ -50,12 +50,12 @@ public class TilesetFactory : ITilesetFactory
         {
             CreateTilesFromCollection(tileCollections, hashAccumulation, registeredTiles, animationDuration);
         }
-        _logger.Verbose("Registered {hashCount} distinct tiles for {fileName}. Took: {elapsed}ms",
+        _logger.Verbose("Registered {hashCount} distinct tile(s) for {fileName}. Took: {elapsed}ms",
             registeredTiles.Count, fileName, stopwatch.ElapsedMilliseconds);
 
         stopwatch.Restart();
         var animationTiles = registeredTiles.Where(t => t.Animation is { Frames.Count: > 1 }).ToList();
-        _logger.Verbose("Registered {hashCount} animations for {fileName}. Took: {elapsed}ms",
+        _logger.Verbose("Registered {hashCount} animation(s) for {fileName}. Took: {elapsed}ms",
             animationTiles.Count, fileName, stopwatch.ElapsedMilliseconds);
 
         var tilesetImage = _tilesetImageFactory.CreateFromTiles(registeredTiles, fileName);

@@ -23,18 +23,22 @@ public class ConfirmationDialogService : IConfirmationDialogService
             else switch (input)
             {
                 case "Y":
+                {
                     response = true;
                     isValidInput = true;
                     break;
-
+                }
                 case "N":
+                {
                     response = false;
                     isValidInput = true;
                     break;
-
+                }
                 default:
+                {
                     Console.WriteLine("Invalid input. Please enter Y or N.");
                     break;
+                }
             }
         }
 
