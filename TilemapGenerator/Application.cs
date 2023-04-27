@@ -1,9 +1,5 @@
-﻿using System.IO;
-using Serilog;
-using TilemapGenerator.Entities;
-using TilemapGenerator.Factories.Contracts;
+﻿using TilemapGenerator.Factories.Contracts;
 using TilemapGenerator.Services.Contracts;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TilemapGenerator
 {

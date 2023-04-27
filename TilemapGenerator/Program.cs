@@ -3,7 +3,7 @@ using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Text;
 using System.Text.RegularExpressions;
-using TilemapGenerator.Common.CommandLine;
+using TilemapGenerator.Common.Configuration;
 
 namespace TilemapGenerator
 {
@@ -44,15 +44,8 @@ namespace TilemapGenerator
             await parser.InvokeAsync(args);
         }
 
-        private static CommandLineOptionsBinder BuildCommandLineOptions(Command rootCommand)
+        private static ApplicationOptionsBinder BuildCommandLineOptions(Command rootCommand)
         {
-            var animationOption = new Option<bool>(
-                name: "--animation",
-                description: "Enable animation processing",
-                getDefaultValue: () => false);
-            animationOption.AddAlias("-a");
-            rootCommand.Add(animationOption);
-
             var animationFrameDurationOption = new Option<int>(
                 name: "--duration",
                 description: "Animation frame duration",
@@ -142,8 +135,7 @@ namespace TilemapGenerator
             verboseOption.AddAlias("-v");
             rootCommand.Add(verboseOption);
 
-            return new CommandLineOptionsBinder(
-                animationOption,
+            return new ApplicationOptionsBinder(
                 animationFrameDurationOption,
                 inputOption,
                 outputOption,

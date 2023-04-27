@@ -1,6 +1,6 @@
 ﻿namespace TilemapGenerator.Services.Contracts
 {
-    public interface ITileHashService
+    public interface IImageHashService
     {
         int Compute(Image<Rgba32> image);
     }

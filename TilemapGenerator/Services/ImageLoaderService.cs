@@ -1,102 +1,28 @@
 ﻿using System.Diagnostics;
 using Serilog;
 using TilemapGenerator.Common;
-using TilemapGenerator.Common.CommandLine;
+using TilemapGenerator.Common.Configuration;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services
 {
     public class ImageLoaderService : IImageLoaderService
     {
+        private readonly IConfirmationDialogService _confirmationDialogService;
         private readonly ILogger _logger;
         private readonly INamePatternService _namePatternService;
         private readonly string _path;
-        private readonly bool _requestAnimation;
 
         public ImageLoaderService(
-            ILogger logger, 
+            ILogger logger,
             INamePatternService namePatternService,
-            CommandLineOptions options)
+            IConfirmationDialogService confirmationDialogService,
+            ApplicationOptions options)
         {
             _namePatternService = namePatternService;
+            _confirmationDialogService = confirmationDialogService;
             _logger = logger;
             _path = options.Input;
-            _requestAnimation = options.Animation;
-        }
-
-        /// <summary>
-        /// Attempts to load images from the specified path and returns a dictionary of image frames keyed by file name.
-        /// </summary>
-        /// <param name="images">Output parameter that contains the loaded images, if the method succeeds.</param>
-        /// <returns><see langword="true"/> if images were loaded successfully, otherwise <see langword="false"/>.</returns>
-        public bool TryLoadImages(out Dictionary<string, List<Image<Rgba32>>> images)
-        {
-            images = new Dictionary<string, List<Image<Rgba32>>>();
-
-            if (!Directory.Exists(_path) && !File.Exists(_path))
-            {
-                _logger.Error("The input path is invalid.");
-                return false;
-            }
-
-            if (File.Exists(_path))
-            {
-                var frames = LoadFromFile(_path);
-                if (frames.Any())
-                {
-                    images.Add(Path.GetFileName(_path), frames);
-                }
-            }
-            else
-            {
-                images = LoadFromDirectory(_path, out var suitableForAnimation);
-
-                if (suitableForAnimation)
-                {
-                    _logger.Information("The loaded image files can be used as animation frames.");
-
-                    if (_requestAnimation)
-                    {
-                        _logger.Information("Animation processing is requested. Images are treated as animation frames.");
-                        TransformImagesToAnimation(ref images);
-                    }
-                    else
-                    {
-                        _logger.Warning("Animation processing is not requested. Images will be processed individually.");
-                    }
-                }
-                else
-                {
-                    _logger.Warning("The loaded image files cannot be used as animation frames.");
-                }
-            }
-
-            if (images.Count == 0)
-            {
-                _logger.Error("The input path does not lead to any valid images.");
-                return false;
-            }
-
-            return true;
-        }
-
-        private void TransformImagesToAnimation(ref Dictionary<string, List<Image<Rgba32>>> images)
-        {
-            List<string> fileNames = images.Keys.Select(Path.GetFileNameWithoutExtension).ToList()!;
-
-            var name = _namePatternService.GetMostOccurringPattern(fileNames);
-            if (name == null)
-            {
-                var fileName = "Animation_" + DateTime.Now.ToLocalTime();
-                name = string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
-            }
-
-            _logger.Information("Using {Name} as the animation name.", name);
-            var frames = images.Values.Select(v => v.First()).ToList();
-            images = new Dictionary<string, List<Image<Rgba32>>>
-            {
-                { name, frames }
-            };
         }
 
         /// <summary>
@@ -195,6 +121,82 @@ namespace TilemapGenerator.Services
                 _logger.Error(ex, "Error loading image: {Path}", file);
                 return frames;
             }
+        }
+
+        /// <summary>
+        /// Attempts to load images from the specified path and returns a dictionary of image frames keyed by file name.
+        /// </summary>
+        /// <param name="images">Output parameter that contains the loaded images, if the method succeeds.</param>
+        /// <returns><see langword="true"/> if images were loaded successfully, otherwise <see langword="false"/>.</returns>
+        public bool TryLoadImages(out Dictionary<string, List<Image<Rgba32>>> images)
+        {
+            images = new Dictionary<string, List<Image<Rgba32>>>();
+
+            if (!Directory.Exists(_path) && !File.Exists(_path))
+            {
+                _logger.Error("The input path is invalid.");
+                return false;
+            }
+
+            if (File.Exists(_path))
+            {
+                var frames = LoadFromFile(_path);
+                if (frames.Any())
+                {
+                    images.Add(Path.GetFileName(_path), frames);
+                }
+            }
+            else
+            {
+                images = LoadFromDirectory(_path, out var suitableForAnimation);
+
+                if (suitableForAnimation)
+                {
+                    _logger.Information("The loaded images can be used as animation frames.");
+
+                    var requestAnimation = _confirmationDialogService.Confirm("Do you want to create an animation from these images?", true);
+                    if (requestAnimation)
+                    {
+                        _logger.Information("Images are treated as animation frames.");
+                        TransformImagesToAnimation(ref images);
+                    }
+                    else
+                    {
+                        _logger.Information("Images will be processed individually.");
+                    }
+                }
+                else
+                {
+                    _logger.Warning("The loaded image files cannot be used as animation frames.");
+                }
+            }
+
+            if (images.Count == 0)
+            {
+                _logger.Error("The input path does not lead to any valid images.");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void TransformImagesToAnimation(ref Dictionary<string, List<Image<Rgba32>>> images)
+        {
+            List<string> fileNames = images.Keys.Select(Path.GetFileNameWithoutExtension).ToList()!;
+
+            var name = _namePatternService.GetMostNotablePattern(fileNames);
+            if (name == null)
+            {
+                var fileName = "Animation_" + DateTime.Now.ToLocalTime();
+                name = string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
+            }
+
+            _logger.Information("Using {Name} as the animation name.", name);
+            var frames = images.Values.Select(v => v.First()).ToList();
+            images = new Dictionary<string, List<Image<Rgba32>>>
+            {
+                { name, frames }
+            };
         }
     }
 }

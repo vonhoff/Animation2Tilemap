@@ -36,7 +36,7 @@ namespace TilemapGenerator.Test.Services
             };
 
             // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostNotablePattern(strings);
 
             // Assert
             Assert.Equal("dragon", result);
@@ -59,7 +59,7 @@ namespace TilemapGenerator.Test.Services
             };
 
             // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostNotablePattern(strings);
 
             // Assert
             Assert.Equal("application", result);
@@ -81,7 +81,7 @@ namespace TilemapGenerator.Test.Services
             };
 
             // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostNotablePattern(strings);
 
             // Assert
             Assert.Equal("player_v2_walk", result);
@@ -103,7 +103,7 @@ namespace TilemapGenerator.Test.Services
             };
 
             // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostNotablePattern(strings);
 
             // Assert
             Assert.Equal("player_shoot", result);
@@ -125,7 +125,7 @@ namespace TilemapGenerator.Test.Services
             };
 
             // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostNotablePattern(strings);
 
             // Assert
             Assert.Equal("player-shoot", result);
@@ -148,7 +148,7 @@ namespace TilemapGenerator.Test.Services
             };
 
             // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostNotablePattern(strings);
 
             // Assert
             Assert.Null(result);
@@ -171,7 +171,7 @@ namespace TilemapGenerator.Test.Services
             };
 
             // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostNotablePattern(strings);
 
             // Assert
             Assert.Equal("barrel", result);
@@ -192,7 +192,7 @@ namespace TilemapGenerator.Test.Services
             };
 
             // Act
-            var result = _patternService.GetMostOccurringPattern(strings);
+            var result = _patternService.GetMostNotablePattern(strings);
 
             // Assert
             Assert.Equal("синица", result);

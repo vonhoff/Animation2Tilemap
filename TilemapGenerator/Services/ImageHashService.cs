@@ -1,23 +1,22 @@
-﻿using TilemapGenerator.Common.CommandLine;
+﻿using TilemapGenerator.Common.Configuration;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services
 {
-    public class TileHashService : ITileHashService
+    public class ImageHashService : IImageHashService
     {
-        private readonly Size _tileSize;
-
-        public TileHashService(CommandLineOptions options)
-        {
-            _tileSize = options.TileSize;
-        }
-
         private const int Prime1 = 486187739;
         private const int Prime2 = 76624727;
         private const int Prime3 = 179424673;
         private const int Prime4 = 668265263;
         private const int Prime5 = 374761393;
         private const int Prime6 = 258915779;
+        private readonly Size _tileSize;
+
+        public ImageHashService(ApplicationOptions options)
+        {
+            _tileSize = options.TileSize;
+        }
 
         public int Compute(Image<Rgba32> image)
         {

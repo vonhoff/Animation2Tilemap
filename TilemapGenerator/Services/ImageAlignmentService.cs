@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Serilog;
-using TilemapGenerator.Common.CommandLine;
+using TilemapGenerator.Common.Configuration;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services
@@ -11,7 +11,7 @@ namespace TilemapGenerator.Services
         private readonly Size _tileSize;
         private readonly Rgba32 _transparentColor;
 
-        public ImageAlignmentService(ILogger logger, CommandLineOptions options)
+        public ImageAlignmentService(ILogger logger, ApplicationOptions options)
         {
             _logger = logger;
             _tileSize = options.TileSize;
@@ -21,7 +21,7 @@ namespace TilemapGenerator.Services
         public bool TryAlignImage(string fileName, List<Image<Rgba32>> frames)
         {
             var alignmentStopwatch = new Stopwatch();
-     
+
             for (var i = 0; i < frames.Count; i++)
             {
                 var frame = frames[i];

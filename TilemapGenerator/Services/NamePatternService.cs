@@ -16,7 +16,7 @@ namespace TilemapGenerator.Services
             _logger = logger;
         }
 
-        public string? GetMostOccurringPattern(List<string> names)
+        public string? GetMostNotablePattern(List<string> names)
         {
             var stopwatch = Stopwatch.StartNew();
 
@@ -100,7 +100,7 @@ namespace TilemapGenerator.Services
                 _logger.Verbose("Candidate name pattern {Pattern} does not occur in all filenames.", pattern);
                 return false;
             }
-            
+
             _logger.Verbose("Candidate name pattern {Pattern} does occur in all filenames.", pattern);
             return true;
         }

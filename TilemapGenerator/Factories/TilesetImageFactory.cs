@@ -1,4 +1,4 @@
-﻿using TilemapGenerator.Common.CommandLine;
+﻿using TilemapGenerator.Common.Configuration;
 using TilemapGenerator.Entities;
 using TilemapGenerator.Factories.Contracts;
 
@@ -8,7 +8,7 @@ namespace TilemapGenerator.Factories
     {
         private readonly Size _tileSize;
 
-        public TilesetImageFactory(CommandLineOptions options)
+        public TilesetImageFactory(ApplicationOptions options)
         {
             _tileSize = options.TileSize;
         }

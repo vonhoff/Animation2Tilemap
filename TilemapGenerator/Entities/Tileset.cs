@@ -21,12 +21,12 @@ namespace TilemapGenerator.Entities
         public int Columns { get; set; }
 
         [XmlElement("image")]
-        public TilesetImage? Image { get; set; }
+        public TilesetImage Image { get; set; } = null!;
 
         [XmlElement("tile")]
-        public List<TilesetTile>? AnimatedTiles { get; set; }
+        public List<TilesetTile> AnimatedTiles { get; set; } = null!;
 
-        [XmlIgnore] 
-        public List<TilesetTile>? RegisteredTiles { get; set; }
+        [XmlIgnore]
+        public List<TilesetTile> RegisteredTiles { get; set; } = null!;
     }
 }

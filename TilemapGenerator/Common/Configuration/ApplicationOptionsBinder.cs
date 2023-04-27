@@ -1,11 +1,10 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Binding;
 
-namespace TilemapGenerator.Common.CommandLine
+namespace TilemapGenerator.Common.Configuration
 {
-    public class CommandLineOptionsBinder : BinderBase<CommandLineOptions>
+    public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
     {
-        private readonly Option<bool> _animationOption;
         private readonly Option<int> _animationFrameDurationOption;
         private readonly Option<string> _inputOption;
         private readonly Option<string> _outputOption;
@@ -14,8 +13,7 @@ namespace TilemapGenerator.Common.CommandLine
         private readonly Option<string> _transparentColorOption;
         private readonly Option<bool> _verboseOption;
 
-        public CommandLineOptionsBinder(
-            Option<bool> animationOption,
+        public ApplicationOptionsBinder(
             Option<int> animationFrameDurationOption,
             Option<string> inputOption,
             Option<string> outputOption,
@@ -24,7 +22,6 @@ namespace TilemapGenerator.Common.CommandLine
             Option<string> transparentColorOption,
             Option<bool> verboseOption)
         {
-            _animationOption = animationOption;
             _animationFrameDurationOption = animationFrameDurationOption;
             _inputOption = inputOption;
             _outputOption = outputOption;
@@ -34,10 +31,9 @@ namespace TilemapGenerator.Common.CommandLine
             _verboseOption = verboseOption;
         }
 
-        protected override CommandLineOptions GetBoundValue(BindingContext bindingContext)
+        protected override ApplicationOptions GetBoundValue(BindingContext bindingContext)
         {
-            return new CommandLineOptions(
-                bindingContext.ParseResult.GetValueForOption(_animationOption),
+            return new ApplicationOptions(
                 bindingContext.ParseResult.GetValueForOption(_animationFrameDurationOption),
                 bindingContext.ParseResult.GetValueForOption(_inputOption)!,
                 bindingContext.ParseResult.GetValueForOption(_outputOption)!,

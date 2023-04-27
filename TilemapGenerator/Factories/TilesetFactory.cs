@@ -1,4 +1,6 @@
-﻿using TilemapGenerator.Common.CommandLine;
+﻿using System.Diagnostics;
+using Serilog;
+using TilemapGenerator.Common.Configuration;
 using TilemapGenerator.Entities;
 using TilemapGenerator.Factories.Contracts;
 using TilemapGenerator.Services.Contracts;
@@ -10,18 +12,18 @@ namespace TilemapGenerator.Factories
         private readonly Size _tileSize;
         private readonly int _frameDuration;
         private readonly ITilesetImageFactory _tilesetImageFactory;
-        private readonly ITileHashService _tileHashService;
-        private readonly IHashCodeCombinerService _hashCodeCombinerService;
+        private readonly IImageHashService _imageHashService;
+        private readonly ILogger _logger;
 
         public TilesetFactory(
-            CommandLineOptions options,
+            ApplicationOptions options,
             ITilesetImageFactory tilesetImageFactory,
-            ITileHashService tileHashService,
-            IHashCodeCombinerService hashCodeCombinerService)
+            IImageHashService imageHashService,
+            ILogger logger)
         {
-            _tileHashService = tileHashService;
-            _hashCodeCombinerService = hashCodeCombinerService;
+            _imageHashService = imageHashService;
             _tilesetImageFactory = tilesetImageFactory;
+            _logger = logger;
             _tileSize = options.TileSize;
             _frameDuration = options.AnimationFrameDuration;
         }
@@ -29,19 +31,28 @@ namespace TilemapGenerator.Factories
         public Tileset CreateFromImage(string fileName, List<Image<Rgba32>> frames)
         {
             var tileCollections = new Dictionary<Point, List<TilesetTileImage>>();
-            var hashAccumulations = new Dictionary<Point, int>();
-            var tileRegister = new List<TilesetTile>();
-            
+            var tileHashAccumulations = new Dictionary<Point, int>();
+
+            var stopwatch = Stopwatch.StartNew();
             foreach (var frame in frames)
             {
-                ComputeTileHashAccumulations(frame, hashAccumulations, tileCollections);
+                ComputeTileHashAccumulations(frame, tileHashAccumulations, tileCollections);
             }
-            
+
+            var uniqueHashAccumulations = tileHashAccumulations.DistinctBy(a => a.Value).ToList();
+            _logger.Verbose("Computed {hashCount} unique hash accumulations for {fileName}. Took: {elapsed}ms",
+                uniqueHashAccumulations.Count, fileName, stopwatch.ElapsedMilliseconds);
+
+            var tileRegister = new List<TilesetTile>();
             var animationDuration = _frameDuration * frames.Count;
-            foreach (var hashAccumulation in hashAccumulations.DistinctBy(a => a.Value))
+
+            stopwatch.Restart();
+            foreach (var hashAccumulation in uniqueHashAccumulations)
             {
                 CreateTilesFromCollection(tileCollections, hashAccumulation, tileRegister, animationDuration);
             }
+            _logger.Verbose("Registered {hashCount} unique tiles for {fileName}. Took: {elapsed}ms",
+                tileRegister.Count, fileName, stopwatch.ElapsedMilliseconds);
 
             var tilesetImage = _tilesetImageFactory.CreateFromTiles(tileRegister, fileName);
             var tileset = new Tileset
@@ -50,6 +61,7 @@ namespace TilemapGenerator.Factories
                 TileWidth = _tileSize.Width,
                 TileHeight = _tileSize.Height,
                 TileCount = tileRegister.Count,
+                Columns = tilesetImage.Width / _tileSize.Width,
                 Image = tilesetImage,
                 AnimatedTiles = tileRegister.Where(t => t.Animation is { Frames.Count: > 1 }).ToList(),
                 RegisteredTiles = tileRegister
@@ -59,7 +71,7 @@ namespace TilemapGenerator.Factories
         }
 
         private void CreateTilesFromCollection(
-            IReadOnlyDictionary<Point, List<TilesetTileImage>> tileCollections, 
+            IReadOnlyDictionary<Point, List<TilesetTileImage>> tileCollections,
             KeyValuePair<Point, int> hashAccumulation, List<TilesetTile> tileRegister,
             int animationDuration)
         {
@@ -107,7 +119,7 @@ namespace TilemapGenerator.Factories
                 }
                 else
                 {
-                    // We have received a new tile, maybe this tile is already registered. If not, just create a new one. 
+                    // We have received a new tile, maybe this tile is already registered. If not, just create a new one.
                     var registeredTile = tileRegister.Find(t => t.Image.Equals(currentTileImage));
                     if (registeredTile == null)
                     {
@@ -133,8 +145,8 @@ namespace TilemapGenerator.Factories
         }
 
         private void ComputeTileHashAccumulations(
-            Image<Rgba32> frame, 
-            IDictionary<Point, int> hashAccumulations, 
+            Image<Rgba32> frame,
+            IDictionary<Point, int> hashAccumulations,
             IDictionary<Point, List<TilesetTileImage>> tileCollections)
         {
             for (var x = 0; x < frame.Width; x += _tileSize.Width)
@@ -144,13 +156,13 @@ namespace TilemapGenerator.Factories
                     var tileLocation = new Point(x, y);
                     var tileBounds = new Rectangle(tileLocation, _tileSize);
                     var tileFrame = frame.Clone(ctx => ctx.Crop(tileBounds));
-                    var tileHash = _tileHashService.Compute(tileFrame);
+                    var tileHash = _imageHashService.Compute(tileFrame);
                     var tileImage = new TilesetTileImage(tileFrame, tileHash);
 
                     // Accumulate the tile hash collection at this location.
                     if (hashAccumulations.TryGetValue(tileLocation, out var accumulation))
                     {
-                        hashAccumulations[tileLocation] = _hashCodeCombinerService.CombineHashCodes(accumulation, tileHash);
+                        hashAccumulations[tileLocation] = ((accumulation << 5) + accumulation) ^ tileHash;
                     }
                     else
                     {

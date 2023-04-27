@@ -1,9 +1,8 @@
-﻿namespace TilemapGenerator.Common.CommandLine
+﻿namespace TilemapGenerator.Common.Configuration
 {
-    public class CommandLineOptions
+    public class ApplicationOptions
     {
-        public CommandLineOptions(
-            bool animation,
+        public ApplicationOptions(
             int animationFrameDuration,
             string input,
             string output,
@@ -12,7 +11,6 @@
             string transparentColor,
             bool verbose)
         {
-            Animation = animation;
             AnimationFrameDuration = animationFrameDuration;
             Input = input;
             Output = output;
@@ -21,7 +19,6 @@
             Verbose = verbose;
         }
 
-        public bool Animation { get; }
         public int AnimationFrameDuration { get; }
         public string Input { get; }
         public string Output { get; }

@@ -17,6 +17,6 @@ namespace TilemapGenerator.Entities
         public int Height { get; set; }
 
         [XmlIgnore]
-        public Image<Rgba32> Data { get; set; }
+        public Image<Rgba32> Data { get; set; } = null!;
     }
 }

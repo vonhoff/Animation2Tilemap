@@ -4,8 +4,8 @@ namespace TilemapGenerator.Entities
 {
     public class TilesetTileAnimation
     {
-        [XmlElement("frame")] 
-        public List<TilesetTileAnimationFrame> Frames { get; set; }
+        [XmlElement("frame")]
+        public List<TilesetTileAnimationFrame> Frames { get; set; } = null!;
 
         [XmlIgnore]
         public int Hash { get; set; }
