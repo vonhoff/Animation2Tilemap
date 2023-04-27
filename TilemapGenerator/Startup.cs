@@ -38,6 +38,8 @@ namespace TilemapGenerator
             services.AddSingleton<ITileHashService, TileHashService>();
             services.AddSingleton<ITilesetFactory, TilesetFactory>();
             services.AddSingleton<ITilesetSerializerService, TilesetSerializerService>();
+            services.AddSingleton<IHashCodeCombinerService, HashCodeCombinerService>();
+
             services.AddSingleton<Application>();
         }
 

@@ -3,10 +3,6 @@ using TilemapGenerator.Entities;
 using TilemapGenerator.Factories.Contracts;
 using TilemapGenerator.Services.Contracts;
 
-// Kladblok
-//var isLastFrame = index == frames.Count - 1;
-//var remainingTime = animationDuration - _frameDuration * index;
-
 namespace TilemapGenerator.Factories
 {
     public class TilesetFactory : ITilesetFactory
@@ -29,21 +25,17 @@ namespace TilemapGenerator.Factories
 
         public Tileset CreateFromImage(string fileName, List<Image<Rgba32>> frames)
         {
-            var tileId = 0;
-            
-            // This keeps track of the amount of unique tiles within all frames, where the key represents the image,
-            // and the value is the tileId for assigning them later.
-            var registeredTiles = new Dictionary<TilesetTileImage, int>();
-
             // This keeps track of all tiles that appeared at a certain location. 
             var tileCollections = new Dictionary<Point, List<TilesetTileImage>>();
 
             // This keeps track of the animation hash, where the key represents the location,
             // and the value is the accumulated hash of all tiles that have appeared at that location.
-            var tileAccumulations = new Dictionary<Point, int>();
+            var hashAccumulations = new Dictionary<Point, int>();
+
+            // This value is used as the final tile collection for the tileset.
+            var tileRegister = new List<TilesetTile>();
 
             // Loop through every frame and compute the tile hashes and animation hashes.
-            // Keep track of unique tiles and their ID's.
             foreach (var frame in frames)
             {
                 for (var x = 0; x < frame.Width; x += _tileSize.Width)
@@ -56,27 +48,20 @@ namespace TilemapGenerator.Factories
                         var tileHash = _tileHashService.Compute(tileFrame);
                         var tileImage = new TilesetTileImage(tileFrame, tileHash);
 
-                        // Register tile if it's unique.
-                        if (!registeredTiles.ContainsKey(tileImage))
-                        {
-                            registeredTiles.Add(tileImage, tileId);
-                            tileId++;
-                        }
-
                         // Accumulate the tile hash collection at this location.
-                        if (tileAccumulations.TryGetValue(tileLocation, out var accumulation))
+                        if (hashAccumulations.TryGetValue(tileLocation, out var accumulation))
                         {
-                            tileAccumulations[tileLocation] = _hashCodeCombinerService.CombineHashCodes(accumulation, tileHash);
+                            hashAccumulations[tileLocation] = _hashCodeCombinerService.CombineHashCodes(accumulation, tileHash);
                         }
                         else
                         {
-                            tileAccumulations.Add(tileLocation, tileHash);
+                            hashAccumulations.Add(tileLocation, tileHash);
                         }
 
                         // Update the collection at this location.
-                        if (tileCollections.TryGetValue(tileLocation, out var collection))
+                        if (tileCollections.TryGetValue(tileLocation, out var tileCollection))
                         {
-                            collection.Add(tileImage);
+                            tileCollection.Add(tileImage);
                         }
                         else
                         {
@@ -86,10 +71,88 @@ namespace TilemapGenerator.Factories
                 }
             }
 
+            // Determine the overall animation duration based on the number of frames and frame duration.
             var animationDuration = _frameDuration * frames.Count;
 
-            // Iterate through the accumulated hashes and create a new TilesetTile object for every unique tile.
+            // Iterate through the accumulated hashes and create a new TilesetTile object for every accumulation.
+            foreach (var hashAccumulation in hashAccumulations.DistinctBy(a => a.Value))
+            {
+                // Collect all tile images at this location.
+                var tileImageCollection = tileCollections[hashAccumulation.Key];
+                
+                // Create a new tile since we already used DistinctBy to filter out duplicate hash accumulations.
+                var tile = new TilesetTile
+                {
+                    Id = tileRegister.Count,
+                    Image = tileImageCollection[0],
+                    Animation = new TilesetTileAnimation
+                    {
+                        Frames = new List<TilesetTileAnimationFrame>
+                        {
+                            new()
+                            {
+                                TileId = tileRegister.Count,
+                                Duration = 0
+                            }
+                        },
+                        Hash = hashAccumulation.Value
+                    }
+                };
 
+                // Add the tile to the tile register.
+                tileRegister.Add(tile);
+
+                // Keep track of the previous tile image to comparison.
+                var previousTileImage = tileImageCollection[0];
+
+                // Iterate through the tile images at this location and determine the animation frames.
+                // We can skip the first tile from the collection since that tile is always added.
+                for (var i = 0; i < tileImageCollection.Count; i++)
+                {
+                    var isLastFrame = i == tileImageCollection.Count - 1;
+                    var remainingTime = animationDuration - (i * _frameDuration);
+
+                    var currentTileImage = tileImageCollection[i];
+                    if (currentTileImage.Equals(previousTileImage))
+                    {
+                        // Here the image has not changed from the previous tile, just update the duration,
+                        // as the duration tells how long (in milliseconds) this frame should be displayed before moving on to the next frame.
+                        var lastTile = tile.Animation.Frames.Last();
+                        lastTile.Duration += _frameDuration;
+                    }
+                    else
+                    {
+                        // We have received a new tile, maybe this tile is already registered. If not, just create a new one. 
+                        var registeredTile = tileRegister.Find(t => t.Image.Equals(currentTileImage));
+                        if (registeredTile == null)
+                        {
+                            registeredTile = new TilesetTile
+                            {
+                                Id = tileRegister.Count,
+                                Image = currentTileImage
+                            };
+                            tileRegister.Add(registeredTile);
+                        }
+
+                        // Create a new animation frame as current tile image has changed from the previous tile image.
+                        var tileAnimationFrame = new TilesetTileAnimationFrame
+                        {
+                            TileId = registeredTile.Id,
+                            Duration = isLastFrame ? remainingTime : _frameDuration
+                        };
+                        tile.Animation.Frames.Add(tileAnimationFrame);
+                    }
+
+                    previousTileImage = currentTileImage;
+                }
+            }
+
+            var tileset = new Tileset
+            {
+                AnimatedTiles = tileRegister
+            };
+
+            return tileset;
         }
     }
 }
