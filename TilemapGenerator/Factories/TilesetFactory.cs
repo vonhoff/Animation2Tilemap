@@ -68,7 +68,8 @@ public class TilesetFactory : ITilesetFactory
             Columns = tilesetImage.Width / _tileSize.Width,
             Image = tilesetImage,
             AnimatedTiles = animationTiles,
-            RegisteredTiles = registeredTiles
+            RegisteredTiles = registeredTiles,
+            HashAccumulations = tileHashAccumulations
         };
 
         return tileset;

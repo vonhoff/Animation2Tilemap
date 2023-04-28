@@ -6,7 +6,7 @@ using Xunit.Abstractions;
 
 namespace TilemapGenerator.Test;
 
-public class TestOutputHelperSink : ILogEventSink
+internal class TestOutputHelperSink : ILogEventSink
 {
     private readonly ITestOutputHelper _output;
     private readonly ITextFormatter _formatter;

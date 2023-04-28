@@ -28,37 +28,49 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Resources\AnimationFrames\devilfire-0.png">
+    <None Update="Resources\ImageLoaderServiceTests\Frames\devilfire-0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\AnimationFrames\devilfire-1.png">
+    <None Update="Resources\ImageLoaderServiceTests\Frames\devilfire-1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\AnimationFrames\devilfire-2.png">
+    <None Update="Resources\ImageLoaderServiceTests\Frames\devilfire-2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\AnimationFrames\devilfire-3.png">
+    <None Update="Resources\ImageLoaderServiceTests\Frames\devilfire-3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\AnimationFrames\devilfire-4.png">
+    <None Update="Resources\ImageLoaderServiceTests\Frames\devilfire-4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\AnimationFrames\devilfire-5.png">
+    <None Update="Resources\ImageLoaderServiceTests\Frames\devilfire-5.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\AnimationFrames\devilfire-6.png">
+    <None Update="Resources\ImageLoaderServiceTests\Frames\devilfire-6.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\AnimationFrames\devilfire-7.png">
+    <None Update="Resources\ImageLoaderServiceTests\Frames\devilfire-7.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\InvalidFolder\Empty.txt">
+    <None Update="Resources\ImageLoaderServiceTests\Invalid\Empty.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Unicates\dollarspindownd.gif">
+    <None Update="Resources\TilemapDataServiceTests\Base64Gzip.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Unicates\кошка.png">
+    <None Update="Resources\TilemapDataServiceTests\Base64Zlib.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ImageLoaderServiceTests\Images\dollarspindownd.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ImageLoaderServiceTests\Images\кошка.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\TilemapDataServiceTests\Tilemap.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\TilemapDataServiceTests\TilemapRotations.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
