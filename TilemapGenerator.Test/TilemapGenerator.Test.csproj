@@ -55,6 +55,9 @@
     <None Update="Resources\ImageLoaderServiceTests\Invalid\Empty.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\TilemapDataServiceTests\Base64.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\TilemapDataServiceTests\Base64Gzip.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -68,6 +71,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\TilemapDataServiceTests\Tilemap.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\TilemapDataServiceTests\TilemapData.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

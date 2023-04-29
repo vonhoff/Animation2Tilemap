@@ -20,7 +20,7 @@ public class NamePatternServiceTests
     }
 
     [Fact]
-    public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsEnglishLettersAndUnderscores()
+    public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsEnglishLettersAndUnderscores()
     {
         // Arrange
         var strings = new List<string> {
@@ -43,7 +43,7 @@ public class NamePatternServiceTests
     }
 
     [Fact]
-    public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsDifferentNames()
+    public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsDifferentNames()
     {
         // Arrange
         var strings = new List<string> {
@@ -66,7 +66,7 @@ public class NamePatternServiceTests
     }
 
     [Fact]
-    public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenPatternContainNumbers()
+    public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenPatternContainNumbers()
     {
         // Arrange
         var strings = new List<string> {
@@ -88,7 +88,7 @@ public class NamePatternServiceTests
     }
 
     [Fact]
-    public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsUnderscores()
+    public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsUnderscores()
     {
         // Arrange
         var strings = new List<string> {
@@ -110,7 +110,7 @@ public class NamePatternServiceTests
     }
 
     [Fact]
-    public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsDashes()
+    public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsDashes()
     {
         // Arrange
         var strings = new List<string> {
@@ -132,7 +132,7 @@ public class NamePatternServiceTests
     }
 
     [Fact]
-    public void GetMostOccurringPattern_ShouldReturnNull_WhenInputContainsSingleLetters()
+    public void GetMostNotablePattern_ShouldReturnNull_WhenInputContainsSingleLetters()
     {
         // Arrange
         var strings = new List<string> {
@@ -155,7 +155,7 @@ public class NamePatternServiceTests
     }
 
     [Fact]
-    public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsIndexedNames()
+    public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsIndexedNames()
     {
         // Arrange
         var strings = new List<string> {
@@ -178,7 +178,7 @@ public class NamePatternServiceTests
     }
 
     [Fact]
-    public void GetMostOccurringPattern_ShouldReturnCommonPattern_WhenInputContainsRussianLetters()
+    public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsRussianLetters()
     {
         // Arrange
         var strings = new List<string> {
