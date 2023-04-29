@@ -29,6 +29,6 @@ public class Tileset
     [XmlIgnore]
     public List<TilesetTile> RegisteredTiles { get; set; } = null!;
 
-    [XmlIgnore] 
+    [XmlIgnore]
     public Dictionary<Point, int> HashAccumulations { get; set; } = null!;
 }

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "TilemapGenerator": {
-      "commandName": "Project",
-      "commandLineArgs": "-i \"C:\\Users\\Simon\\Downloads\\devilfire\" -v -h 64 -w 64"
-    }
-  }
-}

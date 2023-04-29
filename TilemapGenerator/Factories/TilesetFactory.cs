@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Serilog;
-using TilemapGenerator.Common.Configuration;
 using TilemapGenerator.Entities;
 using TilemapGenerator.Factories.Contracts;
 using TilemapGenerator.Services.Contracts;
@@ -25,7 +24,7 @@ public class TilesetFactory : ITilesetFactory
         _tilesetImageFactory = tilesetImageFactory;
         _logger = logger;
         _tileSize = options.TileSize;
-        _frameDuration = options.AnimationFrameDuration;
+        _frameDuration = options.FrameDuration;
     }
 
     public Tileset CreateFromImage(string fileName, List<Image<Rgba32>> frames)

@@ -4,7 +4,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 
-namespace TilemapGenerator.Common.Serilog;
+namespace TilemapGenerator.CLI.Logging;
 
 public class SerilogCallerEnricher : ILogEventEnricher
 {

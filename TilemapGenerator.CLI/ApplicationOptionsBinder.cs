@@ -1,11 +1,11 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Binding;
 
-namespace TilemapGenerator.Common.Configuration;
+namespace TilemapGenerator.CLI;
 
 public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
 {
-    private readonly Option<int> _animationFrameDurationOption;
+    private readonly Option<int> _frameDurationOption;
     private readonly Option<string> _inputOption;
     private readonly Option<string> _outputOption;
     private readonly Option<int> _tileHeightOption;
@@ -14,7 +14,8 @@ public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
     private readonly Option<string> _tileLayerFormatOption;
     private readonly Option<bool> _verboseOption;
 
-    public ApplicationOptionsBinder(Option<int> animationFrameDurationOption,
+    public ApplicationOptionsBinder(
+        Option<int> frameDurationOption,
         Option<string> inputOption,
         Option<string> outputOption,
         Option<int> tileHeightOption,
@@ -23,7 +24,7 @@ public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
         Option<string> tileLayerFormatOption,
         Option<bool> verboseOption)
     {
-        _animationFrameDurationOption = animationFrameDurationOption;
+        _frameDurationOption = frameDurationOption;
         _inputOption = inputOption;
         _outputOption = outputOption;
         _tileHeightOption = tileHeightOption;
@@ -36,7 +37,7 @@ public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
     protected override ApplicationOptions GetBoundValue(BindingContext bindingContext)
     {
         return new ApplicationOptions(
-            bindingContext.ParseResult.GetValueForOption(_animationFrameDurationOption),
+            bindingContext.ParseResult.GetValueForOption(_frameDurationOption),
             bindingContext.ParseResult.GetValueForOption(_inputOption)!,
             bindingContext.ParseResult.GetValueForOption(_outputOption)!,
             bindingContext.ParseResult.GetValueForOption(_tileHeightOption),

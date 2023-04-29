@@ -1,5 +1,4 @@
-﻿using TilemapGenerator.Common.Configuration;
-using TilemapGenerator.Entities;
+﻿using TilemapGenerator.Entities;
 using TilemapGenerator.Factories.Contracts;
 
 namespace TilemapGenerator.Factories;
@@ -34,7 +33,7 @@ public class TilesetImageFactory : ITilesetImageFactory
             {
                 continue;
             }
-                
+
             x = 0;
             y += _tileSize.Height;
         }

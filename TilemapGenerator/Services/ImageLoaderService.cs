@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using Serilog;
 using TilemapGenerator.Common;
-using TilemapGenerator.Common.Configuration;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services;
@@ -68,7 +67,7 @@ public class ImageLoaderService : IImageLoaderService
             {
                 continue;
             }
-            
+
             var current = frames[0];
             if (previous != null && !previous.Size.Equals(current.Size) || frames.Count > 1)
             {

@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Serilog;
-using TilemapGenerator.Common.Configuration;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services;

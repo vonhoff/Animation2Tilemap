@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using Serilog.Configuration;
 
-namespace TilemapGenerator.Common.Serilog;
+namespace TilemapGenerator.CLI.Logging;
 
 public static class SerilogCallerEnricherConfiguration
 {

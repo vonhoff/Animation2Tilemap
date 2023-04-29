@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Serilog;
-using TilemapGenerator.Common.Configuration;
 using TilemapGenerator.Factories.Contracts;
 using TilemapGenerator.Services.Contracts;
 
@@ -14,7 +13,7 @@ public class Application
     private readonly IXmlSerializerService _xmlSerializerService;
     private readonly ILogger _logger;
     private readonly string _outputFolder;
-    
+
     public Application(
         IImageAlignmentService imageAlignmentService,
         IImageLoaderService imageLoaderService,
@@ -47,18 +46,18 @@ public class Application
 
             var tilesetImageOutput = Path.Combine(_outputFolder, fileName + ".png");
             var tilesetOutput = Path.Combine(_outputFolder, fileName + ".tsx");
-            
+
             try
             {
                 var stopwatch = Stopwatch.StartNew();
                 var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
                 tileset.Image.Data.SaveAsPng(tilesetImageOutput);
-          
+
                 var serializedTileset = _xmlSerializerService.Serialize(tileset);
                 File.WriteAllText(tilesetOutput, serializedTileset);
                 stopwatch.Stop();
-                
-                _logger.Information("Created Tileset files successfully for {FileName}. Took: {Elapsed}ms", 
+
+                _logger.Information("Created Tileset files successfully for {FileName}. Took: {Elapsed}ms",
                     fileName, stopwatch.ElapsedMilliseconds);
             }
             catch (Exception ex)

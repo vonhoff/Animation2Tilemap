@@ -76,7 +76,7 @@ public partial class NamePatternService : INamePatternService
             {
                 continue;
             }
-                
+
             maxPattern = pattern;
             maxCount = count;
             longestLength = pattern.Length;

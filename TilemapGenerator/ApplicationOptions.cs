@@ -1,10 +1,11 @@
 ﻿using TilemapGenerator.Enums;
 
-namespace TilemapGenerator.Common.Configuration;
+namespace TilemapGenerator;
 
 public class ApplicationOptions
 {
-    public ApplicationOptions(int animationFrameDuration,
+    public ApplicationOptions(
+        int frameDuration,
         string input,
         string output,
         int tileHeight,
@@ -13,7 +14,7 @@ public class ApplicationOptions
         string tileLayerFormat,
         bool verbose)
     {
-        AnimationFrameDuration = animationFrameDuration;
+        FrameDuration = frameDuration;
         Input = input;
         Output = output;
         TileSize = new Size(tileWidth, tileHeight);
@@ -30,7 +31,7 @@ public class ApplicationOptions
         };
     }
 
-    public int AnimationFrameDuration { get; }
+    public int FrameDuration { get; }
     public string Input { get; }
     public string Output { get; }
     public Size TileSize { get; }

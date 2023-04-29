@@ -3,9 +3,8 @@ using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Text;
 using System.Text.RegularExpressions;
-using TilemapGenerator.Common.Configuration;
 
-namespace TilemapGenerator;
+namespace TilemapGenerator.CLI;
 
 public static partial class Program
 {
@@ -46,15 +45,17 @@ public static partial class Program
 
     private static ApplicationOptionsBinder BuildApplicationOptions(Command rootCommand)
     {
-        var animationFrameDurationOption = new Option<int>(
+        #region frameDurationOption
+
+        var frameDurationOption = new Option<int>(
             name: "--duration",
             description: "Animation frame duration",
             getDefaultValue: () => 200);
-        animationFrameDurationOption.AddAlias("-d");
-        rootCommand.Add(animationFrameDurationOption);
+        frameDurationOption.AddAlias("-d");
+        rootCommand.Add(frameDurationOption);
         rootCommand.AddValidator(result =>
         {
-            var optionResult = result.FindResultFor(animationFrameDurationOption);
+            var optionResult = result.FindResultFor(frameDurationOption);
             var duration = optionResult?.GetValueOrDefault<int>();
             if (duration is <= 0)
             {
@@ -63,12 +64,20 @@ public static partial class Program
             }
         });
 
+        #endregion frameDurationOption
+
+        #region inputOption
+
         var inputOption = new Option<string>(
             name: "--input",
             description: "Input file or folder path");
         inputOption.AddAlias("-i");
         inputOption.IsRequired = true;
         rootCommand.Add(inputOption);
+
+        #endregion inputOption
+
+        #region outputOption
 
         var outputOption = new Option<string>(
             name: "--output",
@@ -106,6 +115,10 @@ public static partial class Program
             }
         });
 
+        #endregion outputOption
+
+        #region heightOption
+
         var heightOption = new Option<int>(
             name: "--height",
             description: "Tile height",
@@ -122,6 +135,10 @@ public static partial class Program
                                       " Height should be greater than 0.";
             }
         });
+
+        #endregion heightOption
+
+        #region widthOption
 
         var widthOption = new Option<int>(
             name: "--width",
@@ -140,6 +157,10 @@ public static partial class Program
             }
         });
 
+        #endregion widthOption
+
+        #region transparentColorOption
+
         var transparentColorOption = new Option<string>(
             name: "--transparent",
             description: "Transparent color (RGBA)",
@@ -150,12 +171,16 @@ public static partial class Program
         {
             var optionResult = result.FindResultFor(transparentColorOption);
             var transparentColor = optionResult?.GetValueOrDefault<string>();
-            if (transparentColor != null && !RgbaColorRegex().IsMatch(transparentColor))
+            if (transparentColor != null && !RgbaColorValidationRegex().IsMatch(transparentColor))
             {
                 result.ErrorMessage = $"Invalid transparent color '{transparentColor}'." +
                                       " Transparent color must be a valid RGBA color string.";
             }
         });
+
+        #endregion transparentColorOption
+
+        #region tileLayerFormatOption
 
         var tileLayerFormatOption = new Option<string>(
             name: "--format",
@@ -176,6 +201,10 @@ public static partial class Program
             }
         });
 
+        #endregion tileLayerFormatOption
+
+        #region verboseOption
+
         var verboseOption = new Option<bool>(
             name: "--verbose",
             description: "Enable verbose logging",
@@ -183,8 +212,10 @@ public static partial class Program
         verboseOption.AddAlias("-v");
         rootCommand.Add(verboseOption);
 
+        #endregion verboseOption
+
         return new ApplicationOptionsBinder(
-            animationFrameDurationOption,
+            frameDurationOption,
             inputOption,
             outputOption,
             heightOption,
@@ -195,5 +226,5 @@ public static partial class Program
     }
 
     [GeneratedRegex("^([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$")]
-    private static partial Regex RgbaColorRegex();
+    private static partial Regex RgbaColorValidationRegex();
 }

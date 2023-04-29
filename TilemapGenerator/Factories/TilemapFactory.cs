@@ -15,8 +15,6 @@ public class TilemapFactory : ITilemapFactory
 
     public Tilemap CreateFromTileset(Tileset tileset)
     {
-
-
         return new Tilemap
         {
             Version = "1.0",
