@@ -1,11 +1,12 @@
 ﻿using System.IO.Compression;
+using TilemapGenerator.Enums;
 
 namespace TilemapGenerator.Services.Contracts
 {
     public interface ITilemapDataService
     {
-        void ParseDataAsBase64(string input, string? compression, ref int[] data, ref byte[] dataRotationFlags);
+        List<uint> ParseDataAsBase64(string input, TilemapDataCompression compression);
 
-        string SerializeDataAsBase64(int[] data, byte[] dataRotationFlags, string? compression);
+        string SerializeDataAsBase64(TilemapDataCompression compression, List<uint> data);
     }
 }

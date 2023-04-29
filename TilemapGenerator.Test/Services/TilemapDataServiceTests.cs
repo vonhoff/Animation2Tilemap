@@ -1,4 +1,5 @@
-﻿using TilemapGenerator.Services;
+﻿using TilemapGenerator.Enums;
+using TilemapGenerator.Services;
 using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Test.Services
@@ -8,54 +9,56 @@ namespace TilemapGenerator.Test.Services
         private readonly ITilemapDataService _tilemapDataService;
         private readonly string _base64WithZlib;
         private readonly string _base64WithGzip;
-        private readonly int[] _tilemapData;
-        private readonly byte[] _tilemapRotationData;
+        private readonly List<uint> _tilemapData;
 
         public TilemapDataServiceTests()
         {
             _tilemapDataService = new TilemapDataService();
             _base64WithZlib = TestResourcesHelper.ImportText("Base64Zlib.txt");
             _base64WithGzip = TestResourcesHelper.ImportText("Base64Gzip.txt");
-            _tilemapData = TestResourcesHelper.ImportArray<int>("Tilemap.json");
-            _tilemapRotationData = TestResourcesHelper.ImportArray<byte>("TilemapRotations.json");
+            _tilemapData = new List<uint>(TestResourcesHelper.ImportArray<uint>("Tilemap.json"));
         }
 
         [Fact]
         public void ParseDataAsBase64_ShouldHaveCorrectResult_WhenUsingZlib()
         {
-            // Arrange
-            var dataFromZlib = Array.Empty<int>();
-            var rotationFlags = Array.Empty<byte>();
-
             // Act
-            _tilemapDataService.ParseDataAsBase64(_base64WithZlib, "zlib", ref dataFromZlib, ref rotationFlags);
+            var tilemapData = _tilemapDataService.ParseDataAsBase64(_base64WithZlib, TilemapDataCompression.ZLib);
 
             // Assert
-            Assert.Equal(dataFromZlib, _tilemapData);
+            Assert.Equal(_tilemapData, tilemapData);
         }
 
         [Fact]
         public void ParseDataAsBase64_ShouldHaveCorrectResult_WhenUsingGzip()
         {
-            // Arrange
-            var dataFromGzip = Array.Empty<int>();
-            var rotationFlags = Array.Empty<byte>();
-
             // Act
-            _tilemapDataService.ParseDataAsBase64(_base64WithGzip, "gzip", ref dataFromGzip, ref rotationFlags);
+            var tilemapData = _tilemapDataService.ParseDataAsBase64(_base64WithGzip, TilemapDataCompression.GZip);
 
             // Assert
-            Assert.Equal(dataFromGzip, _tilemapData);
+            Assert.Equal(_tilemapData, tilemapData);
         }
 
         [Fact]
         public void SerializeDataAsBase64_ShouldHaveCorrectResult_WhenUsingZlib()
         {
             // Act
-            var result = _tilemapDataService.SerializeDataAsBase64(_tilemapData, _tilemapRotationData, "zlib");
+            var serialized = _tilemapDataService.SerializeDataAsBase64(TilemapDataCompression.ZLib, _tilemapData);
+            var tilemapData = _tilemapDataService.ParseDataAsBase64(serialized, TilemapDataCompression.ZLib);
 
             // Assert
-            Assert.Equal(_base64WithZlib, result);
+            Assert.Equal(_tilemapData, tilemapData);
+        }
+
+        [Fact]
+        public void SerializeDataAsBase64_ShouldHaveCorrectResult_WhenUsingGzip()
+        {
+            // Act
+            var serialized = _tilemapDataService.SerializeDataAsBase64(TilemapDataCompression.GZip, _tilemapData);
+            var tilemapData = _tilemapDataService.ParseDataAsBase64(serialized, TilemapDataCompression.GZip);
+
+            // Assert
+            Assert.Equal(_tilemapData, tilemapData);
         }
     }
 }

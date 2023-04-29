@@ -70,9 +70,6 @@
     <None Update="Resources\TilemapDataServiceTests\Tilemap.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\TilemapDataServiceTests\TilemapRotations.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
