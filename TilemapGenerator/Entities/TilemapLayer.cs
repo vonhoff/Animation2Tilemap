@@ -5,6 +5,9 @@ namespace TilemapGenerator.Entities;
 [Serializable, XmlRoot("layer")]
 public class TilemapLayer
 {
+    [XmlAttribute("id")]
+    public int Id { get; set; }
+
     [XmlAttribute("name")]
     public string? Name { get; set; }
 

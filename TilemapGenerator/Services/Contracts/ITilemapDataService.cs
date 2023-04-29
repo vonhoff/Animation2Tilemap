@@ -1,12 +1,11 @@
 ﻿using System.IO.Compression;
 using TilemapGenerator.Enums;
 
-namespace TilemapGenerator.Services.Contracts
-{
-    public interface ITilemapDataService
-    {
-        List<uint> ParseData(string input, TilemapDataFormat format);
+namespace TilemapGenerator.Services.Contracts;
 
-        string SerializeData(List<uint> data, TilemapDataFormat format);
-    }
+public interface ITilemapDataService
+{
+    List<uint> ParseData(string input, TileLayerFormat format);
+
+    string SerializeData(List<uint> data, TileLayerFormat format);
 }

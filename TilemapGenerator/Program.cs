@@ -95,7 +95,7 @@ public static partial class Program
             {
                 return;
             }
-                
+
             try
             {
                 Directory.CreateDirectory(outputPath);
@@ -157,6 +157,25 @@ public static partial class Program
             }
         });
 
+        var tileLayerFormatOption = new Option<string>(
+            name: "--format",
+            description: "Tile layer format",
+            getDefaultValue: () => "zlib");
+        tileLayerFormatOption.AddAlias("-f");
+        tileLayerFormatOption.ArgumentHelpName = "base64|zlib|gzip|csv";
+        rootCommand.Add(tileLayerFormatOption);
+        rootCommand.AddValidator(result =>
+        {
+            var optionResult = result.FindResultFor(tileLayerFormatOption);
+            var availableOptions = tileLayerFormatOption.ArgumentHelpName!.Split("|");
+            var format = optionResult?.GetValueOrDefault<string>()?.ToLowerInvariant();
+            if (format == null || !availableOptions.Contains(format))
+            {
+                result.ErrorMessage = $"Invalid format '{format}'. " +
+                                      $"Format must be one of the following options: [{string.Join(", ", availableOptions)}]";
+            }
+        });
+
         var verboseOption = new Option<bool>(
             name: "--verbose",
             description: "Enable verbose logging",
@@ -171,6 +190,7 @@ public static partial class Program
             heightOption,
             widthOption,
             transparentColorOption,
+            tileLayerFormatOption,
             verboseOption);
     }
 
