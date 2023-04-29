@@ -11,15 +11,16 @@ public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
     private readonly Option<int> _tileHeightOption;
     private readonly Option<int> _tileWidthOption;
     private readonly Option<string> _transparentColorOption;
+    private readonly Option<string> _tileLayerFormatOption;
     private readonly Option<bool> _verboseOption;
 
-    public ApplicationOptionsBinder(
-        Option<int> animationFrameDurationOption,
+    public ApplicationOptionsBinder(Option<int> animationFrameDurationOption,
         Option<string> inputOption,
         Option<string> outputOption,
         Option<int> tileHeightOption,
         Option<int> tileWidthOption,
         Option<string> transparentColorOption,
+        Option<string> tileLayerFormatOption,
         Option<bool> verboseOption)
     {
         _animationFrameDurationOption = animationFrameDurationOption;
@@ -28,6 +29,7 @@ public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
         _tileHeightOption = tileHeightOption;
         _tileWidthOption = tileWidthOption;
         _transparentColorOption = transparentColorOption;
+        _tileLayerFormatOption = tileLayerFormatOption;
         _verboseOption = verboseOption;
     }
 
@@ -40,6 +42,7 @@ public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
             bindingContext.ParseResult.GetValueForOption(_tileHeightOption),
             bindingContext.ParseResult.GetValueForOption(_tileWidthOption),
             bindingContext.ParseResult.GetValueForOption(_transparentColorOption)!,
+            bindingContext.ParseResult.GetValueForOption(_tileLayerFormatOption)!,
             bindingContext.ParseResult.GetValueForOption(_verboseOption)
         );
     }

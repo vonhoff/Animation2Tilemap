@@ -1,6 +1,6 @@
 ﻿namespace TilemapGenerator.Enums
 {
-    public enum TilemapDataFormat
+    public enum TileLayerFormat
     {
         Base64Uncompressed,
         Base64GZip,
