@@ -1,4 +1,6 @@
-﻿namespace TilemapGenerator.Logging;
+﻿using Serilog.Sinks.SystemConsole.Themes;
+
+namespace TilemapGenerator.Logging;
 
 public static class SerilogConsoleThemes
 {

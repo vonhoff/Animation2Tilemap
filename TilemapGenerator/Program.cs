@@ -35,7 +35,6 @@ public static partial class Program
             .UseParseDirective()
             .UseSuggestDirective()
             .RegisterWithDotnetSuggest()
-            .UseTypoCorrections()
             .UseParseErrorReporting()
             .UseExceptionHandler()
             .CancelOnProcessTermination()
@@ -57,11 +56,19 @@ public static partial class Program
         rootCommand.AddValidator(result =>
         {
             var optionResult = result.FindResultFor(frameDurationOption);
-            var duration = optionResult?.GetValueOrDefault<int>();
-            if (duration is <= 0)
+            int? duration;
+            try
             {
-                result.ErrorMessage = $"Invalid frame duration '{duration}'." +
-                                      " Animation frame duration should be greater than 0.";
+                duration = optionResult?.GetValueOrDefault<int>();
+            }
+            catch (InvalidOperationException)
+            {
+                duration = null;
+            }
+
+            if (duration is not > 0)
+            {
+                result.ErrorMessage = $"Invalid frame duration '{duration}'. Animation frame duration should be greater than 0.";
             }
         });
 
@@ -89,26 +96,30 @@ public static partial class Program
         rootCommand.AddValidator(result =>
         {
             var optionResult = result.FindResultFor(outputOption);
-            var outputPath = optionResult?.GetValueOrDefault<string>();
-            if (string.IsNullOrEmpty(outputPath))
+            string? outputPath;
+            try
+            {
+                outputPath = optionResult?.GetValueOrDefault<string>() ?? string.Empty;
+            }
+            catch (InvalidOperationException)
+            {
+                outputPath = string.Empty;
+            }
+
+            if (outputPath.Equals(string.Empty))
             {
                 return;
             }
 
-            if (File.Exists(outputPath))
+            if (!Uri.TryCreate(outputPath, UriKind.Absolute, out var outputUri) || !outputUri.IsFile || !Directory.Exists(outputPath))
             {
-                result.ErrorMessage = $"The provided output path '{outputPath}' is not a folder.";
-                return;
-            }
-
-            if (Directory.Exists(outputPath))
-            {
+                result.ErrorMessage = $"The provided output path '{outputPath}' is not a valid directory.";
                 return;
             }
 
             try
             {
-                Directory.CreateDirectory(outputPath);
+                using var testFile = File.Create(Path.Combine(outputPath, Path.GetRandomFileName()), 1, FileOptions.DeleteOnClose);
             }
             catch (Exception ex) when (ex is UnauthorizedAccessException or DirectoryNotFoundException or PathTooLongException)
             {
@@ -129,11 +140,19 @@ public static partial class Program
         rootCommand.AddValidator(result =>
         {
             var optionResult = result.FindResultFor(heightOption);
-            var height = optionResult?.GetValueOrDefault<int>();
-            if (height is <= 0)
+            int height;
+            try
             {
-                result.ErrorMessage = $"Invalid height '{height}'." +
-                                      " Height should be greater than 0.";
+                height = optionResult?.GetValueOrDefault<int>() ?? 0;
+            }
+            catch (InvalidOperationException)
+            {
+                height = 0;
+            }
+
+            if (height <= 0)
+            {
+                result.ErrorMessage = $"Invalid height '{height}'. Height should be greater than 0.";
             }
         });
 
@@ -150,11 +169,19 @@ public static partial class Program
         rootCommand.AddValidator(result =>
         {
             var optionResult = result.FindResultFor(widthOption);
-            var width = optionResult?.GetValueOrDefault<int>();
-            if (width is <= 0)
+            int width;
+            try
             {
-                result.ErrorMessage = $"Invalid width '{width}'." +
-                                      " Width should be greater than 0.";
+                width = optionResult?.GetValueOrDefault<int>() ?? 0;
+            }
+            catch (InvalidOperationException)
+            {
+                width = 0;
+            }
+
+            if (width <= 0)
+            {
+                result.ErrorMessage = $"Invalid width '{width}'. Width should be greater than 0.";
             }
         });
 
@@ -171,11 +198,19 @@ public static partial class Program
         rootCommand.AddValidator(result =>
         {
             var optionResult = result.FindResultFor(transparentColorOption);
-            var transparentColor = optionResult?.GetValueOrDefault<string>();
-            if (transparentColor != null && !RgbaColorValidationRegex().IsMatch(transparentColor))
+            string? transparentColor;
+            try
             {
-                result.ErrorMessage = $"Invalid transparent color '{transparentColor}'." +
-                                      " Transparent color must be a valid RGBA color string.";
+                transparentColor = optionResult?.GetValueOrDefault<string>();
+            }
+            catch (InvalidOperationException)
+            {
+                transparentColor = null;
+            }
+
+            if (string.IsNullOrEmpty(transparentColor) || !RgbaColorValidationRegex().IsMatch(transparentColor))
+            {
+                result.ErrorMessage = $"Invalid transparent color '{transparentColor}'. Transparent color must be a valid RGBA color string.";
             }
         });
 
@@ -192,13 +227,23 @@ public static partial class Program
         rootCommand.Add(tileLayerFormatOption);
         rootCommand.AddValidator(result =>
         {
-            var optionResult = result.FindResultFor(tileLayerFormatOption);
             var availableOptions = tileLayerFormatOption.ArgumentHelpName!.Split("|");
-            var format = optionResult?.GetValueOrDefault<string>()?.ToLowerInvariant();
-            if (format == null || !availableOptions.Contains(format))
+            var optionResult = result.FindResultFor(tileLayerFormatOption);
+            string? format;
+            try
+            {
+                format = optionResult?.GetValueOrDefault<string>()?.ToLowerInvariant();
+            }
+            catch (InvalidOperationException)
+            {
+                format = null;
+            }
+
+            var isValid = format != null && availableOptions.Contains(format);
+            if (!isValid)
             {
                 result.ErrorMessage = $"Invalid format '{format}'. " +
-                                      $"Format must be one of the following options: [{string.Join(", ", availableOptions)}]";
+                                      $"Format must be one of the following options: {string.Join(", ", availableOptions)}";
             }
         });
 
