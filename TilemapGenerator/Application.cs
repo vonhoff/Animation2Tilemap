@@ -13,11 +13,13 @@ public sealed class Application
     private readonly IXmlSerializerService _xmlSerializerService;
     private readonly ILogger _logger;
     private readonly string _outputFolder;
+    private readonly ITilemapFactory _tilemapFactory;
 
     public Application(
         IImageAlignmentService imageAlignmentService,
         IImageLoaderService imageLoaderService,
         ITilesetFactory tilesetFactory,
+        ITilemapFactory tilemapFactory,
         IXmlSerializerService xmlSerializerService,
         ILogger logger,
         ApplicationOptions options)
@@ -25,6 +27,7 @@ public sealed class Application
         _imageAlignmentService = imageAlignmentService;
         _imageLoaderService = imageLoaderService;
         _tilesetFactory = tilesetFactory;
+        _tilemapFactory = tilemapFactory;
         _xmlSerializerService = xmlSerializerService;
         _logger = logger;
         _outputFolder = options.Output;
@@ -46,23 +49,25 @@ public sealed class Application
 
             var tilesetImageOutput = Path.Combine(_outputFolder, fileName + ".png");
             var tilesetOutput = Path.Combine(_outputFolder, fileName + ".tsx");
+            var tilemapOutput = Path.Combine(_outputFolder, fileName + ".tmx");
 
             try
             {
-                var stopwatch = Stopwatch.StartNew();
                 var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
                 tileset.Image.Data.SaveAsPng(tilesetImageOutput);
 
                 var serializedTileset = _xmlSerializerService.Serialize(tileset);
                 File.WriteAllText(tilesetOutput, serializedTileset);
-                stopwatch.Stop();
 
-                _logger.Information("Created Tileset files successfully for {FileName}. Took: {Elapsed}ms",
-                    fileName, stopwatch.ElapsedMilliseconds);
+                var tilemap = _tilemapFactory.CreateFromTileset(tileset);
+                var serializedTilemap = _xmlSerializerService.Serialize(tilemap);
+                File.WriteAllText(tilemapOutput, serializedTilemap);
+
+                _logger.Information("Created tileset and tilemap for {fileName}", fileName);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Failed to save tileset files for {FileName}.", fileName);
+                _logger.Error(ex, "Failed to save files for {FileName}.", fileName);
             }
         }
     }

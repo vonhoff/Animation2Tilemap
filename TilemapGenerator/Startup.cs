@@ -52,14 +52,19 @@ public sealed class Startup
     private void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton(_applicationOptions);
+
         services.AddSingleton<INamePatternService, NamePatternService>();
         services.AddSingleton<IImageAlignmentService, ImageAlignmentService>();
         services.AddSingleton<IImageLoaderService, ImageLoaderService>();
         services.AddSingleton<IImageHashService, ImageHashService>();
         services.AddSingleton<IXmlSerializerService, XmlSerializerService>();
         services.AddSingleton<IConfirmationDialogService, ConfirmationDialogService>();
+
         services.AddSingleton<ITilesetFactory, TilesetFactory>();
+        services.AddSingleton<ITilemapFactory, TilemapFactory>();
+        services.AddSingleton<ITilemapDataService, TilemapDataService>();
         services.AddSingleton<ITilesetImageFactory, TilesetImageFactory>();
+
         services.AddSingleton<Application>();
     }
 }

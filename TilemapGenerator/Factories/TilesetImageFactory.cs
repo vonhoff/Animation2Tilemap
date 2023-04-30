@@ -12,6 +12,12 @@ public sealed class TilesetImageFactory : ITilesetImageFactory
         _tileSize = options.TileSize;
     }
 
+    /// <summary>
+    /// Creates a TilesetImage from a list of TilesetTiles.
+    /// </summary>
+    /// <param name="tileRegister">The list of TilesetTiles to use for the TilesetImage.</param>
+    /// <param name="fileName">The name of the file to save the TilesetImage to.</param>
+    /// <returns>The created TilesetImage.</returns>
     public TilesetImage CreateFromTiles(List<TilesetTile> tileRegister, string fileName)
     {
         var numTiles = tileRegister.Count;

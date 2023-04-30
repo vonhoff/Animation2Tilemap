@@ -31,4 +31,7 @@ public sealed class Tileset
 
     [XmlIgnore]
     public Dictionary<Point, int> HashAccumulations { get; set; } = null!;
+
+    [XmlIgnore]
+    public Size OriginalSize { get; set; }
 }

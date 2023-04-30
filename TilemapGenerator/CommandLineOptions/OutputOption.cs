@@ -37,14 +37,9 @@ public sealed class OutputOption : ICommandLineOption<string>
                 return;
             }
 
-            if (!Uri.TryCreate(outputPath, UriKind.Absolute, out var outputUri) || !outputUri.IsFile || !Directory.Exists(outputPath))
-            {
-                result.ErrorMessage = $"The provided output path '{outputPath}' is not a valid directory.";
-                return;
-            }
-
             try
             {
+                Directory.CreateDirectory(outputPath);
                 using var testFile = File.Create(Path.Combine(outputPath, Path.GetRandomFileName()), 1, FileOptions.DeleteOnClose);
             }
             catch (Exception ex) when (ex is UnauthorizedAccessException or DirectoryNotFoundException or PathTooLongException)
