@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TilemapGenerator.CLI", "TilemapGenerator.CLI\TilemapGenerator.CLI.csproj", "{54C03DD9-BC35-46D5-A3D3-5D04FCBE0B60}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TilemapGenerator.Test", "TilemapGenerator.Test\TilemapGenerator.Test.csproj", "{D208437E-D803-436B-A536-6340A42D9100}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TilemapGenerator", "TilemapGenerator\TilemapGenerator.csproj", "{62D3477D-8BEE-4763-BDE8-704234D14F9D}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{54C03DD9-BC35-46D5-A3D3-5D04FCBE0B60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54C03DD9-BC35-46D5-A3D3-5D04FCBE0B60}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54C03DD9-BC35-46D5-A3D3-5D04FCBE0B60}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54C03DD9-BC35-46D5-A3D3-5D04FCBE0B60}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D208437E-D803-436B-A536-6340A42D9100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D208437E-D803-436B-A536-6340A42D9100}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D208437E-D803-436B-A536-6340A42D9100}.Release|Any CPU.ActiveCfg = Release|Any CPU
