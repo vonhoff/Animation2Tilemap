@@ -3,7 +3,7 @@
 namespace TilemapGenerator.Entities;
 
 [Serializable, XmlRoot("layer")]
-public class TilemapLayer
+public sealed class TilemapLayer
 {
     [XmlAttribute("id")]
     public int Id { get; set; }

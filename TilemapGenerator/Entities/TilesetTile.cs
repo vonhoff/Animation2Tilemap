@@ -2,7 +2,7 @@
 
 namespace TilemapGenerator.Entities;
 
-public class TilesetTile
+public sealed class TilesetTile
 {
     [XmlAttribute("id")]
     public int Id { get; set; }

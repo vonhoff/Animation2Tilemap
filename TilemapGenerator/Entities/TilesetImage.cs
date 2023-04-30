@@ -2,7 +2,7 @@
 
 namespace TilemapGenerator.Entities;
 
-public class TilesetImage
+public sealed class TilesetImage
 {
     [XmlAttribute("source")]
     public string? Path { get; set; }

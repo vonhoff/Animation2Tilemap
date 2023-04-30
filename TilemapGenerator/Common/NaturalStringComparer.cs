@@ -2,7 +2,7 @@
 
 namespace TilemapGenerator.Common;
 
-public class NaturalStringComparer : IComparer<string>
+public sealed class NaturalStringComparer : IComparer<string>
 {
     public int Compare(string? x, string? y)
     {

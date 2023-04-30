@@ -5,7 +5,7 @@ using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services;
 
-public class ImageLoaderService : IImageLoaderService
+public sealed class ImageLoaderService : IImageLoaderService
 {
     private readonly IConfirmationDialogService _confirmationDialogService;
     private readonly ILogger _logger;
@@ -32,7 +32,7 @@ public class ImageLoaderService : IImageLoaderService
     /// The method will also detect whether the images in the directory can be used as animation frames, and sets the <paramref name="suitableForAnimation"/> parameter accordingly.
     /// </remarks>
     /// <param name="path">The directory path to load images from.</param>
-    /// <param name="suitableForAnimation"><see langword="true"/> if all images have the same size and contain a single frame, otherwise <see langword="false"/>.</param>
+    /// <param name="suitableForAnimation">True if all images have the same size and contain a single frame, otherwise false.</param>
     /// <returns>A dictionary of image frames keyed by file name.</returns>
     private Dictionary<string, List<Image<Rgba32>>> LoadFromDirectory(string path, out bool suitableForAnimation)
     {
@@ -128,7 +128,7 @@ public class ImageLoaderService : IImageLoaderService
     /// Attempts to load images from the specified path and returns a dictionary of image frames keyed by file name.
     /// </summary>
     /// <param name="images">Output parameter that contains the loaded images, if the method succeeds.</param>
-    /// <returns><see langword="true"/> if images were loaded successfully, otherwise <see langword="false"/>.</returns>
+    /// <returns>True if images were loaded successfully, otherwise false.</returns>
     public bool TryLoadImages(out Dictionary<string, List<Image<Rgba32>>> images)
     {
         images = new Dictionary<string, List<Image<Rgba32>>>();

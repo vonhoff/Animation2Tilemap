@@ -5,7 +5,7 @@ using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services;
 
-public partial class NamePatternService : INamePatternService
+public sealed partial class NamePatternService : INamePatternService
 {
     private readonly ILogger _logger;
     private readonly Regex _namePattern = NamePattern();

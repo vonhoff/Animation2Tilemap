@@ -2,7 +2,7 @@
 
 namespace TilemapGenerator;
 
-public class ApplicationOptions
+public sealed class ApplicationOptions
 {
     public ApplicationOptions(
         int frameDuration,

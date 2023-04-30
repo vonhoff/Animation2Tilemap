@@ -6,7 +6,7 @@ using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Factories;
 
-public class TilesetFactory : ITilesetFactory
+public sealed class TilesetFactory : ITilesetFactory
 {
     private readonly Size _tileSize;
     private readonly int _frameDuration;
@@ -27,6 +27,17 @@ public class TilesetFactory : ITilesetFactory
         _frameDuration = options.FrameDuration;
     }
 
+    /// <summary>
+    /// Creates a tileset from the given image file and list of frames. Each frame represents a single tileset tile,
+    /// and the method generates all unique tiles and animations based on the frames.
+    /// </summary>
+    /// <param name="fileName">The name of the file from which the tileset image was loaded.</param>
+    /// <param name="frames">The list of frames used to generate the tileset tiles and animations.</param>
+    /// <returns>A new Tileset object containing the generated tileset data.</returns>
+    /// <remarks>
+    /// This method generates unique tiles based on the hash value of each tile's image. Tiles with the same hash value are
+    /// considered identical, and the method generates a single tile with multiple animation frames for all matching tiles.
+    /// </remarks>
     public Tileset CreateFromImage(string fileName, List<Image<Rgba32>> frames)
     {
         var tileCollections = new Dictionary<Point, List<TilesetTileImage>>();
@@ -74,6 +85,24 @@ public class TilesetFactory : ITilesetFactory
         return tileset;
     }
 
+    /// <summary>
+    /// Creates tiles from the tile image collection at the given location and adds them to the tile register.
+    /// </summary>
+    /// <param name="tileCollections">The dictionary of tile image collections.</param>
+    /// <param name="hashAccumulation">The hash accumulation and location of the tile image collection.</param>
+    /// <param name="tileRegister">The list of registered tiles.</param>
+    /// <param name="animationDuration">The total animation duration in milliseconds.</param>
+    /// <remarks>
+    /// <para>
+    /// This method creates tiles from the tile image collection at the given location and adds them to the tile register.
+    /// The method checks if the tile image collection contains any duplicates, filters them out, and creates a new tile.
+    /// The new tile is then added to the tile register along with its animation frames.
+    /// </para>
+    /// <para>
+    /// If the tile image collection contains more than one unique image, the method creates new tiles for each unique image
+    /// and adds them to the tile register. The method then updates the animation frames of the original tile with the newly created tiles.
+    /// </para>
+    /// </remarks>
     private void CreateTilesFromCollection(
         IReadOnlyDictionary<Point, List<TilesetTileImage>> tileCollections,
         KeyValuePair<Point, int> hashAccumulation, List<TilesetTile> tileRegister,
@@ -148,6 +177,25 @@ public class TilesetFactory : ITilesetFactory
         }
     }
 
+    /// <summary>
+    /// Computes the hash accumulations for each tile in a given image frame and updates the tile collections
+    /// dictionary with the resulting tile data.
+    /// </summary>
+    /// <param name="frame">The image frame to process.</param>
+    /// <param name="hashAccumulations">A dictionary of tile hash accumulations to update.</param>
+    /// <param name="tileCollections">A dictionary of tile collections to update.</param>
+    /// <remarks>
+    /// <para>
+    /// This method takes an image frame and computes a hash accumulation value for each tile in the image.
+    /// A hash accumulation is simply a sum of the RGB values of all pixels in a given tile. The resulting
+    /// hash accumulation values are used to group tiles together that have the same appearance.
+    /// </para>
+    /// <para>
+    /// The tile hash accumulations and associated tile images are stored in the tileHashAccumulations and
+    /// tileCollections dictionaries, respectively. Each tile collection is a list of TilesetTileImage objects,
+    /// which contain the image data for a single tile in the image.
+    /// </para>
+    /// </remarks>
     private void ComputeTileHashAccumulations(
         Image<Rgba32> frame,
         IDictionary<Point, int> hashAccumulations,

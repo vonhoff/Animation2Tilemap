@@ -3,7 +3,7 @@
 namespace TilemapGenerator.Entities;
 
 [Serializable, XmlRoot("map")]
-public class Tilemap
+public sealed class Tilemap
 {
     [XmlAttribute("version")]
     public string? Version { get; set; }

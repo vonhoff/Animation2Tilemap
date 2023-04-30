@@ -3,7 +3,7 @@ using TilemapGenerator.Factories.Contracts;
 
 namespace TilemapGenerator.Factories;
 
-public class TilesetImageFactory : ITilesetImageFactory
+public sealed class TilesetImageFactory : ITilesetImageFactory
 {
     private readonly Size _tileSize;
 

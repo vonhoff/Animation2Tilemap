@@ -3,7 +3,7 @@
 namespace TilemapGenerator.Entities;
 
 [Serializable, XmlRoot("data")]
-public class TilemapLayerData
+public sealed class TilemapLayerData
 {
     [XmlAttribute("encoding")]
     public string? Encoding { get; set; }

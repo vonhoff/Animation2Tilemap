@@ -2,7 +2,7 @@
 
 namespace TilemapGenerator.Entities;
 
-public class TilesetTileAnimation
+public sealed class TilesetTileAnimation
 {
     [XmlElement("frame")]
     public List<TilesetTileAnimationFrame> Frames { get; set; } = null!;

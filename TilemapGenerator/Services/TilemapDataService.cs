@@ -4,7 +4,7 @@ using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services;
 
-public class TilemapDataService : ITilemapDataService
+public sealed class TilemapDataService : ITilemapDataService
 {
     /// <summary>
     /// Parses a string of tile data in the specified format and returns a list of tile IDs as uints.

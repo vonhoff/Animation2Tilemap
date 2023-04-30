@@ -2,7 +2,7 @@
 
 namespace TilemapGenerator.Services;
 
-public class ImageHashService : IImageHashService
+public sealed class ImageHashService : IImageHashService
 {
     private const int Prime1 = 486187739;
     private const int Prime2 = 76624727;

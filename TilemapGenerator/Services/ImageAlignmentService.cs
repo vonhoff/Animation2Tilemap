@@ -4,7 +4,7 @@ using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services;
 
-public class ImageAlignmentService : IImageAlignmentService
+public sealed class ImageAlignmentService : IImageAlignmentService
 {
     private readonly ILogger _logger;
     private readonly Size _tileSize;

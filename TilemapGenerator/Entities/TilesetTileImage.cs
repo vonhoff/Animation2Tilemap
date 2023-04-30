@@ -1,6 +1,6 @@
 ﻿namespace TilemapGenerator.Entities;
 
-public class TilesetTileImage : IEquatable<TilesetTileImage>
+public sealed class TilesetTileImage : IEquatable<TilesetTileImage>
 {
     private readonly int _hash;
 

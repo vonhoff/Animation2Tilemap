@@ -5,7 +5,7 @@ using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services;
 
-public class XmlSerializerService : IXmlSerializerService
+public sealed class XmlSerializerService : IXmlSerializerService
 {
     /// <summary>
     /// Serializes the specified object to an XML string using the XmlSerializer.

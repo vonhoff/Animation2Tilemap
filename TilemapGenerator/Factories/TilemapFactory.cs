@@ -4,7 +4,7 @@ using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Factories;
 
-public class TilemapFactory : ITilemapFactory
+public sealed class TilemapFactory : ITilemapFactory
 {
     private readonly ITilemapDataService _tilemapDataService;
 

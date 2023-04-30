@@ -3,7 +3,7 @@
 namespace TilemapGenerator.Entities;
 
 [XmlRoot("tileset")]
-public class Tileset
+public sealed class Tileset
 {
     [XmlAttribute("name")]
     public string? Name { get; set; }

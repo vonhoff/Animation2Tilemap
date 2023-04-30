@@ -3,7 +3,7 @@ using System.CommandLine.Binding;
 
 namespace TilemapGenerator.CommandLineOptions.Binding;
 
-public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
+public sealed class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
 {
     private readonly Option<int> _frameDurationOption;
     private readonly Option<string> _inputOption;

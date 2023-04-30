@@ -2,7 +2,7 @@
 
 namespace TilemapGenerator.Services;
 
-public class ConfirmationDialogService : IConfirmationDialogService
+public sealed class ConfirmationDialogService : IConfirmationDialogService
 {
     /// <summary>
     /// Prompts the user with a message and a default option of Yes or No and returns the user's response.
