@@ -1,5 +1,4 @@
-﻿using TilemapGenerator.Common;
-using TilemapGenerator.Entities;
+﻿using TilemapGenerator.Entities;
 using TilemapGenerator.Factories.Contracts;
 
 namespace TilemapGenerator.Factories;

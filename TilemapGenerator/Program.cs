@@ -3,8 +3,7 @@ using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Text;
 using TilemapGenerator.CommandLineOptions;
-using TilemapGenerator.Common;
-using TilemapGenerator.Options;
+using TilemapGenerator.CommandLineOptions.Binding;
 using TransparentColorOption = TilemapGenerator.CommandLineOptions.TransparentColorOption;
 
 namespace TilemapGenerator;

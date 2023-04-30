@@ -180,6 +180,11 @@ public class ImageLoaderService : IImageLoaderService
         return true;
     }
 
+    /// <summary>
+    /// Transforms a dictionary of images into an animation by selecting the most notable file name, setting it as the animation name,
+    /// and selecting the first image of each list of images as the frames of the animation.
+    /// </summary>
+    /// <param name="images">The dictionary of images to transform into an animation. The keys of the dictionary should be the file names of the images.</param>
     private void TransformImagesToAnimation(ref Dictionary<string, List<Image<Rgba32>>> images)
     {
         List<string> fileNames = images.Keys.Select(Path.GetFileNameWithoutExtension).ToList()!;

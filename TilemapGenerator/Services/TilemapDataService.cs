@@ -6,6 +6,13 @@ namespace TilemapGenerator.Services;
 
 public class TilemapDataService : ITilemapDataService
 {
+    /// <summary>
+    /// Parses a string of tile data in the specified format and returns a list of tile IDs as uints.
+    /// </summary>
+    /// <param name="input">The tile data string to be parsed.</param>
+    /// <param name="format">The format of the tile data string.</param>
+    /// <returns>A list of tile IDs as uints.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the provided format is unsupported.</exception>
     public List<uint> ParseData(string input, TileLayerFormat format)
     {
         byte[] data;
@@ -55,6 +62,13 @@ public class TilemapDataService : ITilemapDataService
         return result;
     }
 
+    /// <summary>
+    /// Serializes a list of 32-bit unsigned integers into a string representation based on the specified format.
+    /// </summary>
+    /// <param name="data">The list of 32-bit unsigned integers to be serialized.</param>
+    /// <param name="format">The format to be used for serialization.</param>
+    /// <returns>The serialized string representation of the list of 32-bit unsigned integers.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified format is not supported.</exception>
     public string SerializeData(List<uint> data, TileLayerFormat format)
     {
         var dataBytes = new byte[data.Count * 4];

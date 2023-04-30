@@ -1,6 +1,6 @@
 ﻿using TilemapGenerator.Enums;
 
-namespace TilemapGenerator.Common;
+namespace TilemapGenerator;
 
 public class ApplicationOptions
 {

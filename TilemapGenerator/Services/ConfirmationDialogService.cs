@@ -4,6 +4,12 @@ namespace TilemapGenerator.Services;
 
 public class ConfirmationDialogService : IConfirmationDialogService
 {
+    /// <summary>
+    /// Prompts the user with a message and a default option of Yes or No and returns the user's response.
+    /// </summary>
+    /// <param name="message">The message to display to the user.</param>
+    /// <param name="defaultOption">The default option to display to the user. If true, "Y" is the default. If false, "N" is the default.</param>
+    /// <returns>A boolean value representing the user's response. True if the user selected Yes, false if they selected No.</returns>
     public bool Confirm(string message, bool defaultOption)
     {
         var isValidInput = false;

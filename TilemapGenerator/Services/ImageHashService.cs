@@ -1,5 +1,4 @@
-﻿using TilemapGenerator.Common;
-using TilemapGenerator.Services.Contracts;
+﻿using TilemapGenerator.Services.Contracts;
 
 namespace TilemapGenerator.Services;
 
@@ -18,6 +17,11 @@ public class ImageHashService : IImageHashService
         _tileSize = options.TileSize;
     }
 
+    /// <summary>
+    /// Computes a hash value for an image using the pixel colors and tile position.
+    /// </summary>
+    /// <param name="image">The image to compute the hash value for.</param>
+    /// <returns>The hash value computed for the image.</returns>
     public int Compute(Image<Rgba32> image)
     {
         var hash = Prime1;

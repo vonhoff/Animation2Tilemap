@@ -7,6 +7,12 @@ namespace TilemapGenerator.Services;
 
 public class XmlSerializerService : IXmlSerializerService
 {
+    /// <summary>
+    /// Serializes the specified object to an XML string using the XmlSerializer.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to serialize.</typeparam>
+    /// <param name="obj">The object to serialize.</param>
+    /// <returns>The XML string representation of the serialized object.</returns>
     public string Serialize<T>(T obj) where T : class
     {
         var serializer = new XmlSerializer(typeof(T));
