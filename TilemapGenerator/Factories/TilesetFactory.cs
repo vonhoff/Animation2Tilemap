@@ -36,7 +36,7 @@ public sealed class TilesetFactory : ITilesetFactory
     /// <returns>A new Tileset object containing the generated tileset data.</returns>
     public Tileset CreateFromImage(string fileName, List<Image<Rgba32>> frames)
     {
-        var tileCollections = new Dictionary<Point, List<TilesetTileImage>>();
+        var tileImages = new Dictionary<Point, List<TilesetTileImage>>();
         var tileHashAccumulations = new Dictionary<Point, int>();
         var registeredTiles = new List<TilesetTile>();
         var animationDuration = _frameDuration * frames.Count;
@@ -44,18 +44,18 @@ public sealed class TilesetFactory : ITilesetFactory
 
         foreach (var frame in frames)
         {
-            UpdateTileHashAccumulations(frame, tileHashAccumulations, tileCollections);
+            UpdateTileHashAccumulations(frame, tileHashAccumulations, tileImages);
         }
-        
+
         foreach (var hashAccumulation in tileHashAccumulations.DistinctBy(a => a.Value))
         {
-            CreateTilesFromCollection(tileCollections, hashAccumulation, registeredTiles, animationDuration);
+            CreateTilesFromCollection(tileImages, hashAccumulation, registeredTiles, animationDuration);
         }
 
         var animationTiles = registeredTiles.Where(t => t.Animation is { Frames.Count: > 1 }).ToList();
         stopwatch.Stop();
 
-        _logger.Information("Registered {HashCount} distinct tile(s) and {AnimationCount} tile animation(s) for {FileName}. Took: {Elapsed}ms",
+        _logger.Verbose("Registered {HashCount} distinct tile(s) and {AnimationCount} tile animation(s) for {FileName}. Took: {Elapsed}ms",
             registeredTiles.Count, animationTiles.Count, fileName, stopwatch.ElapsedMilliseconds);
 
         var tilesetImage = _tilesetImageFactory.CreateFromTiles(registeredTiles, fileName);
@@ -79,18 +79,18 @@ public sealed class TilesetFactory : ITilesetFactory
     /// <summary>
     /// Creates tiles from the tile image collection at the given location and adds them to the tile register.
     /// </summary>
-    /// <param name="tileCollections">The dictionary of tile image collections.</param>
+    /// <param name="tileImages">The dictionary of tile image collections.</param>
     /// <param name="hashAccumulation">The hash accumulation and location of the tile image collection.</param>
     /// <param name="registeredTiles">The list of registered tiles.</param>
     /// <param name="animationDuration">The total animation duration in milliseconds.</param>
     private void CreateTilesFromCollection(
-        IReadOnlyDictionary<Point, List<TilesetTileImage>> tileCollections,
-        KeyValuePair<Point, int> hashAccumulation, 
+        IReadOnlyDictionary<Point, List<TilesetTileImage>> tileImages,
+        KeyValuePair<Point, int> hashAccumulation,
         ICollection<TilesetTile> registeredTiles,
         int animationDuration)
     {
         // Collect all tile images at this location.
-        var tileImageCollection = tileCollections[hashAccumulation.Key];
+        var tileImageCollection = tileImages[hashAccumulation.Key];
 
         // Create a new tile since we already used DistinctBy to filter out duplicate hash accumulations.
         var tile = new TilesetTile

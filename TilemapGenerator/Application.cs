@@ -45,33 +45,41 @@ public sealed class Application
             var fileName = frameCollection.Key;
             var frames = frameCollection.Value;
 
-            if (!_imageAlignmentService.TryAlignImage(fileName, frames))
-            {
-                return;
-            }
-
-            var tilesetImageOutput = Path.Combine(_outputFolder, fileName + ".png");
-            var tilesetOutput = Path.Combine(_outputFolder, fileName + ".tsx");
-            var tilemapOutput = Path.Combine(_outputFolder, fileName + ".tmx");
+            _logger.Verbose("Processing image {fileName} with {frameCount} frames", fileName, frames.Count);
             var stopwatch = Stopwatch.StartNew();
 
             try
             {
-                var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
-                tileset.Image.Data.SaveAsPng(tilesetImageOutput);
+                if (!_imageAlignmentService.TryAlignImage(fileName, frames))
+                {
+                    return;
+                }
 
-                var serializedTileset = _xmlSerializerService.Serialize(tileset);
-                File.WriteAllText(tilesetOutput, serializedTileset);
+                var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
+                _logger.Verbose("Created tileset from {fileName}. Took: {Elapsed}ms",
+                    fileName, stopwatch.ElapsedMilliseconds);
 
                 var tilemap = _tilemapFactory.CreateFromTileset(tileset);
-                var serializedTilemap = _xmlSerializerService.Serialize(tilemap);
-                File.WriteAllText(tilemapOutput, serializedTilemap);
+                _logger.Verbose("Created tilemap from tileset {fileName}. Took: {Elapsed}ms",
+                    fileName, stopwatch.ElapsedMilliseconds);
 
-                _logger.Information("Created tileset and tilemap for {fileName}", fileName);
+                var tilesetImageOutput = Path.Combine(_outputFolder, fileName + ".png");
+                var tilesetOutput = Path.Combine(_outputFolder, fileName + ".tsx");
+                var tilemapOutput = Path.Combine(_outputFolder, fileName + ".tmx");
+
+                _logger.Verbose("Saving files for {fileName} to {outputFolder}", fileName, _outputFolder);
+                tileset.Image.Data.SaveAsPng(tilesetImageOutput);
+                File.WriteAllText(tilesetOutput, _xmlSerializerService.Serialize(tileset));
+                File.WriteAllText(tilemapOutput, _xmlSerializerService.Serialize(tilemap));
+
+                stopwatch.Stop();
+                _logger.Information("Successfully processed {fileName} to {outputFolder}. Took: {Elapsed}ms",
+                    fileName, _outputFolder, stopwatch.ElapsedMilliseconds);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Failed to save files for {FileName}.", fileName);
+                stopwatch.Stop();
+                _logger.Error(ex, "Failed to process image {fileName}. Took: {Elapsed}ms", fileName, stopwatch.ElapsedMilliseconds);
             }
         });
     }

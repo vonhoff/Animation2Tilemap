@@ -27,10 +27,10 @@ public sealed class Tileset
     public List<TilesetTile> AnimatedTiles { get; set; } = null!;
 
     [XmlIgnore]
-    public List<TilesetTile> RegisteredTiles { get; set; } = null!;
+    public IReadOnlyList<TilesetTile> RegisteredTiles { get; set; } = null!;
 
     [XmlIgnore]
-    public Dictionary<Point, int> HashAccumulations { get; set; } = null!;
+    public IReadOnlyDictionary<Point, int> HashAccumulations { get; set; } = null!;
 
     [XmlIgnore]
     public Size OriginalSize { get; set; }
