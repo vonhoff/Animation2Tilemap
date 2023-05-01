@@ -8,11 +8,11 @@ namespace TilemapGenerator.Factories;
 
 public sealed class TilesetFactory : ITilesetFactory
 {
-    private readonly ITilesetImageFactory _tilesetImageFactory;
+    private readonly int _frameDuration;
     private readonly IImageHashService _imageHashService;
     private readonly ILogger _logger;
+    private readonly ITilesetImageFactory _tilesetImageFactory;
     private readonly Size _tileSize;
-    private readonly int _frameDuration;
 
     public TilesetFactory(
         ApplicationOptions options,
@@ -27,13 +27,13 @@ public sealed class TilesetFactory : ITilesetFactory
         _frameDuration = options.FrameDuration;
     }
 
+
     /// <summary>
-    /// Creates a tileset from the given image file and list of frames.
-    /// The method generates all unique tiles and animations based on the frames.
+    /// Creates a new tileset from an image file and a list of frames.
     /// </summary>
-    /// <param name="fileName">The name of the file from which the tileset image was loaded.</param>
-    /// <param name="frames">The list of frames used to generate the tileset tiles and animations.</param>
-    /// <returns>A new Tileset object containing the generated tileset data.</returns>
+    /// <param name="fileName">The name of the image file used to create the tileset.</param>
+    /// <param name="frames">The list of frames used to create the tileset.</param>
+    /// <returns>A new Tileset object created from the provided image file and frames.</returns>
     public Tileset CreateFromImage(string fileName, List<Image<Rgba32>> frames)
     {
         var tileImages = new Dictionary<Point, List<TilesetTileImage>>();
@@ -77,137 +77,127 @@ public sealed class TilesetFactory : ITilesetFactory
     }
 
     /// <summary>
-    /// Creates tiles from the tile image collection at the given location and adds them to the tile register.
+    /// Adds an animation frame to the specified tile.
     /// </summary>
-    /// <param name="tileImages">The dictionary of tile image collections.</param>
-    /// <param name="hashAccumulation">The hash accumulation and location of the tile image collection.</param>
-    /// <param name="registeredTiles">The list of registered tiles.</param>
-    /// <param name="animationDuration">The total animation duration in milliseconds.</param>
+    /// <param name="tile">The tile to add the animation frame to.</param>
+    /// <param name="registeredTiles">The collection of registered tiles to add the new tile to.</param>
+    /// <param name="tileImage">The tile image to add to the animation.</param>
+    /// <param name="duration">The duration of the animation frame.</param>
+    private static void AddAnimationFrame(TilesetTile tile, ICollection<TilesetTile> registeredTiles, TilesetTileImage tileImage, int duration)
+    {
+        var registeredTile = registeredTiles.FirstOrDefault(t => t.Image.Equals(tileImage));
+        if (registeredTile == null)
+        {
+            registeredTile = new TilesetTile
+            {
+                Id = registeredTiles.Count,
+                Image = tileImage
+            };
+            registeredTiles.Add(registeredTile);
+        }
+        var tileAnimationFrame = new TilesetTileAnimationFrame
+        {
+            TileId = registeredTile.Id,
+            Duration = duration
+        };
+        tile.Animation?.Frames.Add(tileAnimationFrame);
+    }
+
+    /// <summary>
+    /// Creates tiles from a collection of tile images with the same hash accumulation value and adds them to the specified collection of registered tiles.
+    /// </summary>
+    /// <param name="tileImages">The dictionary of tile images.</param>
+    /// <param name="hashAccumulation">The key-value pair containing the hash accumulation value and its associated point.</param>
+    /// <param name="registeredTiles">The collection of registered tiles to add the new tiles to.</param>
+    /// <param name="animationDuration">The duration of the animation.</param>
     private void CreateTilesFromCollection(
         IReadOnlyDictionary<Point, List<TilesetTileImage>> tileImages,
         KeyValuePair<Point, int> hashAccumulation,
         ICollection<TilesetTile> registeredTiles,
         int animationDuration)
     {
-        // Collect all tile images at this location.
         var tileImageCollection = tileImages[hashAccumulation.Key];
-
-        // Create a new tile since we already used DistinctBy to filter out duplicate hash accumulations.
         var tile = new TilesetTile
         {
             Id = registeredTiles.Count,
             Image = tileImageCollection[0],
             Animation = new TilesetTileAnimation
             {
-                Frames = new List<TilesetTileAnimationFrame>
-                {
-                    new()
-                    {
-                        TileId = registeredTiles.Count,
-                        Duration = 0
-                    }
-                },
+                Frames = new List<TilesetTileAnimationFrame>(),
                 Hash = hashAccumulation.Value
             }
         };
-
-        // Add the tile to the tile register.
         registeredTiles.Add(tile);
-
-        // Keep track of the previous tile image.
         var previousTileImage = tileImageCollection[0];
-
-        // Iterate through the tile images at this location and determine the animation frames.
-        for (var i = 0; i < tileImageCollection.Count; i++)
+        var previousFrameDuration = 0;
+        foreach (var currentTileImage in tileImageCollection)
         {
-            var isLastFrame = i == tileImageCollection.Count - 1;
-            var remainingTime = animationDuration - i * _frameDuration;
-
-            var currentTileImage = tileImageCollection[i];
             if (currentTileImage.Equals(previousTileImage))
             {
-                // Here the image has not changed from the previous tile, just update the duration,
-                // as the duration tells how long (in milliseconds) this frame should be displayed before moving on to the next frame.
-                var lastTile = tile.Animation.Frames.Last();
-                lastTile.Duration += _frameDuration;
+                previousFrameDuration += _frameDuration;
             }
             else
             {
-                // We have received a new tile, maybe this tile is already registered. If not, just create a new one.
-                var registeredTile = registeredTiles.FirstOrDefault(t => t.Image.Equals(currentTileImage));
-                if (registeredTile == null)
-                {
-                    registeredTile = new TilesetTile
-                    {
-                        Id = registeredTiles.Count,
-                        Image = currentTileImage
-                    };
-                    registeredTiles.Add(registeredTile);
-                }
-
-                // Create a new animation frame as current tile image has changed from the previous tile image.
-                var tileAnimationFrame = new TilesetTileAnimationFrame
-                {
-                    TileId = registeredTile.Id,
-                    Duration = isLastFrame ? remainingTime : _frameDuration
-                };
-                tile.Animation.Frames.Add(tileAnimationFrame);
+                AddAnimationFrame(tile, registeredTiles, previousTileImage, previousFrameDuration);
+                previousTileImage = currentTileImage;
+                previousFrameDuration = _frameDuration;
             }
+        }
+        AddAnimationFrame(tile, registeredTiles, previousTileImage, animationDuration - tile.Animation.Frames.Sum(f => f.Duration));
+    }
 
-            previousTileImage = currentTileImage;
+    /// <summary>
+    /// Generates a sequence of tile locations for a given width and height.
+    /// </summary>
+    /// <param name="width">The width of the tileset image.</param>
+    /// <param name="height">The height of the tileset image.</param>
+    /// <returns>An enumerable collection of points representing tile locations.</returns>
+    private IEnumerable<Point> GetTileLocations(int width, int height)
+    {
+        for (var y = 0; y < height; y += _tileSize.Height)
+        {
+            for (var x = 0; x < width; x += _tileSize.Width)
+            {
+                yield return new Point(x, y);
+            }
         }
     }
 
     /// <summary>
-    /// Computes the hash accumulations for each tile in a given image frame and updates the tile collections
-    /// dictionary with the resulting tile data.
+    /// Updates the hash accumulations for each tile location in the specified image and adds tile images to their corresponding tile collections.
     /// </summary>
-    /// <param name="frame">The image frame to process.</param>
-    /// <param name="hashAccumulations">A dictionary of tile hash accumulations to update.</param>
-    /// <param name="tileCollections">A dictionary of tile collections to update.</param>
+    /// <param name="frame">The image to update the tile hash accumulations for.</param>
+    /// <param name="hashAccumulations">A dictionary that maps tile locations to their hash accumulations.</param>
+    /// <param name="tileCollections">A dictionary that maps tile locations to their corresponding tile images.</param>
     /// <remarks>
-    /// This method takes an image frame and computes a hash accumulation value for each tile in the image.
-    /// A hash accumulation is simply a combined hash of the hashes in a given tile collection.
-    /// The resulting hash accumulation values are used to distinguish tile animations.
+    /// The method divides the image into tiles of the specified size and computes the hash for each tile image.
+    /// It then updates the hash accumulation for each tile location and adds the tile image to the tile collection for the tile location.
     /// </remarks>
     private void UpdateTileHashAccumulations(
         Image<Rgba32> frame,
         IDictionary<Point, int> hashAccumulations,
         IDictionary<Point, List<TilesetTileImage>> tileCollections)
     {
-        for (var y = 0; y < frame.Height; y += _tileSize.Height)
+        var tileLocations = GetTileLocations(frame.Width, frame.Height);
+        foreach (var tileLocation in tileLocations)
         {
-            for (var x = 0; x < frame.Width; x += _tileSize.Width)
+            var tileBounds = new Rectangle(tileLocation, _tileSize);
+            var tileFrame = frame.Clone(ctx => ctx.Crop(tileBounds));
+            var tileHash = _imageHashService.Compute(tileFrame);
+            var tileImage = new TilesetTileImage(tileFrame, tileHash);
+
+            // Update the hash accumulation for the tile location
+            hashAccumulations[tileLocation] = hashAccumulations.TryGetValue(tileLocation, out var accumulation)
+                ? (accumulation * 33) ^ tileHash
+                : tileHash;
+
+            // Add the tile image to the tile collection for the tile location
+            if (!tileCollections.TryGetValue(tileLocation, out var tileCollection))
             {
-                var tileLocation = new Point(x, y);
-                var tileBounds = new Rectangle(tileLocation, _tileSize);
-                var tileFrame = frame.Clone(ctx => ctx.Crop(tileBounds));
-                var tileHash = _imageHashService.Compute(tileFrame);
-                var tileImage = new TilesetTileImage(tileFrame, tileHash);
-
-                // Try to get the existing hash accumulation for this tile location.
-                if (hashAccumulations.TryGetValue(tileLocation, out var accumulation))
-                {
-                    // If it exists, update the accumulation.
-                    accumulation = (accumulation * 33) ^ tileHash;
-                    hashAccumulations[tileLocation] = accumulation;
-                }
-                else
-                {
-                    // If it doesn't exist, add a new entry to the hash accumulations dictionary.
-                    hashAccumulations.Add(tileLocation, tileHash);
-                }
-
-                // Update the collection at this location.
-                if (tileCollections.TryGetValue(tileLocation, out var tileCollection))
-                {
-                    tileCollection.Add(tileImage);
-                }
-                else
-                {
-                    tileCollections.Add(tileLocation, new List<TilesetTileImage> { tileImage });
-                }
+                tileCollection = new List<TilesetTileImage>();
+                tileCollections.Add(tileLocation, tileCollection);
             }
+            tileCollection.Add(tileImage);
         }
     }
 }

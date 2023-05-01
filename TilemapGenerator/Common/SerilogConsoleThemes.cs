@@ -1,6 +1,6 @@
 ﻿using Serilog.Sinks.SystemConsole.Themes;
 
-namespace TilemapGenerator.Logging;
+namespace TilemapGenerator.Common;
 
 public static class SerilogConsoleThemes
 {

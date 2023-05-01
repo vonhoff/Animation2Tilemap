@@ -46,7 +46,7 @@ public sealed class Application
             var frames = frameCollection.Value;
 
             _logger.Verbose("Processing image {fileName} with {frameCount} frames", fileName, frames.Count);
-            var stopwatch = Stopwatch.StartNew();
+            var totalStopwatch = Stopwatch.StartNew();
 
             try
             {
@@ -55,13 +55,15 @@ public sealed class Application
                     return;
                 }
 
+                var taskStopwatch = Stopwatch.StartNew();
                 var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
                 _logger.Verbose("Created tileset from {fileName}. Took: {Elapsed}ms",
-                    fileName, stopwatch.ElapsedMilliseconds);
+                    fileName, taskStopwatch.ElapsedMilliseconds);
 
+                taskStopwatch.Restart();
                 var tilemap = _tilemapFactory.CreateFromTileset(tileset);
                 _logger.Verbose("Created tilemap from tileset {fileName}. Took: {Elapsed}ms",
-                    fileName, stopwatch.ElapsedMilliseconds);
+                    fileName, taskStopwatch.ElapsedMilliseconds);
 
                 var tilesetImageOutput = Path.Combine(_outputFolder, fileName + ".png");
                 var tilesetOutput = Path.Combine(_outputFolder, fileName + ".tsx");
@@ -72,14 +74,14 @@ public sealed class Application
                 File.WriteAllText(tilesetOutput, _xmlSerializerService.Serialize(tileset));
                 File.WriteAllText(tilemapOutput, _xmlSerializerService.Serialize(tilemap));
 
-                stopwatch.Stop();
+                totalStopwatch.Stop();
                 _logger.Information("Successfully processed {fileName} to {outputFolder}. Took: {Elapsed}ms",
-                    fileName, _outputFolder, stopwatch.ElapsedMilliseconds);
+                    fileName, _outputFolder, totalStopwatch.ElapsedMilliseconds);
             }
             catch (Exception ex)
             {
-                stopwatch.Stop();
-                _logger.Error(ex, "Failed to process image {fileName}. Took: {Elapsed}ms", fileName, stopwatch.ElapsedMilliseconds);
+                totalStopwatch.Stop();
+                _logger.Error(ex, "Failed to process image {fileName}. Took: {Elapsed}ms", fileName, totalStopwatch.ElapsedMilliseconds);
             }
         });
     }

@@ -18,8 +18,17 @@ public sealed class TilemapFactory : ITilemapFactory
         _tileLayerFormat = options.TileLayerFormat;
     }
 
+    /// <summary>
+    /// Creates a tilemap using the given tileset.
+    /// </summary>
+    /// <param name="tileset">The tileset to use.</param>
+    /// <returns>The created tilemap.</returns>
     public Tilemap CreateFromTileset(Tileset tileset)
     {
+        var hashToTileId = tileset.RegisteredTiles
+            .Where(t => t.Animation?.Hash != null)
+            .ToDictionary(t => t.Animation!.Hash, t => (uint)t.Id + 1);
+
         var mapData = new List<uint>(tileset.HashAccumulations.Count);
         for (var y = 0; y < tileset.OriginalSize.Height; y += tileset.TileHeight)
         {
@@ -27,17 +36,29 @@ public sealed class TilemapFactory : ITilemapFactory
             {
                 var tileLocation = new Point(x, y);
                 var hashAccumulation = tileset.HashAccumulations[tileLocation];
-                var tilesetTile = tileset.RegisteredTiles.FirstOrDefault(t => t.Animation?.Hash == hashAccumulation);
-                if (tilesetTile != null)
+                if (hashToTileId.TryGetValue(hashAccumulation, out var tileId))
                 {
-                    mapData.Add((uint)tilesetTile.Id + 1);
+                    mapData.Add(tileId);
                 }
             }
         }
 
-        var layerData = _tilemapDataService.SerializeData(mapData, TileLayerFormat.Base64GZip);
+        var layerData = _tilemapDataService.SerializeData(mapData, _tileLayerFormat);
         var width = tileset.OriginalSize.Width / tileset.TileWidth;
         var height = tileset.OriginalSize.Height / tileset.TileHeight;
+
+        var encoding = _tileLayerFormat is
+            TileLayerFormat.Base64Uncompressed or
+            TileLayerFormat.Base64GZip or
+            TileLayerFormat.Base64ZLib ?
+            "base64" : "csv";
+
+        var compression = _tileLayerFormat switch
+        {
+            TileLayerFormat.Base64GZip => "gzip",
+            TileLayerFormat.Base64ZLib => "zlib",
+            _ => null
+        };
 
         return new Tilemap
         {
@@ -62,8 +83,8 @@ public sealed class TilemapFactory : ITilemapFactory
                 Height = height,
                 Data = new TilemapLayerData
                 {
-                    Encoding = "base64",
-                    Compression = "zlib",
+                    Encoding = encoding,
+                    Compression = compression,
                     Text = layerData
                 }
             }
