@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "TilemapGenerator": {
-      "commandName": "Project",
-      "commandLineArgs": "-i \"C:\\repos\\MapTest64\" -v -h 128 -w 128 -o \"C:\\repos\\MapTest64\\output\" -d 100"
-    }
-  }
-}
