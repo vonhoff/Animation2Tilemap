@@ -40,16 +40,20 @@ public sealed class Application
             return;
         }
 
-        foreach (var (fileName, frames) in images)
+        Parallel.ForEach(images, frameCollection =>
         {
+            var fileName = frameCollection.Key;
+            var frames = frameCollection.Value;
+
             if (!_imageAlignmentService.TryAlignImage(fileName, frames))
             {
-                continue;
+                return;
             }
 
             var tilesetImageOutput = Path.Combine(_outputFolder, fileName + ".png");
             var tilesetOutput = Path.Combine(_outputFolder, fileName + ".tsx");
             var tilemapOutput = Path.Combine(_outputFolder, fileName + ".tmx");
+            var stopwatch = Stopwatch.StartNew();
 
             try
             {
@@ -69,6 +73,6 @@ public sealed class Application
             {
                 _logger.Error(ex, "Failed to save files for {FileName}.", fileName);
             }
-        }
+        });
     }
 }

@@ -60,7 +60,10 @@ public sealed class ImageLoaderService : IImageLoaderService
                 continue;
             }
 
-            images.Add(Path.GetFileName(file), frames);
+            if (!images.TryAdd(Path.GetFileNameWithoutExtension(file), frames))
+            {
+                images.Add(Path.GetFileName(file), frames);
+            }
             totalFrames += frames.Count;
 
             if (!suitableForAnimation)

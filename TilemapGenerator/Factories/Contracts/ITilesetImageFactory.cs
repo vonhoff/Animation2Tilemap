@@ -4,5 +4,5 @@ namespace TilemapGenerator.Factories.Contracts;
 
 public interface ITilesetImageFactory
 {
-    TilesetImage CreateFromTiles(List<TilesetTile> tileRegister, string fileName);
+    TilesetImage CreateFromTiles(IReadOnlyList<TilesetTile> registeredTiles, string fileName);
 }

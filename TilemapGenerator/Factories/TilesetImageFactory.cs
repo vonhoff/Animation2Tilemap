@@ -15,20 +15,19 @@ public sealed class TilesetImageFactory : ITilesetImageFactory
     /// <summary>
     /// Creates a TilesetImage from a list of TilesetTiles.
     /// </summary>
-    /// <param name="tileRegister">The list of TilesetTiles to use for the TilesetImage.</param>
+    /// <param name="registeredTiles">The list of TilesetTiles to use for the TilesetImage.</param>
     /// <param name="fileName">The name of the file to save the TilesetImage to.</param>
     /// <returns>The created TilesetImage.</returns>
-    public TilesetImage CreateFromTiles(List<TilesetTile> tileRegister, string fileName)
+    public TilesetImage CreateFromTiles(IReadOnlyList<TilesetTile> registeredTiles, string fileName)
     {
-        var numTiles = tileRegister.Count;
+        var numTiles = registeredTiles.Count;
         var numCols = (int)Math.Ceiling(Math.Sqrt(numTiles));
         var numRows = (int)Math.Ceiling((double)numTiles / numCols);
-
         var outputImage = new Image<Rgba32>(numCols * _tileSize.Width, numRows * _tileSize.Height);
-
+        
         var x = 0;
         var y = 0;
-        foreach (var tile in tileRegister)
+        foreach (var tile in registeredTiles)
         {
             var x1 = x;
             var y1 = y;

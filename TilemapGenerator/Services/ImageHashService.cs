@@ -10,12 +10,6 @@ public sealed class ImageHashService : IImageHashService
     private const int Prime4 = 668265263;
     private const int Prime5 = 374761393;
     private const int Prime6 = 258915779;
-    private readonly Size _tileSize;
-
-    public ImageHashService(ApplicationOptions options)
-    {
-        _tileSize = options.TileSize;
-    }
 
     /// <summary>
     /// Computes a hash value for an image using the pixel colors and tile position.
@@ -26,19 +20,19 @@ public sealed class ImageHashService : IImageHashService
     {
         var hash = Prime1;
 
-        for (var tileX = 0; tileX < _tileSize.Width; tileX++)
+        for (var y = 0; y < image.Height; y++)
         {
-            for (var tileY = 0; tileY < _tileSize.Height; tileY++)
+            for (var x = 0; x < image.Width; x++)
             {
-                var pixelColor = image[tileX, tileY];
+                var pixelColor = image[x, y];
                 unchecked
                 {
                     hash = (hash * Prime1) ^ pixelColor.R;
                     hash = (hash * Prime2) ^ pixelColor.G;
                     hash = (hash * Prime3) ^ pixelColor.B;
                     hash = (hash * Prime4) ^ pixelColor.A;
-                    hash = (hash * Prime5) ^ tileX;
-                    hash = (hash * Prime6) ^ tileY;
+                    hash = (hash * Prime5) ^ x;
+                    hash = (hash * Prime6) ^ y;
                 }
             }
         }
