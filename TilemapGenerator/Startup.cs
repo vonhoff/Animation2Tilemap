@@ -24,23 +24,17 @@ public sealed class Startup
         ConfigureServices(services);
 
         var serviceProvider = services.BuildServiceProvider();
-        return serviceProvider.GetService<Application>()!;
+        return serviceProvider.GetRequiredService<Application>();
     }
 
     private void ConfigureLogging(IServiceCollection services)
     {
-        var logConfig = new LoggerConfiguration();
+        var logConfig = new LoggerConfiguration()
+            .MinimumLevel.Is(_applicationOptions.Verbose ?
+                Serilog.Events.LogEventLevel.Verbose :
+                Serilog.Events.LogEventLevel.Information)
+            .WriteTo.Console(theme: SerilogConsoleThemes.CustomLiterate);
 
-        if (_applicationOptions.Verbose)
-        {
-            logConfig.MinimumLevel.Verbose();
-        }
-        else
-        {
-            logConfig.MinimumLevel.Information();
-        }
-
-        logConfig.WriteTo.Console(theme: SerilogConsoleThemes.CustomLiterate);
         Log.Logger = logConfig.CreateLogger();
         services.AddSingleton(Log.Logger);
     }

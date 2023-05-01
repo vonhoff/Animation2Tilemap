@@ -27,7 +27,6 @@ public sealed class TilesetFactory : ITilesetFactory
         _frameDuration = options.FrameDuration;
     }
 
-
     /// <summary>
     /// Creates a new tileset from an image file and a list of frames.
     /// </summary>
@@ -168,7 +167,7 @@ public sealed class TilesetFactory : ITilesetFactory
     /// </summary>
     /// <param name="frame">The image to update the tile hash accumulations for.</param>
     /// <param name="hashAccumulations">A dictionary that maps tile locations to their hash accumulations.</param>
-    /// <param name="tileCollections">A dictionary that maps tile locations to their corresponding tile images.</param>
+    /// <param name="tileImages">A dictionary that maps tile locations to their corresponding tile images.</param>
     /// <remarks>
     /// The method divides the image into tiles of the specified size and computes the hash for each tile image.
     /// It then updates the hash accumulation for each tile location and adds the tile image to the tile collection for the tile location.
@@ -176,7 +175,7 @@ public sealed class TilesetFactory : ITilesetFactory
     private void UpdateTileHashAccumulations(
         Image<Rgba32> frame,
         IDictionary<Point, int> hashAccumulations,
-        IDictionary<Point, List<TilesetTileImage>> tileCollections)
+        IDictionary<Point, List<TilesetTileImage>> tileImages)
     {
         var tileLocations = GetTileLocations(frame.Width, frame.Height);
         foreach (var tileLocation in tileLocations)
@@ -186,18 +185,16 @@ public sealed class TilesetFactory : ITilesetFactory
             var tileHash = _imageHashService.Compute(tileFrame);
             var tileImage = new TilesetTileImage(tileFrame, tileHash);
 
-            // Update the hash accumulation for the tile location
             hashAccumulations[tileLocation] = hashAccumulations.TryGetValue(tileLocation, out var accumulation)
                 ? (accumulation * 33) ^ tileHash
                 : tileHash;
 
-            // Add the tile image to the tile collection for the tile location
-            if (!tileCollections.TryGetValue(tileLocation, out var tileCollection))
+            if (!tileImages.TryGetValue(tileLocation, out var locationImages))
             {
-                tileCollection = new List<TilesetTileImage>();
-                tileCollections.Add(tileLocation, tileCollection);
+                locationImages = new List<TilesetTileImage>();
+                tileImages.Add(tileLocation, locationImages);
             }
-            tileCollection.Add(tileImage);
+            locationImages.Add(tileImage);
         }
     }
 }
