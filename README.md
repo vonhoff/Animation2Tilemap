@@ -36,7 +36,7 @@ You can also specify other options to customize the output, such as:
 | `-h`, `--height <height>` | The height of each tile in pixels. | `8` |
 | `-w`, `--width <width>` | The width of each tile in pixels. | `8` |
 | `-t`, `--transparent <transparent>` | The color that will be treated as transparent in the tileset image. The color should be specified in RGBA format. | `00000000` |
-| `-f`, `--format <base64|zlib|gzip|csv>` | The format of the tile layer data in the generated tilemap file. | `zlib` |
+| `-f`, `--format <base64\|zlib\|gzip\|csv>` | The format of the tile layer data in the generated tilemap file. | `zlib` |
 | `-v`, `--verbose` | Enables verbose logging for debugging purposes. | `False` |
 | `-?`, `--help` | Shows help and usage information. |  |
 
