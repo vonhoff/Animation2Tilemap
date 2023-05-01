@@ -103,7 +103,7 @@ public sealed class TilesetFactory : ITilesetFactory
     }
 
     /// <summary>
-    /// Creates tiles from a collection of tile images with the same hash accumulation value and adds them to the specified collection of registered tiles.
+    /// Creates tiles from a collection of tile images with the same hash accumulation value and adds them to the registered tiles.
     /// </summary>
     /// <param name="tileImages">The dictionary of tile images.</param>
     /// <param name="hashAccumulation">The key-value pair containing the hash accumulation value and its associated point.</param>

@@ -4,16 +4,16 @@ using System.CommandLine.Parsing;
 using System.Text;
 using TilemapGenerator.CommandLineOptions;
 using TilemapGenerator.CommandLineOptions.Binding;
-using TransparentColorOption = TilemapGenerator.CommandLineOptions.TransparentColorOption;
 
 namespace TilemapGenerator;
 
 public static class Program
 {
     private const string Description = """
-            TilemapGenerator is a command-line tool that generates a tileset and a tilemap from images.
-            The tool supports animation processing and allows you to set the duration of animation frames.
-            """;
+        Animation2Tilemap is a command-line tool that converts animations into tilesets and tilemaps that can be used in Tiled,
+        a popular map editor for 2D games. With Animation2Tilemap, you can easily create tile-based versions of your animations
+        and import them into Tiled for further editing.
+        """;
 
     public static async Task Main(string[] args)
     {
