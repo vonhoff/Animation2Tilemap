@@ -1,5 +1,6 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Binding;
+using Animation2Tilemap.Enums;
 
 namespace Animation2Tilemap.CommandLineOptions.Binding;
 
@@ -36,15 +37,33 @@ public sealed class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
 
     protected override ApplicationOptions GetBoundValue(BindingContext bindingContext)
     {
+        var frameDuration = bindingContext.ParseResult.GetValueForOption(_frameDurationOption);
+        var input = bindingContext.ParseResult.GetValueForOption(_inputOption)!;
+        var output = bindingContext.ParseResult.GetValueForOption(_outputOption)!;
+        var tileWidth = bindingContext.ParseResult.GetValueForOption(_tileHeightOption);
+        var tileHeight = bindingContext.ParseResult.GetValueForOption(_tileWidthOption);
+        var transparentHex = bindingContext.ParseResult.GetValueForOption(_transparentColorOption)!;
+        var tileLayerFormatString = bindingContext.ParseResult.GetValueForOption(_tileLayerFormatOption)!;
+        var verbose = bindingContext.ParseResult.GetValueForOption(_verboseOption);
+
+        var tileSize = new Size(tileWidth, tileHeight);
+        var transparentColor = Rgba32.ParseHex(transparentHex);
+        var tileLayerFormat = tileLayerFormatString switch
+        {
+            "base64" => TileLayerFormat.Base64Uncompressed,
+            "zlib" => TileLayerFormat.Base64ZLib,
+            "gzip" => TileLayerFormat.Base64GZip,
+            "csv" => TileLayerFormat.CSV,
+            _ => throw new IndexOutOfRangeException("Invalid tile layer format.")
+        };
+
         return new ApplicationOptions(
-            bindingContext.ParseResult.GetValueForOption(_frameDurationOption),
-            bindingContext.ParseResult.GetValueForOption(_inputOption)!,
-            bindingContext.ParseResult.GetValueForOption(_outputOption)!,
-            bindingContext.ParseResult.GetValueForOption(_tileHeightOption),
-            bindingContext.ParseResult.GetValueForOption(_tileWidthOption),
-            bindingContext.ParseResult.GetValueForOption(_transparentColorOption)!,
-            bindingContext.ParseResult.GetValueForOption(_tileLayerFormatOption)!,
-            bindingContext.ParseResult.GetValueForOption(_verboseOption)
-        );
+            frameDuration,
+            input,
+            output,
+            tileSize,
+            transparentColor,
+            tileLayerFormat,
+            verbose);
     }
 }
