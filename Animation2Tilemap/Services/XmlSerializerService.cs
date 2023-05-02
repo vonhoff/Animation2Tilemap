@@ -15,6 +15,11 @@ public sealed class XmlSerializerService : IXmlSerializerService
     /// <returns>The XML string representation of the serialized object.</returns>
     public string Serialize<T>(T obj) where T : class
     {
+        if (obj == null)
+        {
+            throw new ArgumentNullException(nameof(obj));
+        }
+
         var serializer = new XmlSerializer(typeof(T));
         using var memoryStream = new MemoryStream();
         var namespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });

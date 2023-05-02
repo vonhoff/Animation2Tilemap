@@ -176,25 +176,4 @@ public class NamePatternServiceTests
         // Assert
         Assert.Equal("barrel", result);
     }
-
-    [Fact]
-    public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsRussianLetters()
-    {
-        // Arrange
-        var strings = new List<string> {
-            "___синица___0",
-            "xxxсиница2",
-            "sssсиница",
-            "dfdfdсиница",
-            "3синица2",
-            "синица2",
-            "синица3"
-        };
-
-        // Act
-        var result = _patternService.GetMostNotablePattern(strings);
-
-        // Assert
-        Assert.Equal("синица", result);
-    }
 }

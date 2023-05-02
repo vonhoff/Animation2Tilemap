@@ -1,8 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace Animation2Tilemap.Test;
 
@@ -23,7 +20,6 @@ internal static class TestResourcesHelper
     /// <summary>
     /// Import an array of any struct type from a JSON file.
     /// </summary>
-    /// <exception cref="FileNotFoundException"></exception>
     public static T[] ImportArray<T>(string jsonFile) where T : struct
     {
         var callerClassName = new StackFrame(1).GetMethod()!.DeclaringType!.Name;
@@ -35,34 +31,6 @@ internal static class TestResourcesHelper
         using var fs = new FileStream(filePath, FileMode.Open);
         var array = JsonSerializer.DeserializeAsync<T[]>(fs).Result;
         return array!;
-    }
-
-    /// <summary>
-    /// Export an ImageSharp image to a PNG file.
-    /// </summary>
-    public static void ExportImage(Image<Rgba32> image, string fileName)
-    {
-        var callerClassName = new StackFrame(1).GetMethod()!.DeclaringType!.Name;
-        var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Resources", callerClassName, fileName);
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
-        using var fs = new FileStream(filePath, FileMode.Create);
-        image.Save(fs, new PngEncoder());
-    }
-
-    /// <summary>
-    /// Import an image file.
-    /// </summary>
-    /// <exception cref="FileNotFoundException"></exception>
-    public static Image<Rgba32> ImportImage(string fileName)
-    {
-        var callerClassName = new StackFrame(1).GetMethod()!.DeclaringType!.Name;
-        var filePath = Path.Combine("Resources", callerClassName, fileName);
-        if (!File.Exists(filePath))
-        {
-            throw new FileNotFoundException($"The file {filePath} does not exist.");
-        }
-        using var fs = new FileStream(filePath, FileMode.Open);
-        return Image.Load<Rgba32>(fs);
     }
 
     /// <summary>
@@ -80,7 +48,6 @@ internal static class TestResourcesHelper
     /// <summary>
     /// Import text from a file.
     /// </summary>
-    /// <exception cref="FileNotFoundException"></exception>
     public static string ImportText(string fileName)
     {
         var callerClassName = new StackFrame(1).GetMethod()!.DeclaringType!.Name;
@@ -91,5 +58,23 @@ internal static class TestResourcesHelper
         }
         using var sr = new StreamReader(filePath);
         return sr.ReadToEnd();
+    }
+
+    /// <summary>
+    /// Gets the path to a file or folder in the caller's resource folder.
+    /// </summary>
+    /// <param name="location">The name of the file or folder to get the path for.</param>
+    /// <returns>The path to the file.</returns>
+    public static string GetPath(string location)
+    {
+        var callerClassName = new StackFrame(1).GetMethod()!.DeclaringType!.Name;
+        var resourceFolder = Path.Combine("Resources", callerClassName);
+        var path = Path.Combine(resourceFolder, location);
+        if (File.Exists(path) || Directory.Exists(path))
+        {
+            return path;
+        }
+
+        throw new FileNotFoundException($"The file or folder {location} does not exist in the resource folder for {callerClassName}.");
     }
 }
