@@ -3,7 +3,7 @@
 namespace Animation2Tilemap.Entities;
 
 [Serializable, XmlRoot("layer")]
-public sealed class TilemapLayer
+public class TilemapLayer
 {
     [XmlAttribute("id")]
     public int Id { get; set; }

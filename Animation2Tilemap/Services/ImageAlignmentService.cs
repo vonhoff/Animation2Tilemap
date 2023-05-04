@@ -4,7 +4,7 @@ using Serilog;
 
 namespace Animation2Tilemap.Services;
 
-public sealed class ImageAlignmentService : IImageAlignmentService
+public class ImageAlignmentService : IImageAlignmentService
 {
     private readonly ILogger _logger;
     private readonly Size _tileSize;

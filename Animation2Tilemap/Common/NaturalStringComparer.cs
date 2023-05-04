@@ -2,7 +2,7 @@
 
 namespace Animation2Tilemap.Common;
 
-public sealed class NaturalStringComparer : IComparer<string>
+public class NaturalStringComparer : IComparer<string>
 {
     public int Compare(string? x, string? y)
     {

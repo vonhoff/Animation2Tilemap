@@ -2,5 +2,5 @@
 
 public interface IImageHashService
 {
-    int Compute(Image<Rgba32> image);
+    uint Compute(Image<Rgba32> image);
 }

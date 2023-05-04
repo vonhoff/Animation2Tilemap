@@ -1,9 +1,8 @@
-﻿using System.CommandLine;
-using Animation2Tilemap.Services.Contracts;
+﻿using Animation2Tilemap.Services.Contracts;
 
 namespace Animation2Tilemap.Services;
 
-public sealed class ConfirmationDialogService : IConfirmationDialogService
+public class ConfirmationDialogService : IConfirmationDialogService
 {
     /// <summary>
     /// Prompts the user with a message and a default option of Yes or No and returns the user's response.

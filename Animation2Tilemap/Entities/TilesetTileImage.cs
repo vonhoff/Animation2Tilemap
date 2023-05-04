@@ -1,34 +1,27 @@
 ﻿namespace Animation2Tilemap.Entities;
 
-public sealed class TilesetTileImage : IEquatable<TilesetTileImage>
+public readonly struct TilesetTileImage
 {
-    private readonly int _hash;
-
-    public TilesetTileImage(Image<Rgba32> data, int hash)
+    public TilesetTileImage(Image<Rgba32> data, uint hash)
     {
         Data = data;
-        _hash = hash;
+        Hash = hash;
     }
 
     public Image<Rgba32> Data { get; }
+    public uint Hash { get; }
 
     public override bool Equals(object? obj)
     {
-        return Equals(obj as TilesetTileImage);
-    }
-
-    public bool Equals(TilesetTileImage? other)
-    {
-        if (other == null || GetType() != other.GetType())
+        if (obj is TilesetTileImage tileImage)
         {
-            return false;
+            return tileImage.Hash == Hash;
         }
-
-        return _hash == other._hash;
+        return false;
     }
 
     public override int GetHashCode()
     {
-        return _hash;
+        return (int)Hash;
     }
 }

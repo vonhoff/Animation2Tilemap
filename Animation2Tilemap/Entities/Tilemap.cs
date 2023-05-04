@@ -3,7 +3,7 @@
 namespace Animation2Tilemap.Entities;
 
 [Serializable, XmlRoot("map")]
-public sealed class Tilemap
+public class Tilemap
 {
     [XmlAttribute("version")]
     public string? Version { get; set; }

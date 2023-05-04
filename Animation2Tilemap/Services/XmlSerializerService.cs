@@ -5,7 +5,7 @@ using Animation2Tilemap.Services.Contracts;
 
 namespace Animation2Tilemap.Services;
 
-public sealed class XmlSerializerService : IXmlSerializerService
+public class XmlSerializerService : IXmlSerializerService
 {
     /// <summary>
     /// Serializes the specified object to an XML string using the XmlSerializer.

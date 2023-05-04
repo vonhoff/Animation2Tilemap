@@ -5,7 +5,7 @@ using Serilog;
 
 namespace Animation2Tilemap.Services;
 
-public sealed class ImageLoaderService : IImageLoaderService
+public class ImageLoaderService : IImageLoaderService
 {
     private readonly IConfirmationDialogService _confirmationDialogService;
     private readonly ILogger _logger;

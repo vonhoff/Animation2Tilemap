@@ -2,7 +2,7 @@
 
 namespace Animation2Tilemap.Entities;
 
-public sealed class TilesetTile
+public class TilesetTile
 {
     [XmlAttribute("id")]
     public int Id { get; set; }
@@ -11,5 +11,5 @@ public sealed class TilesetTile
     public TilesetTileAnimation? Animation { get; set; }
 
     [XmlIgnore]
-    public TilesetTileImage Image { get; init; } = null!;
+    public TilesetTileImage Image { get; init; }
 }

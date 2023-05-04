@@ -3,7 +3,7 @@ using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public sealed class WidthOption : ICommandLineOption<int>
+public class WidthOption : ICommandLineOption<int>
 {
     public WidthOption()
     {

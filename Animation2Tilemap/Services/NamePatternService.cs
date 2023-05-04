@@ -5,7 +5,7 @@ using Serilog;
 
 namespace Animation2Tilemap.Services;
 
-public sealed partial class NamePatternService : INamePatternService
+public partial class NamePatternService : INamePatternService
 {
     private readonly ILogger _logger;
     private readonly Regex _namePattern = NamePattern();

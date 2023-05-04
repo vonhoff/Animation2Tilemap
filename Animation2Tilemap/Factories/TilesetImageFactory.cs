@@ -3,7 +3,7 @@ using Animation2Tilemap.Factories.Contracts;
 
 namespace Animation2Tilemap.Factories;
 
-public sealed class TilesetImageFactory : ITilesetImageFactory
+public class TilesetImageFactory : ITilesetImageFactory
 {
     private readonly Size _tileSize;
 

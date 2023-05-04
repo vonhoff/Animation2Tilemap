@@ -6,5 +6,5 @@ public interface ITilemapDataService
 {
     List<uint> ParseData(string input, TileLayerFormat format);
 
-    string SerializeData(List<uint> data, TileLayerFormat format);
+    string SerializeData(uint[] data, TileLayerFormat format);
 }

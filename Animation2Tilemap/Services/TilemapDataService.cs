@@ -4,7 +4,7 @@ using Animation2Tilemap.Services.Contracts;
 
 namespace Animation2Tilemap.Services;
 
-public sealed class TilemapDataService : ITilemapDataService
+public class TilemapDataService : ITilemapDataService
 {
     /// <summary>
     /// Parses a string of tile data in the specified format and returns a list of tile IDs as uints.
@@ -12,7 +12,7 @@ public sealed class TilemapDataService : ITilemapDataService
     /// <param name="input">The tile data string to be parsed.</param>
     /// <param name="format">The format of the tile data string.</param>
     /// <returns>A list of tile IDs as uints.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the provided format is unsupported.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public List<uint> ParseData(string input, TileLayerFormat format)
     {
         byte[] data;
@@ -68,11 +68,11 @@ public sealed class TilemapDataService : ITilemapDataService
     /// <param name="data">The list of 32-bit unsigned integers to be serialized.</param>
     /// <param name="format">The format to be used for serialization.</param>
     /// <returns>The serialized string representation of the list of 32-bit unsigned integers.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified format is not supported.</exception>
-    public string SerializeData(List<uint> data, TileLayerFormat format)
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public string SerializeData(uint[] data, TileLayerFormat format)
     {
-        var dataBytes = new byte[data.Count * 4];
-        for (var i = 0; i < data.Count; i++)
+        var dataBytes = new byte[data.Length * 4];
+        for (var i = 0; i < data.Length; i++)
         {
             var bytes = BitConverter.GetBytes(data[i]);
             Array.Copy(bytes, 0, dataBytes, i * 4, 4);

@@ -5,7 +5,7 @@ using Serilog;
 
 namespace Animation2Tilemap;
 
-public sealed class Application
+public class Application
 {
     private readonly IImageAlignmentService _imageAlignmentService;
     private readonly IImageLoaderService _imageLoaderService;

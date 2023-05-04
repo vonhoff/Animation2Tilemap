@@ -2,7 +2,7 @@
 
 namespace Animation2Tilemap;
 
-public sealed class ApplicationOptions
+public class ApplicationOptions
 {
     public ApplicationOptions(
         int frameDuration,

@@ -5,7 +5,7 @@ using Animation2Tilemap.Services.Contracts;
 
 namespace Animation2Tilemap.Factories;
 
-public sealed class TilemapFactory : ITilemapFactory
+public class TilemapFactory : ITilemapFactory
 {
     private readonly ITilemapDataService _tilemapDataService;
     private readonly TileLayerFormat _tileLayerFormat;
@@ -29,18 +29,15 @@ public sealed class TilemapFactory : ITilemapFactory
             .Where(t => t.Animation?.Hash != null)
             .ToDictionary(t => t.Animation!.Hash, t => (uint)t.Id + 1);
 
-        var mapData = new List<uint>(tileset.HashAccumulations.Count);
-        for (var y = 0; y < tileset.OriginalSize.Height; y += tileset.TileHeight)
+        var mapData = new uint[tileset.HashAccumulations.Count];
+        var i = 0;
+        foreach (var hashAccumulation in tileset.HashAccumulations.Values)
         {
-            for (var x = 0; x < tileset.OriginalSize.Width; x += tileset.TileWidth)
+            if (hashToTileId.TryGetValue(hashAccumulation, out var tileId))
             {
-                var tileLocation = new Point(x, y);
-                var hashAccumulation = tileset.HashAccumulations[tileLocation];
-                if (hashToTileId.TryGetValue(hashAccumulation, out var tileId))
-                {
-                    mapData.Add(tileId);
-                }
+                mapData[i] = tileId;
             }
+            i++;
         }
 
         var layerData = _tilemapDataService.SerializeData(mapData, _tileLayerFormat);

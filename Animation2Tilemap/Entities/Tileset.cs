@@ -3,7 +3,7 @@
 namespace Animation2Tilemap.Entities;
 
 [XmlRoot("tileset")]
-public sealed class Tileset
+public class Tileset
 {
     [XmlAttribute("name")]
     public string? Name { get; set; }
@@ -30,7 +30,7 @@ public sealed class Tileset
     public IReadOnlyList<TilesetTile> RegisteredTiles { get; set; } = null!;
 
     [XmlIgnore]
-    public IReadOnlyDictionary<Point, int> HashAccumulations { get; set; } = null!;
+    public IReadOnlyDictionary<Point, uint> HashAccumulations { get; set; } = null!;
 
     [XmlIgnore]
     public Size OriginalSize { get; set; }

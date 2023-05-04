@@ -3,7 +3,7 @@ using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public sealed class TileLayerFormatOption : ICommandLineOption<string>
+public class TileLayerFormatOption : ICommandLineOption<string>
 {
     public TileLayerFormatOption()
     {

@@ -3,7 +3,7 @@ using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public sealed class FrameDurationOption : ICommandLineOption<int>
+public class FrameDurationOption : ICommandLineOption<int>
 {
     public FrameDurationOption()
     {

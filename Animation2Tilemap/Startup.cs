@@ -8,7 +8,7 @@ using Serilog;
 
 namespace Animation2Tilemap;
 
-public sealed class Startup
+public class Startup
 {
     private readonly ApplicationOptions _applicationOptions;
 

@@ -2,7 +2,7 @@
 
 namespace Animation2Tilemap.Entities;
 
-public sealed class TilesetImage
+public class TilesetImage
 {
     [XmlAttribute("source")]
     public string? Path { get; set; }

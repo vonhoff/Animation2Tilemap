@@ -11,7 +11,7 @@ public class TilemapDataServiceTests
     private readonly string _base64WithGzip;
     private readonly string _base64;
     private readonly string _csvData;
-    private readonly List<uint> _tilemapData;
+    private readonly uint[] _tilemapData;
 
     public TilemapDataServiceTests()
     {
@@ -20,7 +20,7 @@ public class TilemapDataServiceTests
         _base64WithZlib = TestResourcesHelper.ImportText("Base64Zlib.txt");
         _base64WithGzip = TestResourcesHelper.ImportText("Base64Gzip.txt");
         _csvData = TestResourcesHelper.ImportText("TilemapData.csv");
-        _tilemapData = new List<uint>(TestResourcesHelper.ImportArray<uint>("Tilemap.json"));
+        _tilemapData = TestResourcesHelper.ImportArrayFromJson<uint>("Tilemap.json");
     }
 
     [Fact]

@@ -2,7 +2,7 @@
 
 namespace Animation2Tilemap.Entities;
 
-public sealed class TilesetTileAnimationFrame
+public class TilesetTileAnimationFrame
 {
     [XmlAttribute("tileid")]
     public int TileId { get; set; }

@@ -3,7 +3,7 @@
 namespace Animation2Tilemap.Entities;
 
 [Serializable, XmlRoot("data")]
-public sealed class TilemapLayerData
+public class TilemapLayerData
 {
     [XmlAttribute("encoding")]
     public string? Encoding { get; set; }

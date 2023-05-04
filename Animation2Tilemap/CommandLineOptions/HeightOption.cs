@@ -3,7 +3,7 @@ using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public sealed class HeightOption : ICommandLineOption<int>
+public class HeightOption : ICommandLineOption<int>
 {
     public HeightOption()
     {

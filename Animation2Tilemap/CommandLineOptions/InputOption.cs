@@ -3,7 +3,7 @@ using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public sealed class InputOption : ICommandLineOption<string>
+public class InputOption : ICommandLineOption<string>
 {
     public InputOption()
     {

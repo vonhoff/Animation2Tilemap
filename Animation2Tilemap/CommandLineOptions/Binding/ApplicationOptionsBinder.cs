@@ -4,7 +4,7 @@ using Animation2Tilemap.Enums;
 
 namespace Animation2Tilemap.CommandLineOptions.Binding;
 
-public sealed class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
+public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
 {
     private readonly Option<int> _frameDurationOption;
     private readonly Option<string> _inputOption;
