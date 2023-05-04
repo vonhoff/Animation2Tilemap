@@ -11,6 +11,7 @@ public class ImageHashService : IImageHashService
     private const uint Prime4 = 41u;
     private const uint Prime5 = 43u;
     private const uint Prime6 = 47u;
+    private const uint Prime7 = 53u;
 
     public uint Compute(Image<Rgba32> image)
     {
@@ -21,12 +22,12 @@ public class ImageHashService : IImageHashService
         {
             foreach (var pixel in memory.Span)
             {
-                hash = hash * Prime1 + pixel.R;
-                hash = hash * Prime2 + pixel.G;
-                hash = hash * Prime3 + pixel.B;
-                hash = hash * Prime4 + pixel.A;
-                hash = hash * Prime5 + x;
-                hash = hash * Prime6 + y;
+                hash = hash * Prime2 + pixel.R;
+                hash = hash * Prime3 + pixel.G;
+                hash = hash * Prime4 + pixel.B;
+                hash = hash * Prime5 + pixel.A;
+                hash = hash * Prime6 + x;
+                hash = hash * Prime7 + y;
                 x++;
             }
             y++;
