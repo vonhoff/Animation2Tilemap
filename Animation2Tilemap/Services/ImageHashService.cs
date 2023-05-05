@@ -19,7 +19,7 @@ public class ImageHashService : IImageHashService
         var hash = Prime1;
         var x = 0u;
         var y = 0u;
-        Parallel.ForEach(memoryGroup, memory =>
+        foreach (var memory in memoryGroup)
         {
             foreach (var pixel in memory.Span)
             {
@@ -31,10 +31,9 @@ public class ImageHashService : IImageHashService
                 hash = hash * Prime7 + y;
                 x++;
             }
-
             y++;
             x = 0;
-        });
+        }
 
         return hash;
     }
