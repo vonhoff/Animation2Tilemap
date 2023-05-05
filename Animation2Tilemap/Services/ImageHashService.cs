@@ -15,10 +15,11 @@ public class ImageHashService : IImageHashService
 
     public uint Compute(Image<Rgba32> image)
     {
+        var memoryGroup = image.Frames.RootFrame.GetPixelMemoryGroup();
         var hash = Prime1;
         var x = 0u;
         var y = 0u;
-        foreach (var memory in image.Frames.RootFrame.GetPixelMemoryGroup())
+        Parallel.ForEach(memoryGroup, memory =>
         {
             foreach (var pixel in memory.Span)
             {
@@ -30,9 +31,10 @@ public class ImageHashService : IImageHashService
                 hash = hash * Prime7 + y;
                 x++;
             }
+
             y++;
             x = 0;
-        }
+        });
 
         return hash;
     }

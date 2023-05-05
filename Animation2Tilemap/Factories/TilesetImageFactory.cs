@@ -19,21 +19,22 @@ public class TilesetImageFactory : ITilesetImageFactory
         var numRows = (int)Math.Ceiling((double)numTiles / numCols);
         var outputImage = new Image<Rgba32>(numCols * _tileSize.Width, numRows * _tileSize.Height);
 
-        for (var y = 0; y < numCols; y++)
+        var x = 0;
+        var y = 0;
+        foreach (var tile in registeredTiles)
         {
-            for (var x = 0; x < numRows; x++)
-            {
-                var tileIndex = y * numCols + x;
-                if (tileIndex >= numTiles)
-                {
-                    continue;
-                }
+            var x1 = x;
+            var y1 = y;
+            outputImage.Mutate(ctx => ctx.DrawImage(tile.Image.Data, new Point(x1, y1), 1f));
 
-                var tile = registeredTiles[tileIndex];
-                var x1 = x * _tileSize.Width;
-                var y1 = y * _tileSize.Height;
-                outputImage.Mutate(ctx => ctx.DrawImage(tile.Image.Data, new Point(x1, y1), 1f));
+            x += _tileSize.Width;
+            if (x < outputImage.Width)
+            {
+                continue;
             }
+
+            x = 0;
+            y += _tileSize.Height;
         }
 
         var tilesetImage = new TilesetImage
