@@ -24,16 +24,6 @@ public class ImageLoaderService : IImageLoaderService
         _inputPath = options.Input;
     }
 
-    /// <summary>
-    /// Loads all images and their frames from the specified directory.
-    /// </summary>
-    /// <remarks>
-    /// The method will only load images with supported formats. Unsupported formats will be skipped.<br/>
-    /// The method will also detect whether the images in the directory can be used as animation frames, and sets the <paramref name="suitableForAnimation"/> parameter accordingly.
-    /// </remarks>
-    /// <param name="path">The directory path to load images from.</param>
-    /// <param name="suitableForAnimation">True if all images have the same size and contain a single frame, otherwise false.</param>
-    /// <returns>A dictionary of image frames keyed by file name.</returns>
     private Dictionary<string, List<Image<Rgba32>>> LoadFromDirectory(string path, out bool suitableForAnimation)
     {
         var images = new Dictionary<string, List<Image<Rgba32>>>();
@@ -85,15 +75,6 @@ public class ImageLoaderService : IImageLoaderService
         return images;
     }
 
-    /// <summary>
-    /// Loads all frames of an image from a file.
-    /// </summary>
-    /// <remarks>
-    /// If the format of the image is unsupported, an empty list is returned.<br/>
-    /// If an exception occurs while loading the image, an empty list is returned and the exception is logged.
-    /// </remarks>
-    /// <param name="file">The path of the file to load the image from.</param>
-    /// <returns>A list of image frames loaded from the file.</returns>
     private List<Image<Rgba32>> LoadFromFile(string file)
     {
         var frames = new List<Image<Rgba32>>();
@@ -127,11 +108,6 @@ public class ImageLoaderService : IImageLoaderService
         }
     }
 
-    /// <summary>
-    /// Attempts to load images from the specified path and returns a dictionary of image frames keyed by file name.
-    /// </summary>
-    /// <param name="images">Output parameter that contains the loaded images, if the method succeeds.</param>
-    /// <returns>True if images were loaded successfully, otherwise false.</returns>
     public bool TryLoadImages(out Dictionary<string, List<Image<Rgba32>>> images)
     {
         images = new Dictionary<string, List<Image<Rgba32>>>();
@@ -183,11 +159,6 @@ public class ImageLoaderService : IImageLoaderService
         return true;
     }
 
-    /// <summary>
-    /// Transforms a dictionary of images into an animation by selecting the most notable file name, setting it as the animation name,
-    /// and selecting the first image of each list of images as the frames of the animation.
-    /// </summary>
-    /// <param name="images">The dictionary of images to transform into an animation. The keys of the dictionary should be the file names of the images.</param>
     private void TransformImagesToAnimation(ref Dictionary<string, List<Image<Rgba32>>> images)
     {
         List<string> fileNames = images.Keys.Select(Path.GetFileNameWithoutExtension).ToList()!;

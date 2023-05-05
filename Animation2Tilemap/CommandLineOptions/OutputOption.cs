@@ -37,6 +37,12 @@ public class OutputOption : ICommandLineOption<string>
                 return;
             }
 
+            if (outputPath.Any(c => Path.GetInvalidPathChars().Contains(c)))
+            {
+                result.ErrorMessage = $"The provided output folder '{outputPath}' is invalid.";
+                return;
+            }
+
             try
             {
                 Directory.CreateDirectory(outputPath);

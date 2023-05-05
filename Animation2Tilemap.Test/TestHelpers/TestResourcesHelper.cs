@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
 
-namespace Animation2Tilemap.Test;
+namespace Animation2Tilemap.Test.TestHelpers;
 
-internal static class TestResourcesHelper
+public static class TestResourcesHelper
 {
     public static void ExportArrayToJson<T>(T[] array, string fileName) where T : struct
     {

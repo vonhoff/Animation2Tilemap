@@ -41,6 +41,6 @@ public partial class TransparentColorOption : ICommandLineOption<string>
         return Option;
     }
 
-    [GeneratedRegex("^([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$")]
+    [GeneratedRegex("^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$")]
     private static partial Regex RgbaColorValidationRegex();
 }

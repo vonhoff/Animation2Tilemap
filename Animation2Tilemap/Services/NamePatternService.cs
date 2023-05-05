@@ -16,11 +16,6 @@ public partial class NamePatternService : INamePatternService
         _logger = logger;
     }
 
-    /// <summary>
-    /// Returns the most notable pattern among a list of names based on the configured name pattern or an alternative pattern, if available.
-    /// </summary>
-    /// <param name="names">A list of names to analyze.</param>
-    /// <returns>The most notable pattern, or null if no notable pattern is found.</returns>
     public string? GetMostNotablePattern(List<string> names)
     {
         var stopwatch = Stopwatch.StartNew();
@@ -53,12 +48,6 @@ public partial class NamePatternService : INamePatternService
         return null;
     }
 
-    /// <summary>
-    /// Counts the number of occurrences of each pattern in a collection of names using a regular expression.
-    /// </summary>
-    /// <param name="names">The collection of names to search.</param>
-    /// <param name="regex">The regular expression pattern to match.</param>
-    /// <returns>A dictionary where the keys are the matched patterns and the values are their count of occurrences.</returns>
     private static Dictionary<string, int> CountPatterns(IEnumerable<string> names, Regex regex)
     {
         var patternCount = new Dictionary<string, int>();
@@ -76,11 +65,6 @@ public partial class NamePatternService : INamePatternService
         return patternCount;
     }
 
-    /// <summary>
-    /// Finds the pattern with the maximum count in the specified dictionary.
-    /// </summary>
-    /// <param name="patternCount">The dictionary containing the pattern count.</param>
-    /// <returns>The pattern with the maximum count, or <c>null</c> if the dictionary is empty.</returns>
     private static string? FindMaxPattern(Dictionary<string, int> patternCount)
     {
         string? maxPattern = null;

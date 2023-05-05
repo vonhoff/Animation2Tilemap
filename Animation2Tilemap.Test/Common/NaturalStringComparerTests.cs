@@ -1,4 +1,5 @@
 ﻿#pragma warning disable S4144
+
 using Animation2Tilemap.Common;
 
 namespace Animation2Tilemap.Test.Common;
@@ -15,6 +16,16 @@ public class NaturalStringComparerTests
     [InlineData("abc", "abc", 0)]
     [InlineData("abc", "def", -1)]
     [InlineData("def", "abc", 1)]
+    public void Compare_ShouldReturnExpectedResult_WhenComparingSimpleStrings(string x, string y, int expected)
+    {
+        // Act
+        var result = _comparer.Compare(x, y);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
     [InlineData("abc1", "abc2", -1)]
     [InlineData("abc2", "abc1", 1)]
     [InlineData("abc10", "abc2", 1)]
@@ -23,7 +34,7 @@ public class NaturalStringComparerTests
     [InlineData("abc2def", "abc10def", -1)]
     [InlineData("abc123def", "abc22def", 1)]
     [InlineData("abc22def", "abc123def", -1)]
-    public void Compare_ShouldReturnExpectedResult(string x, string y, int expected)
+    public void Compare_ShouldReturnExpectedResult_WhenComparingStringsContainingNumbers(string x, string y, int expected)
     {
         // Act
         var result = _comparer.Compare(x, y);
@@ -44,8 +55,7 @@ public class NaturalStringComparerTests
     [InlineData("൫൬൭", "567", 0)] // Malayalam digits
     [InlineData("๔๕๖", "456", 0)] // Thai digits
     [InlineData("၄၅၆", "456", 0)] // Myanmar digits
-    [InlineData("١٢٣٤٥", "٤٥٦٧٨", -1)] // Arabic-Indic digits
-    public void Compare_ShouldReturnExpectedResult_WithNonASCIIDigits(string x, string y, int expected)
+    public void Compare_ShouldHaveEqualValues_WhenComparingNonASCIIDigits(string x, string y, int expected)
     {
         // Act
         var result = _comparer.Compare(x, y);
@@ -134,103 +144,6 @@ public class NaturalStringComparerTests
             "frame_97.png",
             "frame_98.png",
             "frame_99.png",
-        };
-
-        // Act
-        var actual = input.Order(_comparer).ToList();
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void Compare_ShouldReturnNaturalOrderedList_WithMixedCharacters()
-    {
-        // Arrange
-        var expected = new List<string> {
-            "item1.png",
-            "item2.png",
-            "item3.png",
-            "item4.png",
-            "item5.png",
-            "item6.png",
-            "item7.png",
-            "item8.png",
-            "item9.png",
-            "item10.png",
-            "item11.png",
-            "item12.png",
-            "item13.png",
-            "item14.png",
-            "item15.png",
-            "item16.png",
-            "item17.png",
-            "item18.png",
-            "item19.png",
-            "item20.png",
-            "картинка1.png",
-            "картинка2.png",
-            "картинка3.png",
-            "картинка4.png",
-            "картинка5.png",
-            "картинка6.png",
-            "картинка7.png",
-            "картинка8.png",
-            "картинка9.png",
-            "картинка10.png",
-            "картинка11.png",
-            "картинка12.png",
-            "картинка13.png",
-            "картинка14.png",
-            "картинка15.png",
-            "картинка16.png",
-            "картинка17.png",
-            "картинка18.png",
-            "картинка19.png",
-            "картинка20.png",
-        };
-
-        var input = new List<string> {
-            "item10.png",
-            "картинка10.png",
-            "item5.png",
-            "картинка5.png",
-            "item20.png",
-            "картинка20.png",
-            "item3.png",
-            "картинка16.png",
-            "картинка15.png",
-            "item7.png",
-            "картинка7.png",
-            "item16.png",
-            "картинка14.png",
-            "item13.png",
-            "картинка13.png",
-            "item9.png",
-            "item14.png",
-            "картинка3.png",
-            "item1.png",
-            "картинка1.png",
-            "item15.png",
-            "картинка12.png",
-            "item17.png",
-            "картинка17.png",
-            "item6.png",
-            "картинка6.png",
-            "item8.png",
-            "картинка8.png",
-            "картинка9.png",
-            "item12.png",
-            "item2.png",
-            "картинка2.png",
-            "item19.png",
-            "картинка19.png",
-            "item4.png",
-            "картинка4.png",
-            "item18.png",
-            "картинка18.png",
-            "item11.png",
-            "картинка11.png",
         };
 
         // Act

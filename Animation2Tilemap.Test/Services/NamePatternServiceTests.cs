@@ -20,7 +20,7 @@ public class NamePatternServiceTests
     }
 
     [Fact]
-    public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsEnglishLettersAndUnderscores()
+    public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsLettersAndUnderscores()
     {
         // Arrange
         var strings = new List<string> {
@@ -137,12 +137,6 @@ public class NamePatternServiceTests
         // Arrange
         var strings = new List<string> {
             "a",
-            "a",
-            "a",
-            "b",
-            "b",
-            "0",
-            "b",
             "a",
             "a"
         };

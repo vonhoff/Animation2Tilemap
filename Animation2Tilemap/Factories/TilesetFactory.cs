@@ -113,7 +113,8 @@ public class TilesetFactory : ITilesetFactory
         return tileset;
     }
 
-    private static void AddAnimationFrame(TilesetTile tile, ICollection<TilesetTile> registeredTiles, TilesetTileImage tileImage, int duration)
+    private static void AddAnimationFrame(TilesetTile tile, 
+        ICollection<TilesetTile> registeredTiles, TilesetTileImage tileImage, int duration)
     {
         var registeredTile = registeredTiles.FirstOrDefault(t => t.Image.Equals(tileImage));
         if (registeredTile == null)

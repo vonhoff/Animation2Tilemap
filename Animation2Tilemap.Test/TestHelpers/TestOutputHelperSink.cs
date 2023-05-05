@@ -4,9 +4,9 @@ using Serilog.Formatting;
 using Serilog.Formatting.Display;
 using Xunit.Abstractions;
 
-namespace Animation2Tilemap.Test;
+namespace Animation2Tilemap.Test.TestHelpers;
 
-internal class TestOutputHelperSink : ILogEventSink
+public class TestOutputHelperSink : ILogEventSink
 {
     private readonly ITestOutputHelper _output;
     private readonly ITextFormatter _formatter;

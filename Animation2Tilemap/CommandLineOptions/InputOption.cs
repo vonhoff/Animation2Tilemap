@@ -19,6 +19,26 @@ public class InputOption : ICommandLineOption<string>
     public Option<string> Register(Command command)
     {
         command.Add(Option);
+        command.AddValidator(result =>
+        {
+            var inputResult = result.FindResultFor(Option);
+            if (inputResult == null)
+            {
+                return;
+            }
+
+            var inputPath = inputResult.GetValueOrDefault<string>();
+            if (string.IsNullOrWhiteSpace(inputPath))
+            {
+                result.ErrorMessage = "The input path cannot be empty.";
+                return;
+            }
+
+            if (!File.Exists(inputPath) && !Directory.Exists(inputPath))
+            {
+                result.ErrorMessage = $"The input path '{inputPath}' does not exist.";
+            }
+        });
         return Option;
     }
 }

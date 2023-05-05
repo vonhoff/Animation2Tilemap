@@ -10,19 +10,12 @@ public class TilemapFactory : ITilemapFactory
     private readonly ITilemapDataService _tilemapDataService;
     private readonly TileLayerFormat _tileLayerFormat;
 
-    public TilemapFactory(
-        ApplicationOptions options,
-        ITilemapDataService tilemapDataService)
+    public TilemapFactory(ApplicationOptions options, ITilemapDataService tilemapDataService)
     {
         _tilemapDataService = tilemapDataService;
         _tileLayerFormat = options.TileLayerFormat;
     }
 
-    /// <summary>
-    /// Creates a tilemap using the given tileset.
-    /// </summary>
-    /// <param name="tileset">The tileset to use.</param>
-    /// <returns>The created tilemap.</returns>
     public Tilemap CreateFromTileset(Tileset tileset)
     {
         var hashToTileId = tileset.RegisteredTiles

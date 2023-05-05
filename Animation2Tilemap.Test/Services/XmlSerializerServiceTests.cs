@@ -1,60 +1,56 @@
 ﻿using System.Xml.Serialization;
 using Animation2Tilemap.Services;
 
-namespace Animation2Tilemap.Test.Services
+namespace Animation2Tilemap.Test.Services;
+
+public class XmlSerializerServiceTests
 {
-    public class XmlSerializerServiceTests
+    private readonly XmlSerializerService _xmlSerializerService;
+    private readonly Person _person;
+
+    public XmlSerializerServiceTests()
     {
-        // Arrange
-        private readonly XmlSerializerService _xmlSerializerService;
-
-        private readonly Person _person;
-
-        public XmlSerializerServiceTests()
+        _xmlSerializerService = new XmlSerializerService();
+        _person = new Person
         {
-            _xmlSerializerService = new XmlSerializerService();
-            _person = new Person
+            Name = "Alice",
+            Age = 25,
+            Address = new Address
             {
-                Name = "Alice",
-                Age = 25,
-                Address = new Address
-                {
-                    Street = "Main Street",
-                    City = "New York",
-                    ZipCode = "10001"
-                }
-            };
-        }
-
-        [Fact]
-        public void Serialize_ShouldReturnValidXmlString_WhenObjectIsNotNull()
-        {
-            // Act
-            var xmlString = _xmlSerializerService.Serialize(_person);
-
-            // Assert
-            Assert.NotNull(xmlString);
-            Assert.StartsWith("<?xml version=\"1.0\" encoding=\"utf-8\"?>", xmlString);
-            Assert.Contains("<Person>", xmlString);
-            Assert.Contains("<Name>Alice</Name>", xmlString);
-            Assert.Contains("<Age>25</Age>", xmlString);
-            Assert.Contains("<Address>", xmlString);
-            Assert.Contains("<Street>Main Street</Street>", xmlString);
-            Assert.Contains("<City>New York</City>", xmlString);
-            Assert.Contains("<ZipCode>10001</ZipCode>", xmlString);
-            Assert.Contains("</Address>", xmlString);
-            Assert.Contains("</Person>", xmlString);
-        }
-
-        [Fact]
-        public void Serialize_ShouldThrowArgumentNullException_WhenObjectIsNull()
-        {
-            // Act and assert
-            Assert.Throws<ArgumentNullException>(() => _xmlSerializerService.Serialize<Person>(null!));
-        }
+                Street = "Main Street",
+                City = "New York",
+                ZipCode = "10001"
+            }
+        };
     }
 
-    // Sample classes for testing
+    [Fact]
+    public void Serialize_ShouldReturnValidXmlString_WhenObjectIsNotNull()
+    {
+        // Act
+        var xmlString = _xmlSerializerService.Serialize(_person);
+
+        // Assert
+        Assert.NotNull(xmlString);
+        Assert.StartsWith("<?xml version=\"1.0\" encoding=\"utf-8\"?>", xmlString);
+        Assert.Contains("<Person>", xmlString);
+        Assert.Contains("<Name>Alice</Name>", xmlString);
+        Assert.Contains("<Age>25</Age>", xmlString);
+        Assert.Contains("<Address>", xmlString);
+        Assert.Contains("<Street>Main Street</Street>", xmlString);
+        Assert.Contains("<City>New York</City>", xmlString);
+        Assert.Contains("<ZipCode>10001</ZipCode>", xmlString);
+        Assert.Contains("</Address>", xmlString);
+        Assert.Contains("</Person>", xmlString);
+    }
+
+    [Fact]
+    public void Serialize_ShouldThrowArgumentNullException_WhenObjectIsNull()
+    {
+        // Act and assert
+        Assert.Throws<ArgumentNullException>(() => _xmlSerializerService.Serialize<Person>(null!));
+    }
+
     [XmlRoot("Person")]
     public class Person
     {

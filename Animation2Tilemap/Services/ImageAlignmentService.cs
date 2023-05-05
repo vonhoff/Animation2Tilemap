@@ -17,12 +17,6 @@ public class ImageAlignmentService : IImageAlignmentService
         _transparentColor = options.TransparentColor;
     }
 
-    /// <summary>
-    /// Attempts to align a list of images to the tile size and returns whether the operation was successful.
-    /// </summary>
-    /// <param name="fileName">The name of the file being processed.</param>
-    /// <param name="frames">The list of images to be aligned.</param>
-    /// <returns>True if the operation was successful, false otherwise.</returns>
     public bool TryAlignImage(string fileName, List<Image<Rgba32>> frames)
     {
         var alignmentStopwatch = new Stopwatch();
