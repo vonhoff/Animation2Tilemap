@@ -1,6 +1,8 @@
 # Animation2Tilemap
 
-Animation2Tilemap is a command-line tool that converts animations into tilesets and tilemaps that can be used in Tiled, a popular map editor for 2D games. With Animation2Tilemap, you can easily create tile-based versions of your animations and import them into Tiled for further editing.
+Animation2Tilemap is a command-line tool that generates tilesets and tilemaps from animated or non-animated images.
+
+These files can then be imported into [Tiled](https://www.mapeditor.org), a free and open source map editor, for further editing and customization.
 
 ## Features
 
