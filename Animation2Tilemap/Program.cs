@@ -10,9 +10,8 @@ namespace Animation2Tilemap;
 public static class Program
 {
     private const string Description = """
-        Animation2Tilemap is a command-line tool that converts animations into tilesets and tilemaps that can be used in Tiled,
-        a popular map editor for 2D games. With Animation2Tilemap, you can easily create tile-based versions of your animations
-        and import them into Tiled for further editing.
+        Animation2Tilemap is a command-line tool that generates tilesets and tilemaps from animated or non-animated images. 
+        See: https://github.com/vonhoff/Animation2Tilemap for more information.
         """;
 
     public static async Task Main(string[] args)
