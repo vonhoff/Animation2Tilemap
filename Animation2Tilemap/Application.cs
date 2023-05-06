@@ -30,7 +30,7 @@ public class Application
         _tilemapFactory = tilemapFactory;
         _xmlSerializerService = xmlSerializerService;
         _logger = logger;
-        _outputFolder = options.Output;
+        _outputFolder = Path.GetFullPath(options.Output);
     }
 
     public void Run()

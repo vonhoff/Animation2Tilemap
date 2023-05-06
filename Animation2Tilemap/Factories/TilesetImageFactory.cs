@@ -6,10 +6,12 @@ namespace Animation2Tilemap.Factories;
 public class TilesetImageFactory : ITilesetImageFactory
 {
     private readonly Size _tileSize;
+    private readonly Rgba32 _transparentColor;
 
     public TilesetImageFactory(ApplicationOptions options)
     {
         _tileSize = options.TileSize;
+        _transparentColor = options.TransparentColor;
     }
 
     public TilesetImage CreateFromTiles(IReadOnlyList<TilesetTile> registeredTiles, string fileName)
@@ -40,9 +42,10 @@ public class TilesetImageFactory : ITilesetImageFactory
         var tilesetImage = new TilesetImage
         {
             Path = fileName,
-            Data = outputImage,
+            Trans = _transparentColor.ToHex(),
             Width = outputImage.Width,
-            Height = outputImage.Height
+            Height = outputImage.Height,
+            Data = outputImage
         };
 
         return tilesetImage;

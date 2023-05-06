@@ -17,7 +17,7 @@ Animation2Tilemap offers the following features:
 
 ## Installation
 
-To install Animation2Tilemap, a tool that converts animations into tilemaps, you need to follow these steps:
+To install Animation2Tilemap, you need to follow these steps:
 
 - Go to the [releases page](https://github.com/Animation2Tilemap/Animation2Tilemap/releases) and download the latest version of Animation2Tilemap.
 - Extract the zip file to a folder of your choice. You can use any file manager or unzip utility to do this.

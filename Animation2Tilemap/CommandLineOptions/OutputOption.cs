@@ -10,7 +10,7 @@ public class OutputOption : ICommandLineOption<string>
         Option = new Option<string>(
             name: "--output",
             description: "Output folder",
-            getDefaultValue: () => string.Empty);
+            getDefaultValue: () => "output");
         Option.AddAlias("-o");
     }
 
