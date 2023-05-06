@@ -10,6 +10,7 @@ Animation2Tilemap offers the following features:
 
 - Supports various input formats, including Bmp, Gif, Jpeg, Pbm, Png, Tiff, Tga, and WebP.
 - Allows you to process animations from either folders or images that contain multiple frames.
+- Allows you to generate an animated tileset from a folder containing extracted animation frames.
 - Allows you to customize the tile size, transparent color, and frame duration of your animations.
 - Generates tilesets and tilemaps in Tiled compatible formats, such as base64, zlib, gzip, and csv.
 - Provides a simple and intuitive command-line interface with helpful options and usage information.
