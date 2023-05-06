@@ -10,10 +10,10 @@ public class Application
     private readonly IImageAlignmentService _imageAlignmentService;
     private readonly IImageLoaderService _imageLoaderService;
     private readonly ITilesetFactory _tilesetFactory;
+    private readonly ITilemapFactory _tilemapFactory;
     private readonly IXmlSerializerService _xmlSerializerService;
     private readonly ILogger _logger;
     private readonly string _outputFolder;
-    private readonly ITilemapFactory _tilemapFactory;
 
     public Application(
         IImageAlignmentService imageAlignmentService,
@@ -40,12 +40,13 @@ public class Application
             return;
         }
 
+        var successfulImages = 0;
         Parallel.ForEach(images, frameCollection =>
         {
             var fileName = frameCollection.Key;
             var frames = frameCollection.Value;
 
-            _logger.Verbose("Processing image {fileName} with {frameCount} frames", fileName, frames.Count);
+            _logger.Verbose("Processing image {FileName} with {FrameCount} frame(s).", fileName, frames.Count);
             var totalStopwatch = Stopwatch.StartNew();
 
             try
@@ -57,32 +58,35 @@ public class Application
 
                 var taskStopwatch = Stopwatch.StartNew();
                 var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
-                _logger.Verbose("Created tileset from {fileName}. Took: {Elapsed}ms",
+                _logger.Verbose("Created tileset from {FileName}. Took: {Elapsed}ms",
                     fileName, taskStopwatch.ElapsedMilliseconds);
 
                 taskStopwatch.Restart();
                 var tilemap = _tilemapFactory.CreateFromTileset(tileset);
-                _logger.Verbose("Created tilemap from tileset {fileName}. Took: {Elapsed}ms",
+                _logger.Verbose("Created tilemap from tileset {FileName}. Took: {Elapsed}ms",
                     fileName, taskStopwatch.ElapsedMilliseconds);
 
                 var tilesetImageOutput = Path.Combine(_outputFolder, fileName + ".png");
                 var tilesetOutput = Path.Combine(_outputFolder, fileName + ".tsx");
                 var tilemapOutput = Path.Combine(_outputFolder, fileName + ".tmx");
 
-                _logger.Verbose("Saving files for {fileName} to {outputFolder}", fileName, _outputFolder);
+                _logger.Verbose("Saving files for {FileName} to {OutputFolder}", fileName, _outputFolder);
                 tileset.Image.Data.SaveAsPng(tilesetImageOutput);
                 File.WriteAllText(tilesetOutput, _xmlSerializerService.Serialize(tileset));
                 File.WriteAllText(tilemapOutput, _xmlSerializerService.Serialize(tilemap));
 
                 totalStopwatch.Stop();
-                _logger.Information("Successfully processed {fileName} to {outputFolder}. Took: {Elapsed}ms",
+                _logger.Information("Successfully processed {FileName} to {OutputFolder}. Took: {Elapsed}ms",
                     fileName, _outputFolder, totalStopwatch.ElapsedMilliseconds);
+                Interlocked.Increment(ref successfulImages);
             }
             catch (Exception ex)
             {
                 totalStopwatch.Stop();
-                _logger.Error(ex, "Failed to process image {fileName}. Took: {Elapsed}ms", fileName, totalStopwatch.ElapsedMilliseconds);
+                _logger.Error(ex, "Failed to process image {FileName}. Took: {Elapsed}ms", fileName, totalStopwatch.ElapsedMilliseconds);
             }
         });
+
+        _logger.Information("Finished. {SuccessfulImages} of {TotalImages} images were successfully processed.", successfulImages, images.Count);
     }
 }
