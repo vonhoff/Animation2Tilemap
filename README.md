@@ -1,6 +1,6 @@
 # Animation2Tilemap
 
-Animation2Tilemap is a command-line tool that generates tilesets and tilemaps from animated or non-animated images.
+Animation2Tilemap is a command-line tool that generates tilesets and tilemaps from animated images.
 
 These files can then be imported into [Tiled](https://www.mapeditor.org), a free and open source map editor, for further editing and customization.
 
