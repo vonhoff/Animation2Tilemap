@@ -8,12 +8,14 @@ public class TilesetImageFactory : ITilesetImageFactory
     private readonly Rgba32 _transparentColor;
     private readonly Size _tileSize;
     private readonly int _tileSpacing;
+    private readonly int _tileMargin;
 
     public TilesetImageFactory(ApplicationOptions options)
     {
         _tileSize = options.TileSize;
         _transparentColor = options.TransparentColor;
         _tileSpacing = options.TileSpacing;
+        _tileMargin = options.TileMargin;
     }
 
     public TilesetImage CreateFromTiles(IReadOnlyList<TilesetTile> registeredTiles, string fileName)
@@ -22,14 +24,14 @@ public class TilesetImageFactory : ITilesetImageFactory
         var numCols = (int)Math.Ceiling(Math.Sqrt(numTiles));
         var numRows = (int)Math.Ceiling((double)numTiles / numCols);
 
-        var outputImageWidth = numCols * (_tileSize.Width + _tileSpacing) + 2 * _tileSpacing;
-        var outputImageHeight = numRows * (_tileSize.Height + _tileSpacing) + 2 * _tileSpacing;
+        var outputImageWidth = numCols * (_tileSize.Width + _tileSpacing) + _tileMargin;
+        var outputImageHeight = numRows * (_tileSize.Height + _tileSpacing) + _tileMargin;
 
         var outputImage = new Image<Rgba32>(outputImageWidth, outputImageHeight);
         outputImage.Mutate(context => context.BackgroundColor(_transparentColor));
 
-        var x = 0;
-        var y = 0;
+        var x = _tileMargin;
+        var y = _tileMargin;
         foreach (var tile in registeredTiles)
         {
             var x1 = x;
@@ -42,7 +44,7 @@ public class TilesetImageFactory : ITilesetImageFactory
                 continue;
             }
 
-            x = 0;
+            x = _tileMargin;
             y += _tileSize.Height + _tileSpacing;
         }
 
