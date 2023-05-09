@@ -14,6 +14,12 @@ public class Tileset
     [XmlAttribute("tileheight")]
     public int TileHeight { get; set; }
 
+    [XmlAttribute("spacing")]
+    public int Spacing { get; set; }
+
+    [XmlAttribute("margin")]
+    public int Margin { get; set; }
+
     [XmlAttribute("tilecount")]
     public int TileCount { get; set; }
 

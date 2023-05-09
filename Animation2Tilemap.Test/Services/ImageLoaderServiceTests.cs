@@ -35,7 +35,7 @@ public class ImageLoaderServiceTests
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions(0, path, "", Size.Empty, new Rgba32(), TileLayerFormat.Base64ZLib, false));
+            new ApplicationOptions(0, path, "", Size.Empty, 0, 0, new Rgba32(), TileLayerFormat.Base64ZLib, false));
 
         // Act
         var result = imageLoader.TryLoadImages(out var images);
@@ -53,7 +53,7 @@ public class ImageLoaderServiceTests
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions(0, path, "", Size.Empty, new Rgba32(), TileLayerFormat.Base64ZLib, false));
+            new ApplicationOptions(0, path, "", Size.Empty, 0, 0, new Rgba32(), TileLayerFormat.Base64ZLib, false));
 
         // Act
         var result = imageLoader.TryLoadImages(out var images);
@@ -71,7 +71,7 @@ public class ImageLoaderServiceTests
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions(0, path, "", Size.Empty, new Rgba32(), TileLayerFormat.Base64ZLib, false));
+            new ApplicationOptions(0, path, "", Size.Empty, 0, 0, new Rgba32(), TileLayerFormat.Base64ZLib, false));
 
         // Act
         var result = imageLoader.TryLoadImages(out var images);
@@ -90,7 +90,7 @@ public class ImageLoaderServiceTests
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions(0, path, "", Size.Empty, new Rgba32(), TileLayerFormat.Base64ZLib, false));
+            new ApplicationOptions(0, path, "", Size.Empty, 0, 0, new Rgba32(), TileLayerFormat.Base64ZLib, false));
 
         // Act
         var result = imageLoader.TryLoadImages(out var images);
@@ -109,7 +109,7 @@ public class ImageLoaderServiceTests
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions(0, path, "", Size.Empty, new Rgba32(), TileLayerFormat.Base64ZLib, false));
+            new ApplicationOptions(0, path, "", Size.Empty, 0, 0, new Rgba32(), TileLayerFormat.Base64ZLib, false));
 
         // Act
         var result = imageLoader.TryLoadImages(out var images);
@@ -132,7 +132,7 @@ public class ImageLoaderServiceTests
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions(0, path, "", Size.Empty, new Rgba32(), TileLayerFormat.Base64ZLib, false));
+            new ApplicationOptions(0, path, "", Size.Empty, 0, 0, new Rgba32(), TileLayerFormat.Base64ZLib, false));
 
         _confirmationDialogServiceMock.Setup(c => c.Confirm(It.IsAny<string>(), It.IsAny<bool>())).Returns(true);
         _namePatternServiceMock.Setup(n => n.GetMostNotablePattern(It.IsAny<List<string>>())).Returns("anim");

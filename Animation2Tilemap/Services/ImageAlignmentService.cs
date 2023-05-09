@@ -8,13 +8,11 @@ public class ImageAlignmentService : IImageAlignmentService
 {
     private readonly ILogger _logger;
     private readonly Size _tileSize;
-    private readonly Rgba32 _transparentColor;
 
     public ImageAlignmentService(ILogger logger, ApplicationOptions options)
     {
         _logger = logger;
         _tileSize = options.TileSize;
-        _transparentColor = options.TransparentColor;
     }
 
     public bool TryAlignImage(string fileName, List<Image<Rgba32>> frames)
@@ -30,7 +28,6 @@ public class ImageAlignmentService : IImageAlignmentService
 
             try
             {
-                alignedFrame.Mutate(context => context.BackgroundColor(_transparentColor));
                 alignedFrame.Mutate(context => context.DrawImage(frame, Point.Empty, 1f));
             }
             catch (ImageProcessingException e)

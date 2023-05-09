@@ -50,6 +50,8 @@ public static class Program
         var outputOption = new OutputOption();
         var heightOption = new HeightOption();
         var widthOption = new WidthOption();
+        var marginOption = new MarginOption();
+        var spacingOption = new SpacingOption();
         var transparentColorOption = new TransparentColorOption();
         var tileLayerFormatOption = new TileLayerFormatOption();
         var verboseOption = new VerboseOption();
@@ -60,6 +62,8 @@ public static class Program
             outputOption.Register(rootCommand),
             heightOption.Register(rootCommand),
             widthOption.Register(rootCommand),
+            marginOption.Register(rootCommand),
+            spacingOption.Register(rootCommand),
             transparentColorOption.Register(rootCommand),
             tileLayerFormatOption.Register(rootCommand),
             verboseOption.Register(rootCommand)

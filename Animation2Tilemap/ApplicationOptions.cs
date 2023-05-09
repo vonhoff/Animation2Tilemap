@@ -9,6 +9,8 @@ public class ApplicationOptions
         string input,
         string output,
         Size tileSize,
+        int tileMargin,
+        int tileSpacing,
         Rgba32 transparentColor,
         TileLayerFormat tileLayerFormat,
         bool verbose)
@@ -16,6 +18,8 @@ public class ApplicationOptions
         FrameDuration = frameDuration;
         Input = input;
         Output = output;
+        TileMargin = tileMargin;
+        TileSpacing = tileSpacing;
         TileSize = tileSize;
         TransparentColor = transparentColor;
         TileLayerFormat = tileLayerFormat;
@@ -26,6 +30,8 @@ public class ApplicationOptions
     public string Input { get; }
     public string Output { get; }
     public Size TileSize { get; }
+    public int TileMargin { get; }
+    public int TileSpacing { get; }
     public Rgba32 TransparentColor { get; }
     public TileLayerFormat TileLayerFormat { get; }
     public bool Verbose { get; }

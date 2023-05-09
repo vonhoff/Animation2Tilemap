@@ -12,6 +12,8 @@ public class TilesetFactory : ITilesetFactory
     private readonly IImageHashService _imageHashService;
     private readonly ILogger _logger;
     private readonly Size _tileSize;
+    private readonly int _tileMargin;
+    private readonly int _tileSpacing;
     private readonly int _frameDuration;
 
     public TilesetFactory(
@@ -24,6 +26,8 @@ public class TilesetFactory : ITilesetFactory
         _tilesetImageFactory = tilesetImageFactory;
         _logger = logger;
         _tileSize = options.TileSize;
+        _tileMargin = options.TileMargin;
+        _tileSpacing = options.TileSpacing;
         _frameDuration = options.FrameDuration;
     }
 
@@ -106,6 +110,8 @@ public class TilesetFactory : ITilesetFactory
             Name = fileName,
             TileWidth = _tileSize.Width,
             TileHeight = _tileSize.Height,
+            Margin = _tileMargin,
+            Spacing = _tileSpacing,
             TileCount = registeredTiles.Count,
             Columns = tilesetImage.Width / _tileSize.Width,
             Image = tilesetImage,
