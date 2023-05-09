@@ -19,8 +19,10 @@ public class ImageAlignmentServiceTests
             .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
             .CreateLogger();
 
-        var options = new ApplicationOptions(0, string.Empty, string.Empty,
-            new Size(16, 16), 0, 0, Rgba32.ParseHex("000"), TileLayerFormat.Base64GZip, false);
+        var options = new ApplicationOptions
+        {
+            TileSize = new Size(16, 16)
+        };
 
         _imageAlignmentService = new ImageAlignmentService(logger, options);
     }

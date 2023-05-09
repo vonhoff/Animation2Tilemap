@@ -67,15 +67,17 @@ public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
             _ => throw new IndexOutOfRangeException("Invalid tile layer format.")
         };
 
-        return new ApplicationOptions(
-            frameDuration,
-            input,
-            output,
-            tileSize,
-            tileMargin,
-            tileSpacing,
-            transparentColor,
-            tileLayerFormat,
-            verbose);
+        return new ApplicationOptions
+        {
+            FrameDuration = frameDuration,
+            Input = input,
+            Output = output,
+            TileSize = tileSize,
+            TileMargin = tileMargin,
+            TileSpacing = tileSpacing,
+            TransparentColor = transparentColor,
+            TileLayerFormat = tileLayerFormat,
+            Verbose = verbose
+        };
     }
 }
