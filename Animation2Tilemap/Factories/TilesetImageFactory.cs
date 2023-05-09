@@ -24,8 +24,8 @@ public class TilesetImageFactory : ITilesetImageFactory
         var numCols = (int)Math.Ceiling(Math.Sqrt(numTiles));
         var numRows = (int)Math.Ceiling((double)numTiles / numCols);
 
-        var outputImageWidth = numCols * (_tileSize.Width + _tileSpacing) + _tileMargin;
-        var outputImageHeight = numRows * (_tileSize.Height + _tileSpacing) + _tileMargin;
+        var outputImageWidth = numCols * (_tileSize.Width + _tileSpacing) + _tileMargin - _tileSpacing;
+        var outputImageHeight = numRows * (_tileSize.Height + _tileSpacing) + _tileMargin - _tileSpacing;
 
         var outputImage = new Image<Rgba32>(outputImageWidth, outputImageHeight);
         outputImage.Mutate(context => context.BackgroundColor(_transparentColor));
