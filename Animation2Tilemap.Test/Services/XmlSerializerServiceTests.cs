@@ -5,24 +5,19 @@ namespace Animation2Tilemap.Test.Services;
 
 public class XmlSerializerServiceTests
 {
-    private readonly XmlSerializerService _xmlSerializerService;
-    private readonly Person _person;
+    private readonly XmlSerializerService _xmlSerializerService = new();
 
-    public XmlSerializerServiceTests()
+    private readonly Person _person = new()
     {
-        _xmlSerializerService = new XmlSerializerService();
-        _person = new Person
+        Name = "Alice",
+        Age = 25,
+        Address = new Address
         {
-            Name = "Alice",
-            Age = 25,
-            Address = new Address
-            {
-                Street = "Main Street",
-                City = "New York",
-                ZipCode = "10001"
-            }
-        };
-    }
+            Street = "Main Street",
+            City = "New York",
+            ZipCode = "10001"
+        }
+    };
 
     [Fact]
     public void Serialize_ShouldReturnValidXmlString_WhenObjectIsNotNull()

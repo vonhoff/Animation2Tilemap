@@ -7,12 +7,7 @@ namespace Animation2Tilemap.Test.Services;
 
 public class ImageHashServiceTests
 {
-    private readonly IImageHashService _imageHashService;
-
-    public ImageHashServiceTests()
-    {
-        _imageHashService = new ImageHashService();
-    }
+    private readonly IImageHashService _imageHashService = new ImageHashService();
 
     [Fact]
     public void Compute_ShouldReturnSameHash_GivenIdenticalImages()

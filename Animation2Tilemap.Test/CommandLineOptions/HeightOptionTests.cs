@@ -1,5 +1,4 @@
 ﻿using System.CommandLine;
-using Xunit;
 using Animation2Tilemap.CommandLineOptions;
 
 namespace Animation2Tilemap.Test.CommandLineOptions;

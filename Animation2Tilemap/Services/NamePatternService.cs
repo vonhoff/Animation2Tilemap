@@ -53,9 +53,9 @@ public partial class NamePatternService : INamePatternService
         var patternCount = new Dictionary<string, int>();
         foreach (var pattern in from name in names from Match match in regex.Matches(name) select match.Value)
         {
-            if (patternCount.ContainsKey(pattern))
+            if (patternCount.TryGetValue(pattern, out var count))
             {
-                patternCount[pattern]++;
+                patternCount[pattern] = count + 1;
             }
             else
             {

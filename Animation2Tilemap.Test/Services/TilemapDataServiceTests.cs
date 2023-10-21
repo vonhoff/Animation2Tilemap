@@ -7,22 +7,12 @@ namespace Animation2Tilemap.Test.Services;
 
 public class TilemapDataServiceTests
 {
-    private readonly ITilemapDataService _tilemapDataService;
-    private readonly string _base64WithZlib;
-    private readonly string _base64WithGzip;
-    private readonly string _base64;
-    private readonly string _csvData;
-    private readonly uint[] _tilemapData;
-
-    public TilemapDataServiceTests()
-    {
-        _tilemapDataService = new TilemapDataService();
-        _base64 = TestResourcesHelper.ImportText("Base64.txt");
-        _base64WithZlib = TestResourcesHelper.ImportText("Base64Zlib.txt");
-        _base64WithGzip = TestResourcesHelper.ImportText("Base64Gzip.txt");
-        _csvData = TestResourcesHelper.ImportText("TilemapData.csv");
-        _tilemapData = TestResourcesHelper.ImportArrayFromJson<uint>("Tilemap.json");
-    }
+    private readonly ITilemapDataService _tilemapDataService = new TilemapDataService();
+    private readonly string _base64WithZlib = TestResourcesHelper.ImportText("Base64Zlib.txt");
+    private readonly string _base64WithGzip = TestResourcesHelper.ImportText("Base64Gzip.txt");
+    private readonly string _base64 = TestResourcesHelper.ImportText("Base64.txt");
+    private readonly string _csvData = TestResourcesHelper.ImportText("TilemapData.csv");
+    private readonly uint[] _tilemapData = TestResourcesHelper.ImportArrayFromJson<uint>("Tilemap.json");
 
     [Fact]
     public void ParseData_ShouldHaveCorrectResult_WithoutCompression()
@@ -55,10 +45,10 @@ public class TilemapDataServiceTests
     }
 
     [Fact]
-    public void ParseData_ShouldHaveCorrectResult_WhenUsingCSV()
+    public void ParseData_ShouldHaveCorrectResult_WhenUsingCsv()
     {
         // Act
-        var tilemapData = _tilemapDataService.ParseData(_csvData, TileLayerFormat.CSV);
+        var tilemapData = _tilemapDataService.ParseData(_csvData, TileLayerFormat.Csv);
 
         // Assert
         Assert.Equal(_tilemapData, tilemapData);
@@ -98,11 +88,11 @@ public class TilemapDataServiceTests
     }
 
     [Fact]
-    public void SerializeData_ShouldHaveCorrectResult_WhenUsingCSV()
+    public void SerializeData_ShouldHaveCorrectResult_WhenUsingCsv()
     {
         // Act
-        var serialized = _tilemapDataService.SerializeData(_tilemapData, TileLayerFormat.CSV);
-        var tilemapData = _tilemapDataService.ParseData(serialized, TileLayerFormat.CSV);
+        var serialized = _tilemapDataService.SerializeData(_tilemapData, TileLayerFormat.Csv);
+        var tilemapData = _tilemapDataService.ParseData(serialized, TileLayerFormat.Csv);
 
         // Assert
         Assert.Equal(_tilemapData, tilemapData);

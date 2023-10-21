@@ -5,12 +5,7 @@ namespace Animation2Tilemap.Test.Services;
 
 public class ConfirmationDialogServiceTests
 {
-    private readonly IConfirmationDialogService _confirmationDialogService;
-
-    public ConfirmationDialogServiceTests()
-    {
-        _confirmationDialogService = new ConfirmationDialogService();
-    }
+    private readonly IConfirmationDialogService _confirmationDialogService = new ConfirmationDialogService();
 
     [Theory]
     [InlineData("Y", true, true)]
