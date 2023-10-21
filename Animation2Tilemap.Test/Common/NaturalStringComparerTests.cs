@@ -1,6 +1,4 @@
-﻿#pragma warning disable S4144
-
-using Animation2Tilemap.Common;
+﻿using Animation2Tilemap.Common;
 
 namespace Animation2Tilemap.Test.Common;
 

@@ -63,7 +63,7 @@ public class ApplicationOptionsBinder : BinderBase<ApplicationOptions>
             "base64" => TileLayerFormat.Base64Uncompressed,
             "zlib" => TileLayerFormat.Base64ZLib,
             "gzip" => TileLayerFormat.Base64GZip,
-            "csv" => TileLayerFormat.CSV,
+            "csv" => TileLayerFormat.Csv,
             _ => throw new IndexOutOfRangeException("Invalid tile layer format.")
         };
 

@@ -16,7 +16,7 @@ public class TilemapDataService : ITilemapDataService
                 data = Convert.FromBase64String(input);
                 break;
             }
-            case TileLayerFormat.CSV:
+            case TileLayerFormat.Csv:
             {
                 var csvTileIds = input.Trim().Split(',');
                 data = new byte[csvTileIds.Length * 4];
@@ -38,7 +38,7 @@ public class TilemapDataService : ITilemapDataService
         using var inputStream = new MemoryStream(data);
         using Stream compressorStream = format switch
         {
-            TileLayerFormat.CSV or TileLayerFormat.Base64Uncompressed => inputStream,
+            TileLayerFormat.Csv or TileLayerFormat.Base64Uncompressed => inputStream,
             TileLayerFormat.Base64ZLib => new ZLibStream(inputStream, CompressionMode.Decompress, false),
             TileLayerFormat.Base64GZip => new GZipStream(inputStream, CompressionMode.Decompress, false),
             _ => throw new ArgumentOutOfRangeException(nameof(format), format, null)
@@ -67,7 +67,7 @@ public class TilemapDataService : ITilemapDataService
         using var outputStream = new MemoryStream();
         Stream compressorStream = format switch
         {
-            TileLayerFormat.CSV or TileLayerFormat.Base64Uncompressed => outputStream,
+            TileLayerFormat.Csv or TileLayerFormat.Base64Uncompressed => outputStream,
             TileLayerFormat.Base64ZLib => new ZLibStream(outputStream, CompressionMode.Compress, false),
             TileLayerFormat.Base64GZip => new GZipStream(outputStream, CompressionMode.Compress, false),
             _ => throw new ArgumentOutOfRangeException(nameof(format), format, null)
@@ -78,7 +78,7 @@ public class TilemapDataService : ITilemapDataService
         var encoded = format switch
         {
             TileLayerFormat.Base64Uncompressed or TileLayerFormat.Base64ZLib or TileLayerFormat.Base64GZip => Convert.ToBase64String(outputStream.ToArray()),
-            TileLayerFormat.CSV => string.Join(",", data.Select(d => d.ToString())),
+            TileLayerFormat.Csv => string.Join(",", data.Select(d => d.ToString())),
             _ => throw new ArgumentOutOfRangeException(nameof(format), format, null)
         };
         return encoded;
