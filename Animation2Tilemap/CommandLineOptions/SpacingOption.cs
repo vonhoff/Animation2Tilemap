@@ -1,9 +1,8 @@
 ﻿using System.CommandLine;
-using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public class SpacingOption : ICommandLineOption<int>
+public class SpacingOption
 {
     public SpacingOption()
     {

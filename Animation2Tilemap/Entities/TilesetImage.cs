@@ -1,4 +1,6 @@
 ﻿using System.Xml.Serialization;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Animation2Tilemap.Entities;
 

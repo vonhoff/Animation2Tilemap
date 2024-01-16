@@ -1,9 +1,8 @@
 ﻿using System.CommandLine;
-using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public class InputOption : ICommandLineOption<string>
+public class InputOption
 {
     public InputOption()
     {
@@ -34,7 +33,7 @@ public class InputOption : ICommandLineOption<string>
                 return;
             }
 
-            if (!File.Exists(inputPath) && !Directory.Exists(inputPath))
+            if (File.Exists(inputPath) == false && Directory.Exists(inputPath) == false)
             {
                 result.ErrorMessage = $"The input path '{inputPath}' does not exist.";
             }

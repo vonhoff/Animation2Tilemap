@@ -30,8 +30,8 @@ public class WidthOptionTests
     public void WidthOption_ValidWidth_ReturnsValue(int width)
     {
         // Arrange
-        var widthOption = new WidthOption();
         var command = new Command("test");
+        var widthOption = new WidthOption();
 
         // Act
         widthOption.Register(command);

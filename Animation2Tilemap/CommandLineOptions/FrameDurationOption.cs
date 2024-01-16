@@ -1,9 +1,9 @@
 ﻿using System.CommandLine;
-using Animation2Tilemap.CommandLineOptions.Contracts;
+
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public class FrameDurationOption : ICommandLineOption<int>
+public class FrameDurationOption
 {
     public FrameDurationOption()
     {

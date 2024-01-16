@@ -6,7 +6,7 @@ namespace Animation2Tilemap.Services;
 
 public class TilemapDataService : ITilemapDataService
 {
-    public List<uint> ParseData(string input, TileLayerFormat format)
+    public IEnumerable<uint> ParseData(string input, TileLayerFormat format)
     {
         byte[] data;
         switch (format)

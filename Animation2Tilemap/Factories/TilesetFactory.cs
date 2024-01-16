@@ -3,33 +3,23 @@ using Animation2Tilemap.Entities;
 using Animation2Tilemap.Factories.Contracts;
 using Animation2Tilemap.Services.Contracts;
 using Serilog;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace Animation2Tilemap.Factories;
 
-public class TilesetFactory : ITilesetFactory
+public class TilesetFactory(
+    ApplicationOptions options,
+    ITilesetImageFactory tilesetImageFactory,
+    IImageHashService imageHashService,
+    ILogger logger)
+    : ITilesetFactory
 {
-    private readonly ITilesetImageFactory _tilesetImageFactory;
-    private readonly IImageHashService _imageHashService;
-    private readonly ILogger _logger;
-    private readonly Size _tileSize;
-    private readonly int _tileMargin;
-    private readonly int _tileSpacing;
-    private readonly int _frameDuration;
-
-    public TilesetFactory(
-        ApplicationOptions options,
-        ITilesetImageFactory tilesetImageFactory,
-        IImageHashService imageHashService,
-        ILogger logger)
-    {
-        _imageHashService = imageHashService;
-        _tilesetImageFactory = tilesetImageFactory;
-        _logger = logger;
-        _tileSize = options.TileSize;
-        _tileMargin = options.TileMargin;
-        _tileSpacing = options.TileSpacing;
-        _frameDuration = options.FrameDuration;
-    }
+    private readonly Size _tileSize = options.TileSize;
+    private readonly int _tileMargin = options.TileMargin;
+    private readonly int _tileSpacing = options.TileSpacing;
+    private readonly int _frameDuration = options.FrameDuration;
 
     public Tileset CreateFromImage(string fileName, List<Image<Rgba32>> frames)
     {
@@ -44,10 +34,12 @@ public class TilesetFactory : ITilesetFactory
             foreach (var tileLocation in GetTileLocations(frame.Width, frame.Height))
             {
                 var tileBounds = new Rectangle(tileLocation, _tileSize);
-                var tileFrame = frame.Clone(ctx => ctx.Crop(tileBounds));
-                var tileHash = _imageHashService.Compute(tileFrame);
-                var tileImage = new TilesetTileImage(tileFrame, tileHash);
+                var tileFrame = frame.Clone();
+                tileFrame.Mutate(ctx => ctx.Crop(tileBounds));
 
+                var tileHash = imageHashService.Compute(tileFrame);
+                var tileImage = new TilesetTileImage(tileFrame, tileHash);
+                
                 if (hashAccumulations.TryGetValue(tileLocation, out var accumulation))
                 {
                     hashAccumulations[tileLocation] = (accumulation * 33) ^ tileHash;
@@ -57,11 +49,12 @@ public class TilesetFactory : ITilesetFactory
                     hashAccumulations.Add(tileLocation, tileHash);
                 }
 
-                if (!tileImages.TryGetValue(tileLocation, out var locationImages))
+                if (tileImages.TryGetValue(tileLocation, out var locationImages) == false)
                 {
                     locationImages = new List<TilesetTileImage>();
                     tileImages.Add(tileLocation, locationImages);
                 }
+
                 locationImages.Add(tileImage);
             }
         }
@@ -75,7 +68,7 @@ public class TilesetFactory : ITilesetFactory
                 Image = tileImageCollection[0],
                 Animation = new TilesetTileAnimation
                 {
-                    Frames = new List<TilesetTileAnimationFrame>(),
+                    Frames = [],
                     Hash = hashAccumulation
                 }
             };
@@ -95,16 +88,17 @@ public class TilesetFactory : ITilesetFactory
                     previousFrameDuration = _frameDuration;
                 }
             }
+
             AddAnimationFrame(tile, registeredTiles, previousTileImage, animationDuration - tile.Animation.Frames.Sum(f => f.Duration));
         }
 
         var animationTiles = registeredTiles.Where(t => t.Animation is { Frames.Count: > 1 }).ToList();
         stopwatch.Stop();
 
-        _logger.Verbose("Registered {HashCount} distinct tile(s) and {AnimationCount} tile animation(s) for {FileName}. Took: {Elapsed}ms",
+        logger.Verbose("Registered {HashCount} distinct tile(s) and {AnimationCount} tile animation(s) for {FileName}. Took: {Elapsed}ms",
             registeredTiles.Count, animationTiles.Count, fileName, stopwatch.ElapsedMilliseconds);
 
-        var tilesetImage = _tilesetImageFactory.CreateFromTiles(registeredTiles, fileName);
+        var tilesetImage = tilesetImageFactory.CreateFromTiles(registeredTiles, fileName);
         var tileset = new Tileset
         {
             Name = fileName,
@@ -125,7 +119,7 @@ public class TilesetFactory : ITilesetFactory
     }
 
     private static void AddAnimationFrame(TilesetTile tile,
-        ICollection<TilesetTile> registeredTiles, TilesetTileImage tileImage, int duration)
+        List<TilesetTile> registeredTiles, TilesetTileImage tileImage, int duration)
     {
         var registeredTile = registeredTiles.FirstOrDefault(t => t.Image.Equals(tileImage));
         if (registeredTile == null)
@@ -137,6 +131,7 @@ public class TilesetFactory : ITilesetFactory
             };
             registeredTiles.Add(registeredTile);
         }
+
         var tileAnimationFrame = new TilesetTileAnimationFrame
         {
             TileId = registeredTile.Id,

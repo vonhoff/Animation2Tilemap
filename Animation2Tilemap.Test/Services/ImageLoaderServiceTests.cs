@@ -8,21 +8,14 @@ using Xunit.Abstractions;
 
 namespace Animation2Tilemap.Test.Services;
 
-public class ImageLoaderServiceTests
+public class ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
 {
-    private readonly Mock<IConfirmationDialogService> _confirmationDialogServiceMock;
-    private readonly Mock<INamePatternService> _namePatternServiceMock;
-    private readonly Logger _logger;
-
-    public ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
-    {
-        _logger = new LoggerConfiguration()
-            .MinimumLevel.Verbose()
-            .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
-            .CreateLogger();
-        _confirmationDialogServiceMock = new Mock<IConfirmationDialogService>();
-        _namePatternServiceMock = new Mock<INamePatternService>();
-    }
+    private readonly Mock<IConfirmationDialogService> _confirmationDialogServiceMock = new();
+    private readonly Mock<INamePatternService> _namePatternServiceMock = new();
+    private readonly Logger _logger = new LoggerConfiguration()
+        .MinimumLevel.Verbose()
+        .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
+        .CreateLogger();
 
     [Fact]
     public void TryLoadImages_ShouldReturnFalse_WhenInputPathIsInvalid()
@@ -140,7 +133,7 @@ public class ImageLoaderServiceTests
         // Assert
         Assert.True(result);
         Assert.Equal(8, images["anim"].Count);
-        Assert.Equal(1, images.Count);
+        Assert.Single(images);
 
         foreach (var image in images["anim"])
         {

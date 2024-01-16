@@ -8,5 +8,5 @@ public class TilesetTileAnimation
     public List<TilesetTileAnimationFrame> Frames { get; set; } = null!;
 
     [XmlIgnore]
-    public uint Hash { get; set; }
+    public uint Hash { get; init; }
 }

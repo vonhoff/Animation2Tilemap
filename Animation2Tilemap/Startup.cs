@@ -8,15 +8,8 @@ using Serilog;
 
 namespace Animation2Tilemap;
 
-public class Startup
+public class Startup(ApplicationOptions applicationOptions)
 {
-    private readonly ApplicationOptions _applicationOptions;
-
-    public Startup(ApplicationOptions applicationOptions)
-    {
-        _applicationOptions = applicationOptions;
-    }
-
     public Application BuildApplication()
     {
         var services = new ServiceCollection();
@@ -30,7 +23,7 @@ public class Startup
     private void ConfigureLogging(IServiceCollection services)
     {
         var logConfig = new LoggerConfiguration()
-            .MinimumLevel.Is(_applicationOptions.Verbose ?
+            .MinimumLevel.Is(applicationOptions.Verbose ?
                 Serilog.Events.LogEventLevel.Verbose :
                 Serilog.Events.LogEventLevel.Information)
             .WriteTo.Console(theme: SerilogConsoleThemes.CustomLiterate);
@@ -41,7 +34,7 @@ public class Startup
 
     private void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton(_applicationOptions);
+        services.AddSingleton(applicationOptions);
         services.AddSingleton<INamePatternService, NamePatternService>();
         services.AddSingleton<IImageAlignmentService, ImageAlignmentService>();
         services.AddSingleton<IImageLoaderService, ImageLoaderService>();

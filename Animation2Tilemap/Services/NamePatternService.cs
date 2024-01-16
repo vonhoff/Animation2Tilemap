@@ -5,26 +5,20 @@ using Serilog;
 
 namespace Animation2Tilemap.Services;
 
-public partial class NamePatternService : INamePatternService
+public partial class NamePatternService(ILogger logger) : INamePatternService
 {
-    private readonly ILogger _logger;
     private readonly Regex _namePattern = NamePattern();
     private readonly Regex _namePatternAlt = NamePatternAlternative();
-
-    public NamePatternService(ILogger logger)
-    {
-        _logger = logger;
-    }
 
     public string? GetMostNotablePattern(List<string> names)
     {
         var stopwatch = Stopwatch.StartNew();
 
         var patternCount = CountPatterns(names, _namePattern);
-        _logger.Verbose("Found {PatternCount} name pattern(s). Took: {Elapsed}ms", patternCount.Count, stopwatch.ElapsedMilliseconds);
+        logger.Verbose("Found {PatternCount} name pattern(s). Took: {Elapsed}ms", patternCount.Count, stopwatch.ElapsedMilliseconds);
 
         var patternCountAlt = CountPatterns(names, _namePatternAlt);
-        _logger.Verbose("Found {PatternCount} alternative name pattern(s). Took: {Elapsed}ms", patternCountAlt.Count, stopwatch.ElapsedMilliseconds);
+        logger.Verbose("Found {PatternCount} alternative name pattern(s). Took: {Elapsed}ms", patternCountAlt.Count, stopwatch.ElapsedMilliseconds);
 
         var maxPattern = FindMaxPattern(patternCount);
         var maxPatternAlt = FindMaxPattern(patternCountAlt);
@@ -32,19 +26,19 @@ public partial class NamePatternService : INamePatternService
         if (maxPattern != null && IsPresentInAll(names, maxPattern))
         {
             stopwatch.Stop();
-            _logger.Verbose("A notable name pattern is {MaxPattern}. Took: {Elapsed}ms", maxPattern, stopwatch.ElapsedMilliseconds);
+            logger.Verbose("A notable name pattern is {MaxPattern}. Took: {Elapsed}ms", maxPattern, stopwatch.ElapsedMilliseconds);
             return maxPattern;
         }
 
         if (maxPatternAlt != null && IsPresentInAll(names, maxPatternAlt))
         {
             stopwatch.Stop();
-            _logger.Verbose("A notable alternative name pattern is {MaxPatternAlt}. Took: {Elapsed}ms", maxPatternAlt, stopwatch.ElapsedMilliseconds);
+            logger.Verbose("A notable alternative name pattern is {MaxPatternAlt}. Took: {Elapsed}ms", maxPatternAlt, stopwatch.ElapsedMilliseconds);
             return maxPatternAlt;
         }
 
         stopwatch.Stop();
-        _logger.Warning("Could not find a repeating name pattern. Took: {Elapsed}ms", stopwatch.ElapsedMilliseconds);
+        logger.Warning("Could not find a repeating name pattern. Took: {Elapsed}ms", stopwatch.ElapsedMilliseconds);
         return null;
     }
 
@@ -95,11 +89,11 @@ public partial class NamePatternService : INamePatternService
     {
         if (strings.Any(str => !Regex.IsMatch(str, pattern)))
         {
-            _logger.Verbose("Candidate name pattern {Pattern} does not occur in all filenames.", pattern);
+            logger.Verbose("Candidate name pattern {Pattern} does not occur in all filenames.", pattern);
             return false;
         }
 
-        _logger.Verbose("Candidate name pattern {Pattern} does occur in all filenames.", pattern);
+        logger.Verbose("Candidate name pattern {Pattern} does occur in all filenames.", pattern);
         return true;
     }
 }

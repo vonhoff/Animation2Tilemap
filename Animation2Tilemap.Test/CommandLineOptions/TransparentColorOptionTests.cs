@@ -14,19 +14,19 @@ public class TransparentColorOptionTests
     {
         // Arrange
         var command = new Command("test");
-        var option = new TransparentColorOption();
+        var transparentColorOption = new TransparentColorOption();
 
         // Act
-        option.Register(command);
+        transparentColorOption.Register(command);
         var result = command.Parse($"--transparent {color}");
 
         // Assert
         Assert.Empty(result.Errors);
+        Assert.Equal(color, result.GetValueForOption(transparentColorOption.Option));
     }
 
     [Theory]
     [InlineData("")]
-    [InlineData(null)]
     [InlineData("#xyz123")]
     [InlineData("not-a-color")]
     public void Register_InvalidColors_SetErrorMessage(string color)

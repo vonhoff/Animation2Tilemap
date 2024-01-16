@@ -9,14 +9,11 @@ public class XmlSerializerService : IXmlSerializerService
 {
     public string Serialize<T>(T obj) where T : class
     {
-        if (obj == null)
-        {
-            throw new ArgumentNullException(nameof(obj));
-        }
+        ArgumentNullException.ThrowIfNull(obj);
 
         var serializer = new XmlSerializer(typeof(T));
         using var memoryStream = new MemoryStream();
-        var namespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+        var namespaces = new XmlSerializerNamespaces([XmlQualifiedName.Empty]);
         var settings = new XmlWriterSettings
         {
             Encoding = new UTF8Encoding(false),

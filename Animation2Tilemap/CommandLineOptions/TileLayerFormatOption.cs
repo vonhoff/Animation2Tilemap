@@ -1,9 +1,8 @@
 ﻿using System.CommandLine;
-using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public class TileLayerFormatOption : ICommandLineOption<string>
+public class TileLayerFormatOption
 {
     public TileLayerFormatOption()
     {
@@ -35,7 +34,7 @@ public class TileLayerFormatOption : ICommandLineOption<string>
             }
 
             var isValid = format != null && availableOptions.Contains(format);
-            if (!isValid)
+            if (isValid == false)
             {
                 result.ErrorMessage = $"Invalid format '{format}'. " +
                                       $"Format must be one of the following options: {string.Join(", ", availableOptions)}";

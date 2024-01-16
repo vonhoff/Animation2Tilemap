@@ -1,9 +1,8 @@
 ﻿using System.CommandLine;
-using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public class HeightOption : ICommandLineOption<int>
+public class HeightOption
 {
     public HeightOption()
     {

@@ -4,7 +4,7 @@ namespace Animation2Tilemap.Services.Contracts;
 
 public interface ITilemapDataService
 {
-    List<uint> ParseData(string input, TileLayerFormat format);
+    IEnumerable<uint> ParseData(string input, TileLayerFormat format);
 
     string SerializeData(uint[] data, TileLayerFormat format);
 }

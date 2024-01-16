@@ -1,22 +1,17 @@
 ﻿using Animation2Tilemap.Entities;
 using Animation2Tilemap.Factories.Contracts;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace Animation2Tilemap.Factories;
 
-public class TilesetImageFactory : ITilesetImageFactory
+public class TilesetImageFactory(ApplicationOptions options) : ITilesetImageFactory
 {
-    private readonly Rgba32 _transparentColor;
-    private readonly Size _tileSize;
-    private readonly int _tileSpacing;
-    private readonly int _tileMargin;
-
-    public TilesetImageFactory(ApplicationOptions options)
-    {
-        _tileSize = options.TileSize;
-        _transparentColor = options.TransparentColor;
-        _tileSpacing = options.TileSpacing;
-        _tileMargin = options.TileMargin;
-    }
+    private readonly Rgba32 _transparentColor = options.TransparentColor;
+    private readonly Size _tileSize = options.TileSize;
+    private readonly int _tileSpacing = options.TileSpacing;
+    private readonly int _tileMargin = options.TileMargin;
 
     public TilesetImage CreateFromTiles(IReadOnlyList<TilesetTile> registeredTiles, string fileName)
     {

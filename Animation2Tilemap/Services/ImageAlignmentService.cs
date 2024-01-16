@@ -1,19 +1,15 @@
 ﻿using System.Diagnostics;
 using Animation2Tilemap.Services.Contracts;
 using Serilog;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace Animation2Tilemap.Services;
 
-public class ImageAlignmentService : IImageAlignmentService
+public class ImageAlignmentService(ILogger logger, ApplicationOptions options) : IImageAlignmentService
 {
-    private readonly ILogger _logger;
-    private readonly Size _tileSize;
-
-    public ImageAlignmentService(ILogger logger, ApplicationOptions options)
-    {
-        _logger = logger;
-        _tileSize = options.TileSize;
-    }
+    private readonly Size _tileSize = options.TileSize;
 
     public bool TryAlignImage(string fileName, List<Image<Rgba32>> frames)
     {
@@ -32,14 +28,14 @@ public class ImageAlignmentService : IImageAlignmentService
             }
             catch (ImageProcessingException e)
             {
-                _logger.Error(e, "Could not apply transformations on {FileName}", fileName);
+                logger.Error(e, "Could not apply transformations on {FileName}", fileName);
                 return false;
             }
 
             frames[i] = alignedFrame;
         }
 
-        _logger.Verbose("Aligned {FrameCount} frame(s) of {FileName}. Took: {Elapsed}ms", frames.Count, fileName, alignmentStopwatch.ElapsedMilliseconds);
+        logger.Verbose("Aligned {FrameCount} frame(s) of {FileName}. Took: {Elapsed}ms", frames.Count, fileName, alignmentStopwatch.ElapsedMilliseconds);
         return true;
     }
 }

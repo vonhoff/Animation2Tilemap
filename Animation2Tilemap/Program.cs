@@ -4,16 +4,16 @@ using System.CommandLine.Parsing;
 using System.Text;
 using Animation2Tilemap.CommandLineOptions;
 using Animation2Tilemap.CommandLineOptions.Binding;
-using Animation2Tilemap.CommandLineOptions.Contracts;
+
 
 namespace Animation2Tilemap;
 
 public static class Program
 {
     private const string Description = """
-        Animation2Tilemap is a command-line tool that generates tilesets and tilemaps from animated or non-animated images.
-        See: https://github.com/vonhoff/Animation2Tilemap for more information.
-        """;
+                                       Animation2Tilemap is a command-line tool that generates tilesets and tilemaps from animated or non-animated images.
+                                       See: https://github.com/vonhoff/Animation2Tilemap for more information.
+                                       """;
 
     public static async Task Main(string[] args)
     {
@@ -46,16 +46,16 @@ public static class Program
 
     private static ApplicationOptionsBinder BuildApplicationOptionsBinder(Command rootCommand)
     {
-        ICommandLineOption<int> frameDurationOption = new FrameDurationOption();
-        ICommandLineOption<string> inputOption = new InputOption();
-        ICommandLineOption<string> outputOption = new OutputOption();
-        ICommandLineOption<int> heightOption = new HeightOption();
-        ICommandLineOption<int> widthOption = new WidthOption();
-        ICommandLineOption<int> marginOption = new MarginOption();
-        ICommandLineOption<int> spacingOption = new SpacingOption();
-        ICommandLineOption<string> transparentColorOption = new TransparentColorOption();
-        ICommandLineOption<string> tileLayerFormatOption = new TileLayerFormatOption();
-        ICommandLineOption<bool> verboseOption = new VerboseOption();
+        var frameDurationOption = new FrameDurationOption();
+        var inputOption = new InputOption();
+        var outputOption = new OutputOption();
+        var heightOption = new HeightOption();
+        var widthOption = new WidthOption();
+        var marginOption = new MarginOption();
+        var spacingOption = new SpacingOption();
+        var transparentColorOption = new TransparentColorOption();
+        var tileLayerFormatOption = new TileLayerFormatOption();
+        var verboseOption = new VerboseOption();
 
         return new ApplicationOptionsBinder(
             frameDurationOption.Register(rootCommand),

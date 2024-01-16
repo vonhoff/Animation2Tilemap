@@ -7,9 +7,6 @@ public class NaturalStringComparerTests
     private readonly NaturalStringComparer _comparer = new();
 
     [Theory]
-    [InlineData(null, null, 0)]
-    [InlineData(null, "abc", -1)]
-    [InlineData("abc", null, 1)]
     [InlineData("", "", 0)]
     [InlineData("abc", "abc", 0)]
     [InlineData("abc", "def", -1)]

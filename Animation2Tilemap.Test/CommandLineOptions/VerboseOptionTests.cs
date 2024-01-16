@@ -10,14 +10,14 @@ public class VerboseOptionTests
     {
         // Arrange
         var command = new Command("test");
-        var option = new VerboseOption();
+        var verboseOption = new VerboseOption();
 
         // Act
-        option.Register(command);
+        verboseOption.Register(command);
         var result = command.Parse("");
 
         // Assert
-        Assert.False(result.GetValueForOption(option.Option));
+        Assert.False(result.GetValueForOption(verboseOption.Option));
     }
 
     [Fact]
@@ -25,13 +25,13 @@ public class VerboseOptionTests
     {
         // Arrange
         var command = new Command("test");
-        var option = new VerboseOption();
+        var verboseOption = new VerboseOption();
 
         // Act
-        option.Register(command);
+        verboseOption.Register(command);
         var result = command.Parse("--verbose");
 
         // Assert
-        Assert.True(result.GetValueForOption(option.Option));
+        Assert.True(result.GetValueForOption(verboseOption.Option));
     }
 }

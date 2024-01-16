@@ -1,10 +1,9 @@
 ﻿using System.CommandLine;
 using System.Text.RegularExpressions;
-using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public partial class TransparentColorOption : ICommandLineOption<string>
+public partial class TransparentColorOption
 {
     public TransparentColorOption()
     {

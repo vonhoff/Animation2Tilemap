@@ -1,4 +1,6 @@
 ﻿using Animation2Tilemap.Entities;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Animation2Tilemap.Factories.Contracts;
 

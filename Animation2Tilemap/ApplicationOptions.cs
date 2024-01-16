@@ -1,4 +1,6 @@
 ﻿using Animation2Tilemap.Enums;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Animation2Tilemap;
 

@@ -9,8 +9,8 @@ public class OutputOptionTests
     public void Register_InvalidOutputFolder_ReturnsError()
     {
         // Arrange
-        var command = new Command("test");
         var outputOption = new OutputOption();
+        var command = new Command("test");
         var invalidPath = Path.GetInvalidPathChars()[0].ToString();
 
         // Act
@@ -32,9 +32,10 @@ public class OutputOptionTests
 
         // Act
         outputOption.Register(command);
-        command.Parse($"--output {expectedFolderPath}");
+        var result = command.Parse($"--output {expectedFolderPath}");
 
         // Assert
+        Assert.Equal(expectedFolderPath, result.GetValueForOption(outputOption.Option));
         Assert.True(Directory.Exists(expectedFolderPath));
     }
 }

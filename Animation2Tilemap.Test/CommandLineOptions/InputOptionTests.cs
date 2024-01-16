@@ -26,7 +26,7 @@ public class InputOptionTests
         // Arrange
         var inputOption = new InputOption();
         var command = new Command("test");
-        var path = "test_input.txt";
+        const string path = "test_input.txt";
 
         // Act
         inputOption.Register(command);

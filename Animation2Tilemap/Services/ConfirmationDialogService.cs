@@ -8,7 +8,7 @@ public class ConfirmationDialogService : IConfirmationDialogService
     {
         var isValidInput = false;
         var response = defaultOption;
-        while (!isValidInput)
+        while (isValidInput == false)
         {
             Console.WriteLine();
             var defaultText = defaultOption ? "[Y]" : "[N]";
@@ -20,7 +20,8 @@ public class ConfirmationDialogService : IConfirmationDialogService
                 response = defaultOption;
                 isValidInput = true;
             }
-            else switch (input)
+            else
+                switch (input)
                 {
                     case "Y":
                     {

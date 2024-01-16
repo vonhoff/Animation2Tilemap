@@ -1,9 +1,8 @@
 ﻿using System.CommandLine;
-using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public class WidthOption : ICommandLineOption<int>
+public class WidthOption
 {
     public WidthOption()
     {

@@ -1,16 +1,13 @@
-﻿namespace Animation2Tilemap.Entities;
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
-public readonly struct TilesetTileImage : IEquatable<TilesetTileImage>
+namespace Animation2Tilemap.Entities;
+
+public readonly struct TilesetTileImage(Image<Rgba32> data, uint hash) : IEquatable<TilesetTileImage>
 {
-    public TilesetTileImage(Image<Rgba32> data, uint hash)
-    {
-        Data = data;
-        Hash = hash;
-    }
+    public Image<Rgba32> Data { get; } = data;
 
-    public Image<Rgba32> Data { get; }
-
-    public uint Hash { get; }
+    private readonly uint _hash = hash;
 
     public static bool operator !=(TilesetTileImage left, TilesetTileImage right)
     {
@@ -24,7 +21,7 @@ public readonly struct TilesetTileImage : IEquatable<TilesetTileImage>
 
     public bool Equals(TilesetTileImage other)
     {
-        return other.Hash == Hash;
+        return other._hash == _hash;
     }
 
     public override bool Equals(object? obj)
@@ -33,11 +30,12 @@ public readonly struct TilesetTileImage : IEquatable<TilesetTileImage>
         {
             return Equals(other);
         }
+
         return false;
     }
 
     public override int GetHashCode()
     {
-        return Hash.GetHashCode();
+        return _hash.GetHashCode();
     }
 }
