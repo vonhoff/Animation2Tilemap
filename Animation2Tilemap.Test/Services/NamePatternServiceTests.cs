@@ -1,5 +1,4 @@
-﻿using Animation2Tilemap.Services;
-using Animation2Tilemap.Services.Contracts;
+﻿using Animation2Tilemap.Core.Services;
 using Animation2Tilemap.Test.TestHelpers;
 using Serilog;
 using Xunit.Abstractions;
@@ -8,7 +7,7 @@ namespace Animation2Tilemap.Test.Services;
 
 public class NamePatternServiceTests
 {
-    private readonly INamePatternService _patternService;
+    private readonly NamePatternService _patternService;
 
     public NamePatternServiceTests(ITestOutputHelper testOutputHelper)
     {
@@ -24,7 +23,8 @@ public class NamePatternServiceTests
     public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsLettersAndUnderscores()
     {
         // Arrange
-        var strings = new List<string> {
+        var strings = new List<string>
+        {
             "4_dragon_01",
             "6_dragon_31",
             "8_dragon_03",
@@ -47,7 +47,8 @@ public class NamePatternServiceTests
     public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsDifferentNames()
     {
         // Arrange
-        var strings = new List<string> {
+        var strings = new List<string>
+        {
             "application_add",
             "application_delete",
             "application_something",
@@ -70,7 +71,8 @@ public class NamePatternServiceTests
     public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenPatternContainNumbers()
     {
         // Arrange
-        var strings = new List<string> {
+        var strings = new List<string>
+        {
             "player_v2_walk1",
             "player_v2_walk2",
             "player_v2_walk3",
@@ -92,7 +94,8 @@ public class NamePatternServiceTests
     public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsUnderscores()
     {
         // Arrange
-        var strings = new List<string> {
+        var strings = new List<string>
+        {
             "player_shoot_11",
             "player_shoot_12",
             "player_shoot_13",
@@ -114,7 +117,8 @@ public class NamePatternServiceTests
     public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsDashes()
     {
         // Arrange
-        var strings = new List<string> {
+        var strings = new List<string>
+        {
             "player-shoot-11",
             "player-shoot-12",
             "player-shoot-13",
@@ -136,7 +140,8 @@ public class NamePatternServiceTests
     public void GetMostNotablePattern_ShouldReturnNull_WhenInputContainsSingleLetters()
     {
         // Arrange
-        var strings = new List<string> {
+        var strings = new List<string>
+        {
             "a",
             "a",
             "a"
@@ -153,7 +158,8 @@ public class NamePatternServiceTests
     public void GetMostNotablePattern_ShouldReturnCommonPattern_WhenInputContainsIndexedNames()
     {
         // Arrange
-        var strings = new List<string> {
+        var strings = new List<string>
+        {
             "barrel1",
             "barrel2",
             "barrel3",

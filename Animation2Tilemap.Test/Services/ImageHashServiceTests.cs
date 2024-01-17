@@ -1,5 +1,4 @@
-﻿using Animation2Tilemap.Services;
-using Animation2Tilemap.Services.Contracts;
+﻿using Animation2Tilemap.Core.Services;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -7,7 +6,7 @@ namespace Animation2Tilemap.Test.Services;
 
 public class ImageHashServiceTests
 {
-    private readonly IImageHashService _imageHashService = new ImageHashService();
+    private readonly ImageHashService _imageHashService = new();
 
     [Fact]
     public void Compute_ShouldReturnSameHash_GivenIdenticalImages()

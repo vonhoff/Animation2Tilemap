@@ -1,4 +1,5 @@
-﻿using Animation2Tilemap.Services;
+﻿using Animation2Tilemap.Core;
+using Animation2Tilemap.Core.Services;
 using Animation2Tilemap.Test.TestHelpers;
 using Serilog;
 using SixLabors.ImageSharp;

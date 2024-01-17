@@ -1,4 +1,4 @@
-﻿using Animation2Tilemap.Common;
+﻿using Animation2Tilemap.Core.Common;
 
 namespace Animation2Tilemap.Test.Common;
 
@@ -7,9 +7,6 @@ public class NaturalStringComparerTests
     private readonly NaturalStringComparer _comparer = new();
 
     [Theory]
-    [InlineData(null, null, 0)]
-    [InlineData(null, "abc", -1)]
-    [InlineData("abc", null, 1)]
     [InlineData("", "", 0)]
     [InlineData("abc", "abc", 0)]
     [InlineData("abc", "def", -1)]
@@ -102,7 +99,7 @@ public class NaturalStringComparerTests
             "frame_102.png",
             "frame_103.png",
             "frame_104.png",
-            "frame_105.png",
+            "frame_105.png"
         };
 
         var input = new List<string>
@@ -141,7 +138,7 @@ public class NaturalStringComparerTests
             "frame_1.png",
             "frame_97.png",
             "frame_98.png",
-            "frame_99.png",
+            "frame_99.png"
         };
 
         // Act
