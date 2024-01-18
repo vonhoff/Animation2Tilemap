@@ -619,7 +619,7 @@
             outputBox.BackColor = Color.Black;
             outputBox.DetectUrls = false;
             outputBox.Dock = DockStyle.Fill;
-            outputBox.Font = new Font("Consolas", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            outputBox.Font = new Font("Cascadia Mono", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             outputBox.Location = new Point(3, 3);
             outputBox.Name = "outputBox";
             outputBox.Size = new Size(985, 664);
@@ -637,6 +637,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Animation2Tilemap";
             HelpButtonClicked += MainForm_HelpButtonClicked;
             Load += MainForm_Load;

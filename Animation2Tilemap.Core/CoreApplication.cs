@@ -25,6 +25,8 @@ public class CoreApplication(
             return CoreApplicationResult.Failed;
         }
 
+        Directory.CreateDirectory(_outputFolder);
+
         var successfulImages = 0;
         Parallel.ForEach(images, frameCollection =>
         {
@@ -73,6 +75,11 @@ public class CoreApplication(
         });
 
         logger.Information("Finished. {SuccessfulImages} of {TotalImages} images were successfully processed.", successfulImages, images.Count);
+
+        if (successfulImages == 0)
+        {
+            return CoreApplicationResult.Failed;
+        }
 
         return successfulImages == images.Count ? CoreApplicationResult.Successful : CoreApplicationResult.PartiallySuccessful;
     }
