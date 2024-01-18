@@ -130,8 +130,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(tabControl1);
-            splitContainer1.Size = new Size(1482, 703);
-            splitContainer1.SplitterDistance = 350;
+            splitContainer1.Size = new Size(1382, 703);
+            splitContainer1.SplitterDistance = 379;
             splitContainer1.TabIndex = 0;
             // 
             // tabControl2
@@ -141,7 +141,7 @@
             tabControl2.Location = new Point(0, 0);
             tabControl2.Name = "tabControl2";
             tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new Size(350, 703);
+            tabControl2.Size = new Size(379, 703);
             tabControl2.TabIndex = 0;
             // 
             // tabPage2
@@ -151,7 +151,7 @@
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(342, 670);
+            tabPage2.Size = new Size(371, 670);
             tabPage2.TabIndex = 0;
             tabPage2.Text = "Configuration";
             tabPage2.UseVisualStyleBackColor = true;
@@ -187,7 +187,7 @@
             splitContainer2.Panel2.Controls.Add(splitContainer5);
             splitContainer2.Panel2.Controls.Add(splitContainer4);
             splitContainer2.Panel2.Controls.Add(splitContainer3);
-            splitContainer2.Size = new Size(336, 616);
+            splitContainer2.Size = new Size(365, 616);
             splitContainer2.SplitterDistance = 115;
             splitContainer2.TabIndex = 1;
             // 
@@ -310,7 +310,7 @@
             splitContainer11.Panel1.Controls.Add(configLayerFormat);
             splitContainer11.Panel1.Padding = new Padding(3);
             splitContainer11.Panel2Collapsed = true;
-            splitContainer11.Size = new Size(217, 32);
+            splitContainer11.Size = new Size(246, 32);
             splitContainer11.SplitterDistance = 64;
             splitContainer11.TabIndex = 8;
             // 
@@ -322,7 +322,7 @@
             configLayerFormat.Items.AddRange(new object[] { "base64", "gzip + base64", "zlib + base64", "csv" });
             configLayerFormat.Location = new Point(3, 3);
             configLayerFormat.Name = "configLayerFormat";
-            configLayerFormat.Size = new Size(211, 28);
+            configLayerFormat.Size = new Size(240, 28);
             configLayerFormat.TabIndex = 0;
             // 
             // splitContainer10
@@ -336,7 +336,7 @@
             splitContainer10.Panel1.Controls.Add(configNumberFrameTime);
             splitContainer10.Panel1.Padding = new Padding(3);
             splitContainer10.Panel2Collapsed = true;
-            splitContainer10.Size = new Size(217, 32);
+            splitContainer10.Size = new Size(246, 32);
             splitContainer10.SplitterDistance = 82;
             splitContainer10.TabIndex = 7;
             // 
@@ -347,7 +347,7 @@
             configNumberFrameTime.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             configNumberFrameTime.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             configNumberFrameTime.Name = "configNumberFrameTime";
-            configNumberFrameTime.Size = new Size(211, 27);
+            configNumberFrameTime.Size = new Size(240, 27);
             configNumberFrameTime.TabIndex = 1;
             configNumberFrameTime.Value = new decimal(new int[] { 125, 0, 0, 0 });
             // 
@@ -368,8 +368,8 @@
             // 
             splitContainer9.Panel2.Controls.Add(configButtonColor);
             splitContainer9.Panel2.Padding = new Padding(0, 3, 3, 3);
-            splitContainer9.Size = new Size(217, 32);
-            splitContainer9.SplitterDistance = 166;
+            splitContainer9.Size = new Size(246, 32);
+            splitContainer9.SplitterDistance = 195;
             splitContainer9.TabIndex = 6;
             // 
             // configTextColor
@@ -377,7 +377,7 @@
             configTextColor.Dock = DockStyle.Fill;
             configTextColor.Location = new Point(3, 3);
             configTextColor.Name = "configTextColor";
-            configTextColor.Size = new Size(162, 27);
+            configTextColor.Size = new Size(191, 27);
             configTextColor.TabIndex = 1;
             configTextColor.Text = "#FFFFFF";
             configTextColor.KeyDown += configTextColor_KeyDown;
@@ -405,7 +405,7 @@
             splitContainer8.Panel1.Controls.Add(configNumberSpacing);
             splitContainer8.Panel1.Padding = new Padding(3);
             splitContainer8.Panel2Collapsed = true;
-            splitContainer8.Size = new Size(217, 32);
+            splitContainer8.Size = new Size(246, 32);
             splitContainer8.SplitterDistance = 82;
             splitContainer8.TabIndex = 5;
             // 
@@ -415,7 +415,7 @@
             configNumberSpacing.Location = new Point(3, 3);
             configNumberSpacing.Maximum = new decimal(new int[] { 128, 0, 0, 0 });
             configNumberSpacing.Name = "configNumberSpacing";
-            configNumberSpacing.Size = new Size(211, 27);
+            configNumberSpacing.Size = new Size(240, 27);
             configNumberSpacing.TabIndex = 1;
             // 
             // splitContainer7
@@ -429,7 +429,7 @@
             splitContainer7.Panel1.Controls.Add(configNumberMargin);
             splitContainer7.Panel1.Padding = new Padding(3);
             splitContainer7.Panel2Collapsed = true;
-            splitContainer7.Size = new Size(217, 32);
+            splitContainer7.Size = new Size(246, 32);
             splitContainer7.SplitterDistance = 82;
             splitContainer7.TabIndex = 4;
             // 
@@ -439,7 +439,7 @@
             configNumberMargin.Location = new Point(3, 3);
             configNumberMargin.Maximum = new decimal(new int[] { 128, 0, 0, 0 });
             configNumberMargin.Name = "configNumberMargin";
-            configNumberMargin.Size = new Size(211, 27);
+            configNumberMargin.Size = new Size(240, 27);
             configNumberMargin.TabIndex = 1;
             // 
             // splitContainer6
@@ -453,7 +453,7 @@
             splitContainer6.Panel1.Controls.Add(configNumberHeight);
             splitContainer6.Panel1.Padding = new Padding(3);
             splitContainer6.Panel2Collapsed = true;
-            splitContainer6.Size = new Size(217, 32);
+            splitContainer6.Size = new Size(246, 32);
             splitContainer6.SplitterDistance = 82;
             splitContainer6.TabIndex = 3;
             // 
@@ -464,7 +464,7 @@
             configNumberHeight.Maximum = new decimal(new int[] { 128, 0, 0, 0 });
             configNumberHeight.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             configNumberHeight.Name = "configNumberHeight";
-            configNumberHeight.Size = new Size(211, 27);
+            configNumberHeight.Size = new Size(240, 27);
             configNumberHeight.TabIndex = 1;
             configNumberHeight.Value = new decimal(new int[] { 8, 0, 0, 0 });
             // 
@@ -479,7 +479,7 @@
             splitContainer5.Panel1.Controls.Add(configNumberWidth);
             splitContainer5.Panel1.Padding = new Padding(3);
             splitContainer5.Panel2Collapsed = true;
-            splitContainer5.Size = new Size(217, 32);
+            splitContainer5.Size = new Size(246, 32);
             splitContainer5.SplitterDistance = 82;
             splitContainer5.TabIndex = 2;
             // 
@@ -490,7 +490,7 @@
             configNumberWidth.Maximum = new decimal(new int[] { 128, 0, 0, 0 });
             configNumberWidth.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             configNumberWidth.Name = "configNumberWidth";
-            configNumberWidth.Size = new Size(211, 27);
+            configNumberWidth.Size = new Size(240, 27);
             configNumberWidth.TabIndex = 0;
             configNumberWidth.Value = new decimal(new int[] { 8, 0, 0, 0 });
             // 
@@ -511,8 +511,8 @@
             // 
             splitContainer4.Panel2.Controls.Add(configButtonOutput);
             splitContainer4.Panel2.Padding = new Padding(0, 3, 3, 3);
-            splitContainer4.Size = new Size(217, 32);
-            splitContainer4.SplitterDistance = 166;
+            splitContainer4.Size = new Size(246, 32);
+            splitContainer4.SplitterDistance = 195;
             splitContainer4.TabIndex = 1;
             // 
             // configTextOutput
@@ -520,7 +520,7 @@
             configTextOutput.Dock = DockStyle.Fill;
             configTextOutput.Location = new Point(3, 3);
             configTextOutput.Name = "configTextOutput";
-            configTextOutput.Size = new Size(162, 27);
+            configTextOutput.Size = new Size(191, 27);
             configTextOutput.TabIndex = 1;
             configTextOutput.Text = "output";
             configTextOutput.KeyDown += configTextOutput_KeyDown;
@@ -554,8 +554,8 @@
             // 
             splitContainer3.Panel2.Controls.Add(configButtonInput);
             splitContainer3.Panel2.Padding = new Padding(0, 3, 3, 3);
-            splitContainer3.Size = new Size(217, 32);
-            splitContainer3.SplitterDistance = 166;
+            splitContainer3.Size = new Size(246, 32);
+            splitContainer3.SplitterDistance = 195;
             splitContainer3.TabIndex = 0;
             // 
             // configTextInput
@@ -563,7 +563,7 @@
             configTextInput.Dock = DockStyle.Fill;
             configTextInput.Location = new Point(3, 3);
             configTextInput.Name = "configTextInput";
-            configTextInput.Size = new Size(162, 27);
+            configTextInput.Size = new Size(191, 27);
             configTextInput.TabIndex = 1;
             configTextInput.KeyDown += configTextInput_KeyDown;
             configTextInput.Leave += configTextInput_Leave;
@@ -587,7 +587,7 @@
             configButtonStart.Location = new Point(3, 619);
             configButtonStart.Margin = new Padding(12);
             configButtonStart.Name = "configButtonStart";
-            configButtonStart.Size = new Size(336, 48);
+            configButtonStart.Size = new Size(365, 48);
             configButtonStart.TabIndex = 0;
             configButtonStart.Text = "START";
             configButtonStart.UseVisualStyleBackColor = false;
@@ -600,7 +600,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1128, 703);
+            tabControl1.Size = new Size(999, 703);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -609,7 +609,7 @@
             tabPage1.Location = new Point(4, 29);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1120, 670);
+            tabPage1.Size = new Size(991, 670);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Output";
             tabPage1.UseVisualStyleBackColor = true;
@@ -622,7 +622,7 @@
             outputBox.Font = new Font("Consolas", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             outputBox.Location = new Point(3, 3);
             outputBox.Name = "outputBox";
-            outputBox.Size = new Size(1114, 664);
+            outputBox.Size = new Size(985, 664);
             outputBox.TabIndex = 2;
             outputBox.Text = "";
             // 
@@ -630,7 +630,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1482, 703);
+            ClientSize = new Size(1382, 703);
             Controls.Add(splitContainer1);
             HelpButton = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
