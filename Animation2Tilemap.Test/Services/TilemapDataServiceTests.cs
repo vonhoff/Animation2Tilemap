@@ -1,18 +1,17 @@
-﻿using Animation2Tilemap.Enums;
-using Animation2Tilemap.Services;
-using Animation2Tilemap.Services.Contracts;
+﻿using Animation2Tilemap.Core.Enums;
+using Animation2Tilemap.Core.Services;
 using Animation2Tilemap.Test.TestHelpers;
 
 namespace Animation2Tilemap.Test.Services;
 
 public class TilemapDataServiceTests
 {
-    private readonly ITilemapDataService _tilemapDataService = new TilemapDataService();
-    private readonly string _base64WithZlib = TestResourcesHelper.ImportText("Base64Zlib.txt");
-    private readonly string _base64WithGzip = TestResourcesHelper.ImportText("Base64Gzip.txt");
     private readonly string _base64 = TestResourcesHelper.ImportText("Base64.txt");
+    private readonly string _base64WithGzip = TestResourcesHelper.ImportText("Base64Gzip.txt");
+    private readonly string _base64WithZlib = TestResourcesHelper.ImportText("Base64Zlib.txt");
     private readonly string _csvData = TestResourcesHelper.ImportText("TilemapData.csv");
     private readonly uint[] _tilemapData = TestResourcesHelper.ImportArrayFromJson<uint>("Tilemap.json");
+    private readonly TilemapDataService _tilemapDataService = new();
 
     [Fact]
     public void ParseData_ShouldHaveCorrectResult_WithoutCompression()

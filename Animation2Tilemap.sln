@@ -3,9 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animation2Tilemap.Test", "Animation2Tilemap.Test\Animation2Tilemap.Test.csproj", "{D208437E-D803-436B-A536-6340A42D9100}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animation2Tilemap.Console.Test", "Animation2Tilemap.Console.Test\Animation2Tilemap.Console.Test.csproj", "{D208437E-D803-436B-A536-6340A42D9100}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animation2Tilemap", "Animation2Tilemap\Animation2Tilemap.csproj", "{62D3477D-8BEE-4763-BDE8-704234D14F9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animation2Tilemap.Console", "Animation2Tilemap.Console\Animation2Tilemap.Console.csproj", "{62D3477D-8BEE-4763-BDE8-704234D14F9D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animation2Tilemap.Core", "Animation2Tilemap.Core\Animation2Tilemap.Core.csproj", "{DE4C1998-D69E-43AC-8249-C2155595237C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animation2Tilemap.WinForms", "Animation2Tilemap.WinForms\Animation2Tilemap.WinForms.csproj", "{DF4DA95F-560B-45C0-BE13-9147762B0852}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animation2Tilemap.Test", "Animation2Tilemap.Test\Animation2Tilemap.Test.csproj", "{65331353-6EB7-4D28-9055-8037DDA8381D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EFB19C94-FBB0-4B3B-B4B1-805F04A94AC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{90023091-8DD1-4E7B-89EB-A99695A37C6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +31,28 @@ Global
 		{62D3477D-8BEE-4763-BDE8-704234D14F9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62D3477D-8BEE-4763-BDE8-704234D14F9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62D3477D-8BEE-4763-BDE8-704234D14F9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE4C1998-D69E-43AC-8249-C2155595237C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE4C1998-D69E-43AC-8249-C2155595237C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE4C1998-D69E-43AC-8249-C2155595237C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE4C1998-D69E-43AC-8249-C2155595237C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF4DA95F-560B-45C0-BE13-9147762B0852}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4DA95F-560B-45C0-BE13-9147762B0852}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4DA95F-560B-45C0-BE13-9147762B0852}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF4DA95F-560B-45C0-BE13-9147762B0852}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65331353-6EB7-4D28-9055-8037DDA8381D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65331353-6EB7-4D28-9055-8037DDA8381D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65331353-6EB7-4D28-9055-8037DDA8381D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65331353-6EB7-4D28-9055-8037DDA8381D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D208437E-D803-436B-A536-6340A42D9100} = {90023091-8DD1-4E7B-89EB-A99695A37C6C}
+		{62D3477D-8BEE-4763-BDE8-704234D14F9D} = {EFB19C94-FBB0-4B3B-B4B1-805F04A94AC3}
+		{DE4C1998-D69E-43AC-8249-C2155595237C} = {EFB19C94-FBB0-4B3B-B4B1-805F04A94AC3}
+		{DF4DA95F-560B-45C0-BE13-9147762B0852} = {EFB19C94-FBB0-4B3B-B4B1-805F04A94AC3}
+		{65331353-6EB7-4D28-9055-8037DDA8381D} = {90023091-8DD1-4E7B-89EB-A99695A37C6C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C34CD8E7-06D4-41F8-B425-7BB57207C744}

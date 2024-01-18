@@ -22,10 +22,11 @@ public static class TestResourcesHelper
     {
         var callerClassName = new StackFrame(1).GetMethod()!.DeclaringType!.Name;
         var filePath = Path.Combine("Resources", callerClassName, jsonFile);
-        if (!File.Exists(filePath))
+        if (File.Exists(filePath) == false)
         {
             throw new FileNotFoundException($"The file {filePath} does not exist.");
         }
+
         using var fs = new FileStream(filePath, FileMode.Open);
         return JsonSerializer.Deserialize<T[]>(fs) ?? Array.Empty<T>();
     }
@@ -34,10 +35,11 @@ public static class TestResourcesHelper
     {
         var callerClassName = new StackFrame(1).GetMethod()!.DeclaringType!.Name;
         var filePath = Path.Combine("Resources", callerClassName, fileName);
-        if (!File.Exists(filePath))
+        if (File.Exists(filePath) == false)
         {
             throw new FileNotFoundException($"The file {filePath} does not exist.");
         }
+
         using var sr = new StreamReader(filePath);
         return sr.ReadToEnd();
     }

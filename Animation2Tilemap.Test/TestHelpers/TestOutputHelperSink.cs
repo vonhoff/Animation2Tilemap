@@ -1,23 +1,14 @@
 ﻿using Serilog.Core;
 using Serilog.Events;
-using Serilog.Formatting;
 using Serilog.Formatting.Display;
 using Xunit.Abstractions;
 
 namespace Animation2Tilemap.Test.TestHelpers;
 
-public class TestOutputHelperSink : ILogEventSink
+public class TestOutputHelperSink(ITestOutputHelper output) : ILogEventSink
 {
-    private readonly ITestOutputHelper _output;
-    private readonly ITextFormatter _formatter;
-    private readonly ITextFormatter _exceptionFormatter;
-
-    public TestOutputHelperSink(ITestOutputHelper output)
-    {
-        _output = output;
-        _formatter = new MessageTemplateTextFormatter("[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}");
-        _exceptionFormatter = new MessageTemplateTextFormatter("{Exception}");
-    }
+    private readonly MessageTemplateTextFormatter _exceptionFormatter = new("{Exception}");
+    private readonly MessageTemplateTextFormatter _formatter = new("[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}");
 
     public void Emit(LogEvent logEvent)
     {
@@ -26,12 +17,12 @@ public class TestOutputHelperSink : ILogEventSink
 
         _formatter.Format(logEvent, writer);
         _exceptionFormatter.Format(logEvent, exceptionWriter);
-        _output.WriteLine(writer.ToString());
+        output.WriteLine(writer.ToString());
 
         var exception = exceptionWriter.ToString();
-        if (!string.IsNullOrWhiteSpace(exception))
+        if (string.IsNullOrWhiteSpace(exception) == false)
         {
-            _output.WriteLine(exception);
+            output.WriteLine(exception);
         }
     }
 }

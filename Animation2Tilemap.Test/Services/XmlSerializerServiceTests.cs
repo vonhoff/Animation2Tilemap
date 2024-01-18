@@ -1,12 +1,10 @@
 ﻿using System.Xml.Serialization;
-using Animation2Tilemap.Services;
+using Animation2Tilemap.Core.Services;
 
 namespace Animation2Tilemap.Test.Services;
 
 public class XmlSerializerServiceTests
 {
-    private readonly XmlSerializerService _xmlSerializerService = new();
-
     private readonly Person _person = new()
     {
         Name = "Alice",
@@ -18,6 +16,7 @@ public class XmlSerializerServiceTests
             ZipCode = "10001"
         }
     };
+    private readonly XmlSerializerService _xmlSerializerService = new();
 
     [Fact]
     public void Serialize_ShouldReturnValidXmlString_WhenObjectIsNotNull()
