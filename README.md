@@ -29,26 +29,6 @@ represent the dynamic aspects of the original image.
 
 Image source: https://x.com/jmw327/status/1405872936783802384
 
-## Motivation
-
-My journey with Animation2Tilemap started when I was inspired by classic isometric games
-like [Populous](https://en.wikipedia.org/wiki/Populous_(video_game)). I wanted to recreate their immersive atmosphere in
-my own projects. However, I faced a challenge with [Tilengine's](https://megamarc.itch.io/tilengine) lack of native
-support for diamond isometric tiles.
-
-To overcome this, I devised a workaround: dividing pre-rendered animated images into square tiles. This approach allowed
-me to integrate animated elements into an orthographic tileset. However, the process was cumbersome, involving manual
-extraction, slicing, filtering duplicates, and organizing the tiles.
-
-Tilengine [doesn't support](https://github.com/megamarc/Tilengine/issues/75) diamond tiles because standard 2D chipsets
-don't support them either. Classic isometric games running on consoles, such as Populous, used standard square tiles
-that were diagonally split, which combined the corners of different diamond tiles. So they gave the illusion of
-isometric tiles.
-
-Determined to simplify this process, I developed Animation2Tilemap. This tool automates the conversion from animated
-images to tilemaps. It's versatile, supporting various types of animations, including GIFs. However, due to practical
-considerations, it's particularly ideal for small and simple animations.
-
 ## Features
 
 Animation2Tilemap offers the following features:
@@ -101,6 +81,26 @@ For example, this command converts the `anim` folder into a tileset and a tilema
 transparent color, using gzip compression and 200ms frame duration:
 
 `animation2tilemap.console -i anim -o output -h 16 -w 16 -t FF00FF -f gzip -d 200`
+
+## Motivation
+
+My journey with Animation2Tilemap started when I was inspired by classic isometric games
+like [Populous](https://en.wikipedia.org/wiki/Populous_(video_game)). I wanted to recreate their immersive atmosphere in
+my own projects. However, I faced a challenge with [Tilengine's](https://megamarc.itch.io/tilengine) lack of native
+support for diamond isometric tiles.
+
+To overcome this, I devised a workaround: dividing pre-rendered animated images into square tiles. This approach allowed
+me to integrate animated elements into an orthographic tileset. However, the process was cumbersome, involving manual
+extraction, slicing, filtering duplicates, and organizing the tiles.
+
+Tilengine [doesn't support](https://github.com/megamarc/Tilengine/issues/75) diamond tiles because standard 2D chipsets
+don't support them either. Classic isometric games running on consoles, such as Populous, used standard square tiles
+that were diagonally split, which combined the corners of different diamond tiles. So they gave the illusion of
+isometric tiles.
+
+Determined to simplify this process, I developed Animation2Tilemap. This tool automates the conversion from animated
+images to tilemaps. It's versatile, supporting various types of animations, including GIFs. However, due to practical
+considerations, it's particularly ideal for small and simple animations.
 
 ## How It Works
 
