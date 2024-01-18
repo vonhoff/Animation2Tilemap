@@ -23,9 +23,9 @@ Let's illustrate the capabilities with the following input image. This image con
 |:-------------------------:|:----------------------------------------------------------------:|
 | ![Input image](input.gif) | [![Output image](result.png)](https://example.com/result-source) |
 
-By utilizing this tool, you can convert the input image, featuring a mix of static and dynamic elements, into an
-animated tileset and tilemap. The transformation process results in a set of PNG, TSX, and TMX files that collectively
-represent the dynamic aspects of the original image.
+By utilizing this tool, you can convert the input animation, featuring a mix of static and dynamic elements, into an
+animated tileset and tilemap. It results in a set of PNG, TSX, and TMX files that collectively represent the original
+image or animation.
 
 Image source: https://x.com/jmw327/status/1405872936783802384
 
@@ -84,16 +84,15 @@ transparent color, using gzip compression and 200ms frame duration:
 
 ## Motivation
 
-My journey with Animation2Tilemap started when I was inspired by classic isometric games
-like [Populous](https://en.wikipedia.org/wiki/Populous_(video_game)). I wanted to recreate their immersive atmosphere in
-my own projects. However, I faced a challenge with [Tilengine's](https://megamarc.itch.io/tilengine) lack of native
-support for diamond isometric tiles.
+I was inspired by classic isometric games like [Populous](https://en.wikipedia.org/wiki/Populous_(video_game)). I wanted
+to recreate its immersive atmosphere in my own projects using [Tilengine](https://megamarc.itch.io/tilengine) as a
+rendering engine. However, I faced a challenge with its lack of native support for diamond isometric tiles.
 
 To overcome this, I devised a workaround: dividing pre-rendered animated images into square tiles. This approach allowed
 me to integrate animated elements into an orthographic tileset. However, the process was cumbersome, involving manual
 extraction, slicing, filtering duplicates, and organizing the tiles.
 
-Tilengine [doesn't support](https://github.com/megamarc/Tilengine/issues/75) diamond tiles because standard 2D chipsets
+Tilengine doesn't support diamond tiles because standard 2D chipsets
 don't support them either. Classic isometric games running on consoles, such as Populous, used standard square tiles
 that were diagonally split, which combined the corners of different diamond tiles. So they gave the illusion of
 isometric tiles.
