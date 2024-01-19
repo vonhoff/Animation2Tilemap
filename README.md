@@ -19,9 +19,9 @@ efficient.
 
 Let's illustrate the capabilities with the following input image. This image contains both static and dynamic elements.
 
-|        Input Image        |                         Resulting Output                         |
-|:-------------------------:|:----------------------------------------------------------------:|
-| ![Input image](input.gif) | [![Output image](result.png)](https://example.com/result-source) |
+|        Input Image        |      Resulting Output       |
+|:-------------------------:|:---------------------------:|
+| ![Input image](input.gif) | ![Output image](result.png) |
 
 By utilizing this tool, you can convert the input animation, featuring a mix of static and dynamic elements, into an
 animated tileset and tilemap. It results in a set of PNG, TSX, and TMX files that collectively represent the original
