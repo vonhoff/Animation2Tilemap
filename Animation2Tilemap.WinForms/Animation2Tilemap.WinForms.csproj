@@ -7,19 +7,24 @@
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
+        <ApplicationIcon>icon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="icon.ico"/>
+        <None Remove="icon.ico" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
-        <PackageReference Include="Serilog.Sinks.RichTextBox.WinForms.Colored" Version="1.2.0"/>
+      <Content Include="icon.ico" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Animation2Tilemap.Core\Animation2Tilemap.Core.csproj"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Serilog.Sinks.RichTextBox.WinForms.Colored" Version="1.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Animation2Tilemap.Core\Animation2Tilemap.Core.csproj" />
     </ItemGroup>
 
 </Project>
