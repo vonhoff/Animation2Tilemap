@@ -79,7 +79,7 @@ different diamond tiles gave the illusion of isometric tiles.
 
 To work around this, I divided pre-rendered animated images into square tiles. This approach allowed me to integrate
 animated elements into an orthographic tileset. However, the process was cumbersome. It involved manual extraction,
-slicing, and filtering for duplicates, as well as organizing the tiles.
+slicing, and filtering for duplicates, as well as organizing the tiles. I created this tool to automate that process.
 
 ## Acknowledgments
 
