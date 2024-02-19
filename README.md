@@ -56,11 +56,6 @@ You can also specify other options to customize the output, such as:
 | `-v` `--verbose`                          | Enables verbose logging for debugging purposes.       | `false`    |
 | `-?` `--help`                             | Shows help and usage information.                     |            |
 
-For example, this command converts the `anim` folder into a tileset and a tilemap with 16x16 pixels tiles, magenta
-transparent color, using gzip compression and 200ms frame duration:
-
-`animation2tilemap.console -i anim -o output -h 16 -w 16 -t FF00FF -f gzip -d 200`
-
 ## Example
 
 Using this tool, you can convert the following animation into an animated tileset and tilemap. It results in a set
