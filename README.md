@@ -19,9 +19,16 @@ Animation2Tilemap offers the following features:
 - Customize the tile size, transparent color, and frame duration of your animations.
 - Generate tilesets and tilemaps in Tiled compatible formats, such as base64, zlib, gzip, and csv.
 
-## Screenshots
+## Example Use Case
 
-![Program screenshot](screenshot.png)
+Using this tool, you can convert the following animation into an animated tileset and tilemap. It results in a set
+of PNG, TSX, and TMX files that collectively represent the original image.
+
+|        Input Image        |      Resulting Output       |
+|:-------------------------:|:---------------------------:|
+| ![Input image](input.gif) | ![Output image](result.png) |
+
+Image source: https://x.com/jmw327/status/1405872936783802384
 
 ## Installation
 
@@ -56,16 +63,9 @@ You can also specify other options to customize the output, such as:
 | `-v` `--verbose`                          | Enables verbose logging for debugging purposes.       | `false`    |
 | `-?` `--help`                             | Shows help and usage information.                     |            |
 
-## Example
+## Screenshot
 
-Using this tool, you can convert the following animation into an animated tileset and tilemap. It results in a set
-of PNG, TSX, and TMX files that collectively represent the original image.
-
-|        Input Image        |      Resulting Output       |
-|:-------------------------:|:---------------------------:|
-| ![Input image](input.gif) | ![Output image](result.png) |
-
-Image source: https://x.com/jmw327/status/1405872936783802384
+![Program screenshot](screenshot.png)
 
 ## Motivation
 
