@@ -539,6 +539,7 @@
             // 
             // splitContainer3
             // 
+            splitContainer3.BackColor = Color.Gold;
             splitContainer3.Dock = DockStyle.Top;
             splitContainer3.FixedPanel = FixedPanel.Panel2;
             splitContainer3.IsSplitterFixed = true;

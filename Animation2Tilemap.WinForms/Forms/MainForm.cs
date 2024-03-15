@@ -77,6 +77,8 @@ public partial class MainForm : Form
 
     private void configButtonStart_Click(object sender, EventArgs e)
     {
+        Log.Information("{Text}", "A new operation has been started.");
+
         var applicationOptions = new ApplicationOptions
         {
             FrameDuration = (int)Math.Round(configNumberFrameTime.Value),
@@ -263,6 +265,11 @@ public partial class MainForm : Form
         }
     }
 
+    private void ToggleInputHighlight(bool toggle)
+    {
+        splitContainer3.BackColor = toggle ? Color.Gold : Color.Transparent;
+    }
+
     private void UpdateColor()
     {
         var code = _selectedColor.ToHex();
@@ -294,17 +301,20 @@ public partial class MainForm : Form
         {
             Log.Information("Input Folder: {Path}", configTextInput.Text);
             ToggleStartButton(true);
+            ToggleInputHighlight(false);
         }
         else if (File.Exists(configTextInput.Text))
         {
             Log.Information("Input File: {Path}", configTextInput.Text);
             ToggleStartButton(true);
+            ToggleInputHighlight(false);
         }
         else
         {
             Log.Error("The specified input path does not point to an existing file or folder.");
             configTextInput.Text = string.Empty;
             ToggleStartButton(false);
+            ToggleInputHighlight(true);
         }
 
         _selectedInputPath = configTextInput.Text;
