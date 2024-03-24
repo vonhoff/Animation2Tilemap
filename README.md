@@ -1,7 +1,7 @@
 # Animation2Tilemap
 
 ![workflow](https://img.shields.io/github/actions/workflow/status/vonhoff/Animation2Tilemap/dotnet.yml)
-[![version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/vonhoff/Animation2Tilemap/releases)
+[![version](https://img.shields.io/badge/version-1.2.1-blue)](https://github.com/vonhoff/Animation2Tilemap/releases)
 [![version](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 Animation2Tilemap is a tool to easily convert images or animated images to tilemaps and tilesets.
