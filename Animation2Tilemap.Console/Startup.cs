@@ -13,14 +13,14 @@ namespace Animation2Tilemap.Console;
 
 public class Startup(ApplicationOptions applicationOptions)
 {
-    public CoreApplication BuildApplication()
+    public Application BuildApplication()
     {
         var services = new ServiceCollection();
         ConfigureLogging(services);
         ConfigureServices(services);
 
         var serviceProvider = services.BuildServiceProvider();
-        return serviceProvider.GetRequiredService<CoreApplication>();
+        return serviceProvider.GetRequiredService<Application>();
     }
 
     private void ConfigureLogging(IServiceCollection services)
@@ -46,6 +46,6 @@ public class Startup(ApplicationOptions applicationOptions)
         services.AddSingleton<ITilesetFactory, TilesetFactory>();
         services.AddSingleton<ITilemapFactory, TilemapFactory>();
         services.AddSingleton<ITilesetImageFactory, TilesetImageFactory>();
-        services.AddSingleton<CoreApplication>();
+        services.AddSingleton<Application>();
     }
 }

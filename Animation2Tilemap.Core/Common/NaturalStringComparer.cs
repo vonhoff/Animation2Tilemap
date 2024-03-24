@@ -9,13 +9,13 @@ public class NaturalStringComparer : IComparer<string>
         switch (x)
         {
             case null when y == null:
-            {
-                return 0;
-            }
+                {
+                    return 0;
+                }
             case null:
-            {
-                return -1;
-            }
+                {
+                    return -1;
+                }
         }
 
         if (y == null)

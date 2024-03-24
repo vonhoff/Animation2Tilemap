@@ -1,7 +1,7 @@
-﻿using System.Text;
+﻿using Animation2Tilemap.Core.Services.Contracts;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using Animation2Tilemap.Core.Services.Contracts;
 
 namespace Animation2Tilemap.Core.Services;
 

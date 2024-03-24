@@ -1,5 +1,5 @@
-﻿using System.CommandLine;
-using Animation2Tilemap.Console.CommandLineOptions;
+﻿using Animation2Tilemap.Console.CommandLineOptions;
+using System.CommandLine;
 
 namespace Animation2Tilemap.Console.Test.CommandLineOptions;
 

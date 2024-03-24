@@ -1,6 +1,6 @@
-﻿using System.IO.Compression;
-using Animation2Tilemap.Core.Enums;
+﻿using Animation2Tilemap.Core.Enums;
 using Animation2Tilemap.Core.Services.Contracts;
+using System.IO.Compression;
 
 namespace Animation2Tilemap.Core.Services;
 
@@ -12,27 +12,27 @@ public class TilemapDataService : ITilemapDataService
         switch (format)
         {
             case TileLayerFormat.Base64Uncompressed or TileLayerFormat.Base64ZLib or TileLayerFormat.Base64GZip:
-            {
-                data = Convert.FromBase64String(input);
-                break;
-            }
-            case TileLayerFormat.Csv:
-            {
-                var csvTileIds = input.Trim().Split(',');
-                data = new byte[csvTileIds.Length * 4];
-                for (var i = 0; i < csvTileIds.Length; i++)
                 {
-                    var tileId = uint.Parse(csvTileIds[i].Trim());
-                    var tileIdBytes = BitConverter.GetBytes(tileId);
-                    Array.Copy(tileIdBytes, 0, data, i * 4, 4);
+                    data = Convert.FromBase64String(input);
+                    break;
                 }
+            case TileLayerFormat.Csv:
+                {
+                    var csvTileIds = input.Trim().Split(',');
+                    data = new byte[csvTileIds.Length * 4];
+                    for (var i = 0; i < csvTileIds.Length; i++)
+                    {
+                        var tileId = uint.Parse(csvTileIds[i].Trim());
+                        var tileIdBytes = BitConverter.GetBytes(tileId);
+                        Array.Copy(tileIdBytes, 0, data, i * 4, 4);
+                    }
 
-                break;
-            }
+                    break;
+                }
             default:
-            {
-                throw new ArgumentOutOfRangeException(nameof(format), format, "Unsupported format");
-            }
+                {
+                    throw new ArgumentOutOfRangeException(nameof(format), format, "Unsupported format");
+                }
         }
 
         using var inputStream = new MemoryStream(data);

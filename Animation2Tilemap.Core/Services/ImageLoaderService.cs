@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
-using Animation2Tilemap.Core.Common;
+﻿using Animation2Tilemap.Core.Common;
 using Animation2Tilemap.Core.Services.Contracts;
 using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Diagnostics;
 
 namespace Animation2Tilemap.Core.Services;
 

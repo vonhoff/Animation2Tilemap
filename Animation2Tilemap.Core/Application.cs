@@ -1,13 +1,13 @@
-﻿using System.Diagnostics;
-using Animation2Tilemap.Core.Enums;
+﻿using Animation2Tilemap.Core.Enums;
 using Animation2Tilemap.Core.Factories.Contracts;
 using Animation2Tilemap.Core.Services.Contracts;
 using Serilog;
 using SixLabors.ImageSharp;
+using System.Diagnostics;
 
 namespace Animation2Tilemap.Core;
 
-public class CoreApplication(
+public class Application(
     IImageAlignmentService imageAlignmentService,
     IImageLoaderService imageLoaderService,
     ITilesetFactory tilesetFactory,
@@ -18,11 +18,11 @@ public class CoreApplication(
 {
     private readonly string _outputFolder = Path.GetFullPath(options.Output);
 
-    public CoreApplicationResult Run()
+    public ApplicationResult Run()
     {
         if (imageLoaderService.TryLoadImages(out var images) == false)
         {
-            return CoreApplicationResult.Failed;
+            return ApplicationResult.Failed;
         }
 
         Directory.CreateDirectory(_outputFolder);
@@ -78,9 +78,9 @@ public class CoreApplication(
 
         if (successfulImages == 0)
         {
-            return CoreApplicationResult.Failed;
+            return ApplicationResult.Failed;
         }
 
-        return successfulImages == images.Count ? CoreApplicationResult.Successful : CoreApplicationResult.PartiallySuccessful;
+        return successfulImages == images.Count ? ApplicationResult.Successful : ApplicationResult.PartiallySuccessful;
     }
 }

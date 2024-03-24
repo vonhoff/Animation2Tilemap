@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
 using Animation2Tilemap.Core.Services;
 
-namespace Animation2Tilemap.Test.Services;
+namespace Animation2Tilemap.Core.Test.Services;
 
 public class XmlSerializerServiceTests
 {
@@ -16,6 +16,7 @@ public class XmlSerializerServiceTests
             ZipCode = "10001"
         }
     };
+
     private readonly XmlSerializerService _xmlSerializerService = new();
 
     [Fact]

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
-using System.Media;
-using Animation2Tilemap.Core;
+﻿using Animation2Tilemap.Core;
 using Animation2Tilemap.Core.Enums;
 using Animation2Tilemap.Core.Factories;
 using Animation2Tilemap.Core.Factories.Contracts;
@@ -16,6 +13,10 @@ using Serilog.Events;
 using Serilog.Sinks.RichTextBoxForms;
 using Serilog.Sinks.RichTextBoxForms.Themes;
 using SixLabors.ImageSharp.PixelFormats;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Media;
+using Application = Animation2Tilemap.Core.Application;
 using Color = System.Drawing.Color;
 using Directory = System.IO.Directory;
 using Size = SixLabors.ImageSharp.Size;
@@ -106,7 +107,7 @@ public partial class MainForm : Form
         services.AddSingleton<ITilesetFactory, TilesetFactory>();
         services.AddSingleton<ITilemapFactory, TilemapFactory>();
         services.AddSingleton<ITilesetImageFactory, TilesetImageFactory>();
-        services.AddSingleton<CoreApplication>();
+        services.AddSingleton<Application>();
 
         ToggleStartButton(false);
         tabControl2.Enabled = false;
@@ -114,7 +115,7 @@ public partial class MainForm : Form
         outputBox.Cursor = Cursors.WaitCursor;
 
         var serviceProvider = services.BuildServiceProvider();
-        var coreApplication = serviceProvider.GetRequiredService<CoreApplication>();
+        var coreApplication = serviceProvider.GetRequiredService<Application>();
         var resultTask = Task.Run(() => coreApplication.Run());
 
         resultTask.ContinueWith(task =>
@@ -126,51 +127,51 @@ public partial class MainForm : Form
 
             switch (task.Result)
             {
-                case CoreApplicationResult.Successful:
-                {
-                    SystemSounds.Beep.Play();
-                    var openFolderResult = MessageBox.Show(
-                        "The operation has been completed successfully. Would you like to open the output folder?",
-                        "Operation successful",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information
-                    );
-
-                    if (openFolderResult == DialogResult.Yes)
+                case ApplicationResult.Successful:
                     {
-                        Process.Start("explorer.exe", applicationOptions.Output);
+                        SystemSounds.Beep.Play();
+                        var openFolderResult = MessageBox.Show(
+                            "The operation has been completed successfully. Would you like to open the output folder?",
+                            "Operation successful",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Information
+                        );
+
+                        if (openFolderResult == DialogResult.Yes)
+                        {
+                            Process.Start("explorer.exe", applicationOptions.Output);
+                        }
+
+                        break;
                     }
-
-                    break;
-                }
-                case CoreApplicationResult.PartiallySuccessful:
-                {
-                    SystemSounds.Exclamation.Play();
-                    var openFolderResult = MessageBox.Show(
-                        "The operation was partially successful, review the console output for additional details. Would you like to open the output folder?",
-                        "Operation successful",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information
-                    );
-
-                    if (openFolderResult == DialogResult.Yes)
+                case ApplicationResult.PartiallySuccessful:
                     {
-                        Process.Start("explorer.exe", applicationOptions.Output);
-                    }
+                        SystemSounds.Exclamation.Play();
+                        var openFolderResult = MessageBox.Show(
+                            "The operation was partially successful, review the console output for additional details. Would you like to open the output folder?",
+                            "Operation successful",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Information
+                        );
 
-                    break;
-                }
-                case CoreApplicationResult.Failed:
-                {
-                    SystemSounds.Hand.Play();
-                    MessageBox.Show(
-                        "The operation failed. Check the console output for more information.",
-                        "Operation failed",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-                    break;
-                }
+                        if (openFolderResult == DialogResult.Yes)
+                        {
+                            Process.Start("explorer.exe", applicationOptions.Output);
+                        }
+
+                        break;
+                    }
+                case ApplicationResult.Failed:
+                    {
+                        SystemSounds.Hand.Play();
+                        MessageBox.Show(
+                            "The operation failed. Check the console output for more information.",
+                            "Operation failed",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                        break;
+                    }
             }
         }, TaskScheduler.FromCurrentSynchronizationContext());
     }

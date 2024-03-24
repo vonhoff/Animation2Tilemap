@@ -1,6 +1,6 @@
 ﻿using Animation2Tilemap.Core.Common;
 
-namespace Animation2Tilemap.Test.Common;
+namespace Animation2Tilemap.Core.Test.Common;
 
 public class NaturalStringComparerTests
 {

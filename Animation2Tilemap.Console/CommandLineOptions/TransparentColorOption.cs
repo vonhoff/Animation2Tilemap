@@ -1,6 +1,6 @@
-﻿using System.CommandLine;
+﻿using Animation2Tilemap.Console.CommandLineOptions.Contracts;
+using System.CommandLine;
 using System.Text.RegularExpressions;
-using Animation2Tilemap.Console.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.Console.CommandLineOptions;
 

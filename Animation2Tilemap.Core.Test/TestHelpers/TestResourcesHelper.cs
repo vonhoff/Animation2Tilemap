@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
 
-namespace Animation2Tilemap.Test.TestHelpers;
+namespace Animation2Tilemap.Core.Test.TestHelpers;
 
 public static class TestResourcesHelper
 {

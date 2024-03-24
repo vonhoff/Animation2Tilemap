@@ -3,7 +3,7 @@ using Serilog.Events;
 using Serilog.Formatting.Display;
 using Xunit.Abstractions;
 
-namespace Animation2Tilemap.Test.TestHelpers;
+namespace Animation2Tilemap.Core.Test.TestHelpers;
 
 public class TestOutputHelperSink(ITestOutputHelper output) : ILogEventSink
 {

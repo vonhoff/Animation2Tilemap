@@ -1,10 +1,10 @@
-﻿using System.CommandLine;
+﻿using Animation2Tilemap.Console.CommandLineOptions;
+using Animation2Tilemap.Console.CommandLineOptions.Binding;
+using Animation2Tilemap.Console.CommandLineOptions.Contracts;
+using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Text;
-using Animation2Tilemap.Console.CommandLineOptions;
-using Animation2Tilemap.Console.CommandLineOptions.Binding;
-using Animation2Tilemap.Console.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.Console;
 

@@ -1,12 +1,11 @@
-﻿using Animation2Tilemap.Core;
-using Animation2Tilemap.Core.Services;
-using Animation2Tilemap.Test.TestHelpers;
+﻿using Animation2Tilemap.Core.Services;
+using Animation2Tilemap.Core.Test.TestHelpers;
 using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Xunit.Abstractions;
 
-namespace Animation2Tilemap.Test.Services;
+namespace Animation2Tilemap.Core.Test.Services;
 
 public class ImageAlignmentServiceTests
 {

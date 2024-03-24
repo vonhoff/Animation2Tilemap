@@ -1,8 +1,8 @@
 ﻿using Animation2Tilemap.Core.Enums;
 using Animation2Tilemap.Core.Services;
-using Animation2Tilemap.Test.TestHelpers;
+using Animation2Tilemap.Core.Test.TestHelpers;
 
-namespace Animation2Tilemap.Test.Services;
+namespace Animation2Tilemap.Core.Test.Services;
 
 public class TilemapDataServiceTests
 {

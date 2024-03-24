@@ -2,7 +2,7 @@
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Animation2Tilemap.Test.Services;
+namespace Animation2Tilemap.Core.Test.Services;
 
 public class ImageHashServiceTests
 {

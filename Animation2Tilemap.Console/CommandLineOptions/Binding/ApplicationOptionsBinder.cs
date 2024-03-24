@@ -1,10 +1,10 @@
-﻿using System.CommandLine;
-using System.CommandLine.Binding;
-using Animation2Tilemap.Console.CommandLineOptions.Contracts;
+﻿using Animation2Tilemap.Console.CommandLineOptions.Contracts;
 using Animation2Tilemap.Core;
 using Animation2Tilemap.Core.Enums;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System.CommandLine;
+using System.CommandLine.Binding;
 
 namespace Animation2Tilemap.Console.CommandLineOptions.Binding;
 

@@ -1,21 +1,22 @@
-﻿using Animation2Tilemap.Core;
-using Animation2Tilemap.Core.Services;
+﻿using Animation2Tilemap.Core.Services;
 using Animation2Tilemap.Core.Services.Contracts;
-using Animation2Tilemap.Test.TestHelpers;
+using Animation2Tilemap.Core.Test.TestHelpers;
 using Moq;
 using Serilog;
 using Serilog.Core;
 using Xunit.Abstractions;
 
-namespace Animation2Tilemap.Test.Services;
+namespace Animation2Tilemap.Core.Test.Services;
 
 public class ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
 {
     private readonly Mock<IConfirmationDialogService> _confirmationDialogServiceMock = new();
+
     private readonly Logger _logger = new LoggerConfiguration()
         .MinimumLevel.Verbose()
         .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
         .CreateLogger();
+
     private readonly Mock<INamePatternService> _namePatternServiceMock = new();
 
     [Fact]
