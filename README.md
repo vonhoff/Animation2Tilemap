@@ -85,6 +85,6 @@ slicing, and filtering for duplicates, as well as organizing the tiles. I create
 
 If you find Animation2Tilemap useful in your projects, consider leaving a star! ⭐
 
-## Contribution
+## Archival Note
 
-If you want to contribute to Animation2Tilemap, you are welcome to submit pull requests or report issues on GitHub.
+This is the final version of Animation2Tilemap as all desired features have been implemented. No further updates will be made to this project. The software is provided as-is.
