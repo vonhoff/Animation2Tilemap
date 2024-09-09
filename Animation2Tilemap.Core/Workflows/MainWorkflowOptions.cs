@@ -2,9 +2,9 @@
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Animation2Tilemap.Core;
+namespace Animation2Tilemap.Core.Workflows;
 
-public class ApplicationOptions
+public class MainWorkflowOptions
 {
     public int FrameDuration { get; set; }
     public string Input { get; set; } = null!;

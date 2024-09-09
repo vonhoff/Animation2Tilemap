@@ -22,7 +22,7 @@ public static class Program
         System.Console.OutputEncoding = Encoding.UTF8;
 
         var rootCommand = new RootCommand(Description);
-        var optionsBinder = BuildApplicationOptionsBinder(rootCommand);
+        var optionsBinder = BuildMainWorkflowOptionsBinder(rootCommand);
 
         rootCommand.SetHandler(options =>
         {
@@ -45,7 +45,7 @@ public static class Program
         await parser.InvokeAsync(args);
     }
 
-    private static ApplicationOptionsBinder BuildApplicationOptionsBinder(Command rootCommand)
+    private static MainWorkflowOptionsBinder BuildMainWorkflowOptionsBinder(Command rootCommand)
     {
         ICommandLineOption<int> frameDurationOption = new FrameDurationOption();
         ICommandLineOption<string> inputOption = new InputOption();
@@ -58,7 +58,7 @@ public static class Program
         ICommandLineOption<string> tileLayerFormatOption = new TileLayerFormatOption();
         ICommandLineOption<bool> verboseOption = new VerboseOption();
 
-        return new ApplicationOptionsBinder(
+        return new MainWorkflowOptionsBinder(
             rootCommand,
             frameDurationOption,
             inputOption,

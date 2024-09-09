@@ -16,7 +16,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Media;
-using Application = Animation2Tilemap.Core.Application;
+using Animation2Tilemap.Core.Workflows;
 using Color = System.Drawing.Color;
 using Directory = System.IO.Directory;
 using Size = SixLabors.ImageSharp.Size;
@@ -80,7 +80,7 @@ public partial class MainForm : Form
     {
         Log.Information("{Text}", "A new operation has been started.");
 
-        var applicationOptions = new ApplicationOptions
+        var mainWorkflowOptions = new MainWorkflowOptions
         {
             FrameDuration = (int)Math.Round(configNumberFrameTime.Value),
             Input = configTextInput.Text,
@@ -96,7 +96,7 @@ public partial class MainForm : Form
         var services = new ServiceCollection();
         services.AddScoped<MainForm>();
         services.AddSingleton(Log.Logger);
-        services.AddSingleton(applicationOptions);
+        services.AddSingleton(mainWorkflowOptions);
         services.AddSingleton<IConfirmationDialogService, ConfirmationDialogService>();
         services.AddSingleton<INamePatternService, NamePatternService>();
         services.AddSingleton<IImageAlignmentService, ImageAlignmentService>();
@@ -107,7 +107,7 @@ public partial class MainForm : Form
         services.AddSingleton<ITilesetFactory, TilesetFactory>();
         services.AddSingleton<ITilemapFactory, TilemapFactory>();
         services.AddSingleton<ITilesetImageFactory, TilesetImageFactory>();
-        services.AddSingleton<Application>();
+        services.AddSingleton<MainWorkflow>();
 
         ToggleStartButton(false);
         tabControl2.Enabled = false;
@@ -115,7 +115,7 @@ public partial class MainForm : Form
         outputBox.Cursor = Cursors.WaitCursor;
 
         var serviceProvider = services.BuildServiceProvider();
-        var coreApplication = serviceProvider.GetRequiredService<Application>();
+        var coreApplication = serviceProvider.GetRequiredService<MainWorkflow>();
         var resultTask = Task.Run(() => coreApplication.Run());
 
         resultTask.ContinueWith(task =>
@@ -139,7 +139,7 @@ public partial class MainForm : Form
 
                         if (openFolderResult == DialogResult.Yes)
                         {
-                            Process.Start("explorer.exe", applicationOptions.Output);
+                            Process.Start("explorer.exe", mainWorkflowOptions.Output);
                         }
 
                         break;
@@ -156,7 +156,7 @@ public partial class MainForm : Form
 
                         if (openFolderResult == DialogResult.Yes)
                         {
-                            Process.Start("explorer.exe", applicationOptions.Output);
+                            Process.Start("explorer.exe", mainWorkflowOptions.Output);
                         }
 
                         break;
@@ -238,12 +238,9 @@ public partial class MainForm : Form
     private void MainForm_Load(object sender, EventArgs e)
     {
         configLayerFormat.SelectedIndex = 2;
-
-        var options = new RichTextBoxSinkOptions(ThemePresets.Dark, 25, 5, true);
-        var sink = new RichTextBoxSink(outputBox, options);
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
-            .WriteTo.Sink(sink, LogEventLevel.Verbose)
+            .WriteTo.RichTextBox(outputBox)
             .CreateLogger();
 
         Log.Information("{Name} — For more information, click the Help button.", ProjectName);

@@ -1,6 +1,7 @@
 ﻿using Animation2Tilemap.Core.Entities;
 using Animation2Tilemap.Core.Factories.Contracts;
 using Animation2Tilemap.Core.Services.Contracts;
+using Animation2Tilemap.Core.Workflows;
 using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -9,7 +10,7 @@ using System.Diagnostics;
 
 namespace Animation2Tilemap.Core.Factories;
 
-public class TilesetFactory(ApplicationOptions options, ITilesetImageFactory tilesetImageFactory, IImageHashService imageHashService, ILogger logger)
+public class TilesetFactory(MainWorkflowOptions options, ITilesetImageFactory tilesetImageFactory, IImageHashService imageHashService, ILogger logger)
     : ITilesetFactory
 {
     private readonly int _frameDuration = options.FrameDuration;

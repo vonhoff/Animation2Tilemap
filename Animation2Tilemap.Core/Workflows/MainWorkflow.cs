@@ -5,16 +5,16 @@ using Serilog;
 using SixLabors.ImageSharp;
 using System.Diagnostics;
 
-namespace Animation2Tilemap.Core;
+namespace Animation2Tilemap.Core.Workflows;
 
-public class Application(
+public class MainWorkflow(
     IImageAlignmentService imageAlignmentService,
     IImageLoaderService imageLoaderService,
     ITilesetFactory tilesetFactory,
     ITilemapFactory tilemapFactory,
     IXmlSerializerService xmlSerializerService,
     ILogger logger,
-    ApplicationOptions options)
+    MainWorkflowOptions options)
 {
     private readonly string _outputFolder = Path.GetFullPath(options.Output);
 

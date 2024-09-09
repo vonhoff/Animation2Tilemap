@@ -1,12 +1,13 @@
 ﻿using Animation2Tilemap.Core.Entities;
 using Animation2Tilemap.Core.Factories.Contracts;
+using Animation2Tilemap.Core.Workflows;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
 namespace Animation2Tilemap.Core.Factories;
 
-public class TilesetImageFactory(ApplicationOptions options) : ITilesetImageFactory
+public class TilesetImageFactory(MainWorkflowOptions options) : ITilesetImageFactory
 {
     private readonly int _tileMargin = options.TileMargin;
     private readonly Size _tileSize = options.TileSize;

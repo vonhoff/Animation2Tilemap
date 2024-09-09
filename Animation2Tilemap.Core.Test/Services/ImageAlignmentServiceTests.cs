@@ -1,5 +1,6 @@
 ﻿using Animation2Tilemap.Core.Services;
 using Animation2Tilemap.Core.Test.TestHelpers;
+using Animation2Tilemap.Core.Workflows;
 using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -18,7 +19,7 @@ public class ImageAlignmentServiceTests
             .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
             .CreateLogger();
 
-        var options = new ApplicationOptions
+        var options = new MainWorkflowOptions
         {
             TileSize = new Size(16, 16)
         };

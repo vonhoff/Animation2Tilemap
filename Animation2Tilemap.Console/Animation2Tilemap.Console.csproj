@@ -17,18 +17,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="icon.ico"/>
+        <None Remove="icon.ico" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
-        <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1"/>
-        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.3"/>
-        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Animation2Tilemap.Core\Animation2Tilemap.Core.csproj"/>
+        <ProjectReference Include="..\Animation2Tilemap.Core\Animation2Tilemap.Core.csproj" />
     </ItemGroup>
 
 </Project>

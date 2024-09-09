@@ -1,6 +1,6 @@
 ﻿using Animation2Tilemap.Console.CommandLineOptions.Contracts;
-using Animation2Tilemap.Core;
 using Animation2Tilemap.Core.Enums;
+using Animation2Tilemap.Core.Workflows;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.CommandLine;
@@ -8,7 +8,7 @@ using System.CommandLine.Binding;
 
 namespace Animation2Tilemap.Console.CommandLineOptions.Binding;
 
-public class ApplicationOptionsBinder(
+public class MainWorkflowOptionsBinder(
     Command rootCommand,
     ICommandLineOption<int> frameDurationOption,
     ICommandLineOption<string> inputOption,
@@ -20,7 +20,7 @@ public class ApplicationOptionsBinder(
     ICommandLineOption<string> transparentColorOption,
     ICommandLineOption<string> tileLayerFormatOption,
     ICommandLineOption<bool> verboseOption)
-    : BinderBase<ApplicationOptions>
+    : BinderBase<MainWorkflowOptions>
 {
     private readonly Option<int> _frameDurationOption = frameDurationOption.Register(rootCommand);
     private readonly Option<string> _inputOption = inputOption.Register(rootCommand);
@@ -33,7 +33,7 @@ public class ApplicationOptionsBinder(
     private readonly Option<string> _transparentColorOption = transparentColorOption.Register(rootCommand);
     private readonly Option<bool> _verboseOption = verboseOption.Register(rootCommand);
 
-    protected override ApplicationOptions GetBoundValue(BindingContext bindingContext)
+    protected override MainWorkflowOptions GetBoundValue(BindingContext bindingContext)
     {
         var parseResult = bindingContext.ParseResult;
 
@@ -59,7 +59,7 @@ public class ApplicationOptionsBinder(
             _ => throw new IndexOutOfRangeException("Invalid tile layer format.")
         };
 
-        return new ApplicationOptions
+        return new MainWorkflowOptions
         {
             FrameDuration = frameDuration,
             Input = input,

@@ -20,7 +20,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-        <PackageReference Include="Serilog.Sinks.RichTextBox.WinForms.Colored" Version="1.2.0" />
+        <PackageReference Include="Serilog.Sinks.RichTextBox.WinForms.Colored" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup>

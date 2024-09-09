@@ -1,4 +1,5 @@
 ﻿using Animation2Tilemap.Core.Services.Contracts;
+using Animation2Tilemap.Core.Workflows;
 using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -12,7 +13,7 @@ public class ImageAlignmentService : IImageAlignmentService
     private readonly ILogger _logger;
     private readonly Size _tileSize;
 
-    public ImageAlignmentService(ILogger logger, ApplicationOptions options)
+    public ImageAlignmentService(ILogger logger, MainWorkflowOptions options)
     {
         _logger = logger;
         _tileSize = options.TileSize;

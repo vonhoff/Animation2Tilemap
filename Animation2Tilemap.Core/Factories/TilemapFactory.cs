@@ -2,10 +2,11 @@
 using Animation2Tilemap.Core.Enums;
 using Animation2Tilemap.Core.Factories.Contracts;
 using Animation2Tilemap.Core.Services.Contracts;
+using Animation2Tilemap.Core.Workflows;
 
 namespace Animation2Tilemap.Core.Factories;
 
-public class TilemapFactory(ApplicationOptions options, ITilemapDataService tilemapDataService) : ITilemapFactory
+public class TilemapFactory(MainWorkflowOptions options, ITilemapDataService tilemapDataService) : ITilemapFactory
 {
     private readonly TileLayerFormat _tileLayerFormat = options.TileLayerFormat;
 

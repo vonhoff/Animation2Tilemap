@@ -69,22 +69,14 @@ You can also specify other options to customize the output, such as:
 
 ## Motivation
 
-I was inspired by classic isometric games like Populous. My goal was to replicate that style in my own projects by using
-[Tilengine](https://www.tilengine.org/) as a rendering engine. However, I encountered a challenge due to its lack of
-native support for diamond isometric tiles.
+I was inspired to create Animation2Tilemap by my love for classic isometric games like Populous. I wanted to capture this unique style in my own game projects, but I found that working with animated isometric tiles was quite challenging.
 
-Tilengine does not support diamond tiles because standard 2D chipsets do not support them either. Classic isometric
-games, such as Populous, used standard square tiles that were diagonally split. This combination of corners from
-different diamond tiles gave the illusion of isometric tiles.
+These games often used square tiles that were split diagonally to create the look of diamond-shaped tiles. This method was necessary due to the limitations of older hardware, and it is still useful today.
 
-To work around this, I divided pre-rendered animated images into square tiles. This approach allowed me to integrate
-animated elements into an orthographic tileset. However, the process was cumbersome. It involved manual extraction,
-slicing, and filtering for duplicates, as well as organizing the tiles. I created this tool to automate that process.
+The process of converting animated images into tilesets was tedious and time-consuming. It involved manually cutting out frames, organizing tiles, and filtering out duplicates, which could lead to errors. I developed Animation2Tilemap to simplify this workflow.
+
+I also noticed that many developers have trouble converting animated sprites into formats compatible with modern game engines and level editors. This tool automates this process, making it faster and easier to create animated tilesets and tilemaps. It not only saves time, but also allows for more creativity in the design of tile-based games, whether they are isometric or orthographic.
 
 ## Acknowledgments
 
 If you find Animation2Tilemap useful in your projects, consider leaving a star! ⭐
-
-## Archival Note
-
-This is the final version of Animation2Tilemap as all desired features have been implemented. No further updates will be made to this project. The software is provided as-is.
