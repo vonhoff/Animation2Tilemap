@@ -1,9 +1,8 @@
-﻿using Animation2Tilemap.Core.Enums;
+﻿using System.Diagnostics;
 using Animation2Tilemap.Core.Factories.Contracts;
 using Animation2Tilemap.Core.Services.Contracts;
 using Serilog;
 using SixLabors.ImageSharp;
-using System.Diagnostics;
 
 namespace Animation2Tilemap.Core.Workflows;
 
@@ -18,11 +17,11 @@ public class MainWorkflow(
 {
     private readonly string _outputFolder = Path.GetFullPath(options.Output);
 
-    public ApplicationResult Run()
+    public bool Run()
     {
         if (imageLoaderService.TryLoadImages(out var images) == false)
         {
-            return ApplicationResult.Failed;
+            return false;
         }
 
         Directory.CreateDirectory(_outputFolder);
@@ -38,10 +37,7 @@ public class MainWorkflow(
 
             try
             {
-                if (imageAlignmentService.TryAlignImage(fileName, frames) == false)
-                {
-                    return;
-                }
+                if (imageAlignmentService.TryAlignImage(fileName, frames) == false) return;
 
                 var taskStopwatch = Stopwatch.StartNew();
                 var tileset = tilesetFactory.CreateFromImage(fileName, frames);
@@ -70,17 +66,15 @@ public class MainWorkflow(
             catch (Exception ex)
             {
                 totalStopwatch.Stop();
-                logger.Error(ex, "Failed to process image {FileName}. Took: {Elapsed}ms", fileName, totalStopwatch.ElapsedMilliseconds);
+                logger.Error(ex, "Failed to process image {FileName}. Took: {Elapsed}ms", fileName,
+                    totalStopwatch.ElapsedMilliseconds);
             }
         });
 
-        logger.Information("Finished. {SuccessfulImages} of {TotalImages} images were successfully processed.", successfulImages, images.Count);
+        logger.Information("Finished. {SuccessfulImages} of {TotalImages} images were successfully processed.",
+            successfulImages, images.Count);
 
-        if (successfulImages == 0)
-        {
-            return ApplicationResult.Failed;
-        }
 
-        return successfulImages == images.Count ? ApplicationResult.Successful : ApplicationResult.PartiallySuccessful;
+        return successfulImages == images.Count;
     }
 }
