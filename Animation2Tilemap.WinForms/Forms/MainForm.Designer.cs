@@ -29,129 +29,139 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            progressBar1 = new ProgressBar();
-            splitContainer1 = new SplitContainer();
+            mainButtonStart = new Button();
+            mainButtonCancel = new Button();
+            mainButtonToggleConsole = new Button();
+            mainProgressBar = new ProgressBar();
+            mainSplitContainer = new SplitContainer();
+            mainTabConfiguration = new TabControl();
             tabPage2 = new TabPage();
-            groupBox1 = new GroupBox();
-            label1 = new Label();
-            splitContainer4 = new SplitContainer();
-            configButtonOutput = new Button();
-            configTextOutput = new TextBox();
-            label2 = new Label();
-            splitContainer2 = new SplitContainer();
-            button4 = new Button();
-            textBox1 = new TextBox();
-            groupBox2 = new GroupBox();
-            groupBox3 = new GroupBox();
-            tabControl2 = new TabControl();
+            cfgBoxTilemapSettings = new GroupBox();
+            cfgLayerFormat = new ComboBox();
+            cfgLabelLayerFormat = new Label();
+            cfgLabelFrameTime = new Label();
+            cfgFrameTime = new NumericUpDown();
+            cfgSplitterBackgroundColor = new SplitContainer();
+            cfgBackgroundColor = new TextBox();
+            cfgButtonBackgroundColor = new Button();
+            cfgLabelBackgroundColor = new Label();
+            cfgBoxTileSettings = new GroupBox();
+            cfgLabelTileSpacing = new Label();
+            cfgLabelTileMargin = new Label();
+            cfgLabelTileHeight = new Label();
+            cfgLabelTileWidth = new Label();
+            cfgTileSpacing = new NumericUpDown();
+            cfgTileMargin = new NumericUpDown();
+            cfgTileHeight = new NumericUpDown();
+            cfgTileWidth = new NumericUpDown();
+            cfgBoxPrimarySettings = new GroupBox();
+            cfgSplitterOutput = new SplitContainer();
+            cfgTextOutput = new TextBox();
+            cfgButtonOutput = new Button();
+            cfgLabelOutput = new Label();
+            cfgSplitterInput = new SplitContainer();
+            cfgTextInput = new TextBox();
+            cfgButtonInput = new Button();
+            cfgLabelInput = new Label();
+            mainTabConsole = new TabControl();
             tabPage1 = new TabPage();
-            richTextBox1 = new RichTextBox();
-            tabControl1 = new TabControl();
-            numericUpDown1 = new NumericUpDown();
-            numericUpDown2 = new NumericUpDown();
-            numericUpDown3 = new NumericUpDown();
-            numericUpDown4 = new NumericUpDown();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            label6 = new Label();
-            splitContainer3 = new SplitContainer();
-            textBox2 = new TextBox();
-            button5 = new Button();
-            label7 = new Label();
-            label8 = new Label();
-            label9 = new Label();
-            numericUpDown6 = new NumericUpDown();
-            configLayerFormat = new ComboBox();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-            splitContainer1.Panel1.SuspendLayout();
-            splitContainer1.Panel2.SuspendLayout();
-            splitContainer1.SuspendLayout();
+            mainTextBoxConsole = new RichTextBox();
+            ((System.ComponentModel.ISupportInitialize)mainSplitContainer).BeginInit();
+            mainSplitContainer.Panel1.SuspendLayout();
+            mainSplitContainer.Panel2.SuspendLayout();
+            mainSplitContainer.SuspendLayout();
+            mainTabConfiguration.SuspendLayout();
             tabPage2.SuspendLayout();
-            groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer4).BeginInit();
-            splitContainer4.Panel1.SuspendLayout();
-            splitContainer4.Panel2.SuspendLayout();
-            splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
-            splitContainer2.Panel1.SuspendLayout();
-            splitContainer2.Panel2.SuspendLayout();
-            splitContainer2.SuspendLayout();
-            groupBox2.SuspendLayout();
-            groupBox3.SuspendLayout();
-            tabControl2.SuspendLayout();
+            cfgBoxTilemapSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)cfgFrameTime).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)cfgSplitterBackgroundColor).BeginInit();
+            cfgSplitterBackgroundColor.Panel1.SuspendLayout();
+            cfgSplitterBackgroundColor.Panel2.SuspendLayout();
+            cfgSplitterBackgroundColor.SuspendLayout();
+            cfgBoxTileSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)cfgTileSpacing).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)cfgTileMargin).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)cfgTileHeight).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)cfgTileWidth).BeginInit();
+            cfgBoxPrimarySettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)cfgSplitterOutput).BeginInit();
+            cfgSplitterOutput.Panel1.SuspendLayout();
+            cfgSplitterOutput.Panel2.SuspendLayout();
+            cfgSplitterOutput.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)cfgSplitterInput).BeginInit();
+            cfgSplitterInput.Panel1.SuspendLayout();
+            cfgSplitterInput.Panel2.SuspendLayout();
+            cfgSplitterInput.SuspendLayout();
+            mainTabConsole.SuspendLayout();
             tabPage1.SuspendLayout();
-            tabControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)splitContainer3).BeginInit();
-            splitContainer3.Panel1.SuspendLayout();
-            splitContainer3.Panel2.SuspendLayout();
-            splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown6).BeginInit();
             SuspendLayout();
             // 
-            // button1
+            // mainButtonStart
             // 
-            button1.Location = new Point(9, 542);
-            button1.Name = "button1";
-            button1.Size = new Size(113, 35);
-            button1.TabIndex = 0;
-            button1.Text = "Start";
-            button1.UseVisualStyleBackColor = true;
+            mainButtonStart.Location = new Point(9, 542);
+            mainButtonStart.Name = "mainButtonStart";
+            mainButtonStart.Size = new Size(113, 35);
+            mainButtonStart.TabIndex = 0;
+            mainButtonStart.Text = "Start";
+            mainButtonStart.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // mainButtonCancel
             // 
-            button2.Location = new Point(128, 542);
-            button2.Name = "button2";
-            button2.Size = new Size(113, 35);
-            button2.TabIndex = 1;
-            button2.Text = "Cancel";
-            button2.UseVisualStyleBackColor = true;
+            mainButtonCancel.Location = new Point(128, 542);
+            mainButtonCancel.Name = "mainButtonCancel";
+            mainButtonCancel.Size = new Size(113, 35);
+            mainButtonCancel.TabIndex = 1;
+            mainButtonCancel.Text = "Cancel";
+            mainButtonCancel.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // mainButtonToggleConsole
             // 
-            button3.Location = new Point(312, 542);
-            button3.Name = "button3";
-            button3.Size = new Size(113, 35);
-            button3.TabIndex = 2;
-            button3.Text = "Show Console";
-            button3.UseVisualStyleBackColor = true;
+            mainButtonToggleConsole.Location = new Point(312, 542);
+            mainButtonToggleConsole.Name = "mainButtonToggleConsole";
+            mainButtonToggleConsole.Size = new Size(113, 35);
+            mainButtonToggleConsole.TabIndex = 2;
+            mainButtonToggleConsole.Text = "Show Console";
+            mainButtonToggleConsole.UseVisualStyleBackColor = true;
             // 
-            // progressBar1
+            // mainProgressBar
             // 
-            progressBar1.Location = new Point(9, 513);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(416, 23);
-            progressBar1.TabIndex = 3;
+            mainProgressBar.Location = new Point(9, 513);
+            mainProgressBar.Name = "mainProgressBar";
+            mainProgressBar.Size = new Size(416, 23);
+            mainProgressBar.TabIndex = 3;
             // 
-            // splitContainer1
+            // mainSplitContainer
             // 
-            splitContainer1.Location = new Point(9, 9);
-            splitContainer1.Name = "splitContainer1";
-            splitContainer1.Orientation = Orientation.Horizontal;
+            mainSplitContainer.Location = new Point(9, 9);
+            mainSplitContainer.Name = "mainSplitContainer";
+            mainSplitContainer.Orientation = Orientation.Horizontal;
             // 
-            // splitContainer1.Panel1
+            // mainSplitContainer.Panel1
             // 
-            splitContainer1.Panel1.Controls.Add(tabControl2);
+            mainSplitContainer.Panel1.Controls.Add(mainTabConfiguration);
             // 
-            // splitContainer1.Panel2
+            // mainSplitContainer.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(tabControl1);
-            splitContainer1.Size = new Size(416, 498);
-            splitContainer1.SplitterDistance = 325;
-            splitContainer1.TabIndex = 4;
+            mainSplitContainer.Panel2.Controls.Add(mainTabConsole);
+            mainSplitContainer.Size = new Size(416, 498);
+            mainSplitContainer.SplitterDistance = 325;
+            mainSplitContainer.TabIndex = 4;
+            // 
+            // mainTabConfiguration
+            // 
+            mainTabConfiguration.Controls.Add(tabPage2);
+            mainTabConfiguration.Dock = DockStyle.Fill;
+            mainTabConfiguration.Location = new Point(0, 0);
+            mainTabConfiguration.Name = "mainTabConfiguration";
+            mainTabConfiguration.SelectedIndex = 0;
+            mainTabConfiguration.Size = new Size(416, 325);
+            mainTabConfiguration.TabIndex = 0;
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(groupBox3);
-            tabPage2.Controls.Add(groupBox2);
-            tabPage2.Controls.Add(groupBox1);
+            tabPage2.Controls.Add(cfgBoxTilemapSettings);
+            tabPage2.Controls.Add(cfgBoxTileSettings);
+            tabPage2.Controls.Add(cfgBoxPrimarySettings);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -160,173 +170,331 @@
             tabPage2.Text = "Configuration";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // cfgBoxTilemapSettings
             // 
-            groupBox1.Controls.Add(splitContainer2);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(splitContainer4);
-            groupBox1.Controls.Add(label1);
-            groupBox1.Dock = DockStyle.Top;
-            groupBox1.Location = new Point(3, 3);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(402, 130);
-            groupBox1.TabIndex = 0;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Primary Settings";
+            cfgBoxTilemapSettings.Controls.Add(cfgLayerFormat);
+            cfgBoxTilemapSettings.Controls.Add(cfgLabelLayerFormat);
+            cfgBoxTilemapSettings.Controls.Add(cfgLabelFrameTime);
+            cfgBoxTilemapSettings.Controls.Add(cfgFrameTime);
+            cfgBoxTilemapSettings.Controls.Add(cfgSplitterBackgroundColor);
+            cfgBoxTilemapSettings.Controls.Add(cfgLabelBackgroundColor);
+            cfgBoxTilemapSettings.Dock = DockStyle.Top;
+            cfgBoxTilemapSettings.Location = new Point(3, 211);
+            cfgBoxTilemapSettings.Name = "cfgBoxTilemapSettings";
+            cfgBoxTilemapSettings.Size = new Size(402, 78);
+            cfgBoxTilemapSettings.TabIndex = 2;
+            cfgBoxTilemapSettings.TabStop = false;
+            cfgBoxTilemapSettings.Text = "Tilemap Settings";
             // 
-            // label1
+            // cfgLayerFormat
             // 
-            label1.AutoSize = true;
-            label1.Dock = DockStyle.Top;
-            label1.Location = new Point(3, 19);
-            label1.Name = "label1";
-            label1.Padding = new Padding(0, 5, 0, 1);
-            label1.Size = new Size(94, 21);
-            label1.TabIndex = 0;
-            label1.Text = "Input File/Folder";
+            cfgLayerFormat.DropDownStyle = ComboBoxStyle.DropDownList;
+            cfgLayerFormat.FormattingEnabled = true;
+            cfgLayerFormat.Items.AddRange(new object[] { "base64", "gzip + base64", "zlib + base64", "csv" });
+            cfgLayerFormat.Location = new Point(303, 44);
+            cfgLayerFormat.Margin = new Padding(3, 2, 3, 2);
+            cfgLayerFormat.Name = "cfgLayerFormat";
+            cfgLayerFormat.Size = new Size(93, 23);
+            cfgLayerFormat.TabIndex = 13;
             // 
-            // splitContainer4
+            // cfgLabelLayerFormat
             // 
-            splitContainer4.Dock = DockStyle.Top;
-            splitContainer4.FixedPanel = FixedPanel.Panel2;
-            splitContainer4.IsSplitterFixed = true;
-            splitContainer4.Location = new Point(3, 40);
-            splitContainer4.Margin = new Padding(3, 2, 3, 2);
-            splitContainer4.Name = "splitContainer4";
+            cfgLabelLayerFormat.AutoSize = true;
+            cfgLabelLayerFormat.Location = new Point(303, 19);
+            cfgLabelLayerFormat.Name = "cfgLabelLayerFormat";
+            cfgLabelLayerFormat.Padding = new Padding(0, 5, 0, 1);
+            cfgLabelLayerFormat.Size = new Size(76, 21);
+            cfgLabelLayerFormat.TabIndex = 12;
+            cfgLabelLayerFormat.Text = "Layer Format";
             // 
-            // splitContainer4.Panel1
+            // cfgLabelFrameTime
             // 
-            splitContainer4.Panel1.Controls.Add(configTextOutput);
-            splitContainer4.Panel1.Padding = new Padding(3, 2, 1, 2);
+            cfgLabelFrameTime.AutoSize = true;
+            cfgLabelFrameTime.Location = new Point(204, 19);
+            cfgLabelFrameTime.Name = "cfgLabelFrameTime";
+            cfgLabelFrameTime.Padding = new Padding(0, 5, 0, 1);
+            cfgLabelFrameTime.Size = new Size(69, 21);
+            cfgLabelFrameTime.TabIndex = 11;
+            cfgLabelFrameTime.Text = "Frame Time";
             // 
-            // splitContainer4.Panel2
+            // cfgFrameTime
             // 
-            splitContainer4.Panel2.Controls.Add(configButtonOutput);
-            splitContainer4.Panel2.Padding = new Padding(0, 2, 3, 2);
-            splitContainer4.Size = new Size(396, 28);
-            splitContainer4.SplitterDistance = 351;
-            splitContainer4.TabIndex = 3;
+            cfgFrameTime.Location = new Point(204, 43);
+            cfgFrameTime.Name = "cfgFrameTime";
+            cfgFrameTime.Size = new Size(93, 23);
+            cfgFrameTime.TabIndex = 9;
             // 
-            // configButtonOutput
+            // cfgSplitterBackgroundColor
             // 
-            configButtonOutput.Dock = DockStyle.Fill;
-            configButtonOutput.Location = new Point(0, 2);
-            configButtonOutput.Margin = new Padding(3, 2, 3, 2);
-            configButtonOutput.Name = "configButtonOutput";
-            configButtonOutput.Size = new Size(38, 24);
-            configButtonOutput.TabIndex = 2;
-            configButtonOutput.Text = "...";
-            configButtonOutput.UseVisualStyleBackColor = true;
+            cfgSplitterBackgroundColor.FixedPanel = FixedPanel.Panel2;
+            cfgSplitterBackgroundColor.IsSplitterFixed = true;
+            cfgSplitterBackgroundColor.Location = new Point(3, 40);
+            cfgSplitterBackgroundColor.Margin = new Padding(3, 2, 3, 2);
+            cfgSplitterBackgroundColor.Name = "cfgSplitterBackgroundColor";
             // 
-            // configTextOutput
+            // cfgSplitterBackgroundColor.Panel1
             // 
-            configTextOutput.Dock = DockStyle.Fill;
-            configTextOutput.Location = new Point(3, 2);
-            configTextOutput.Margin = new Padding(3, 2, 3, 2);
-            configTextOutput.Name = "configTextOutput";
-            configTextOutput.Size = new Size(347, 23);
-            configTextOutput.TabIndex = 1;
+            cfgSplitterBackgroundColor.Panel1.Controls.Add(cfgBackgroundColor);
+            cfgSplitterBackgroundColor.Panel1.Padding = new Padding(3, 2, 1, 2);
             // 
-            // label2
+            // cfgSplitterBackgroundColor.Panel2
             // 
-            label2.AutoSize = true;
-            label2.Dock = DockStyle.Top;
-            label2.Location = new Point(3, 68);
-            label2.Name = "label2";
-            label2.Padding = new Padding(0, 5, 0, 1);
-            label2.Size = new Size(81, 21);
-            label2.TabIndex = 4;
-            label2.Text = "Output Folder";
+            cfgSplitterBackgroundColor.Panel2.Controls.Add(cfgButtonBackgroundColor);
+            cfgSplitterBackgroundColor.Panel2.Padding = new Padding(0, 2, 3, 2);
+            cfgSplitterBackgroundColor.Size = new Size(195, 28);
+            cfgSplitterBackgroundColor.SplitterDistance = 150;
+            cfgSplitterBackgroundColor.TabIndex = 7;
             // 
-            // splitContainer2
+            // cfgBackgroundColor
             // 
-            splitContainer2.Dock = DockStyle.Top;
-            splitContainer2.FixedPanel = FixedPanel.Panel2;
-            splitContainer2.IsSplitterFixed = true;
-            splitContainer2.Location = new Point(3, 89);
-            splitContainer2.Margin = new Padding(3, 2, 3, 2);
-            splitContainer2.Name = "splitContainer2";
+            cfgBackgroundColor.Dock = DockStyle.Fill;
+            cfgBackgroundColor.Location = new Point(3, 2);
+            cfgBackgroundColor.Margin = new Padding(3, 2, 3, 2);
+            cfgBackgroundColor.Name = "cfgBackgroundColor";
+            cfgBackgroundColor.Size = new Size(146, 23);
+            cfgBackgroundColor.TabIndex = 1;
             // 
-            // splitContainer2.Panel1
+            // cfgButtonBackgroundColor
             // 
-            splitContainer2.Panel1.Controls.Add(textBox1);
-            splitContainer2.Panel1.Padding = new Padding(3, 2, 1, 2);
+            cfgButtonBackgroundColor.Dock = DockStyle.Fill;
+            cfgButtonBackgroundColor.Location = new Point(0, 2);
+            cfgButtonBackgroundColor.Margin = new Padding(3, 2, 3, 2);
+            cfgButtonBackgroundColor.Name = "cfgButtonBackgroundColor";
+            cfgButtonBackgroundColor.Size = new Size(38, 24);
+            cfgButtonBackgroundColor.TabIndex = 2;
+            cfgButtonBackgroundColor.Text = "...";
+            cfgButtonBackgroundColor.UseVisualStyleBackColor = true;
             // 
-            // splitContainer2.Panel2
+            // cfgLabelBackgroundColor
             // 
-            splitContainer2.Panel2.Controls.Add(button4);
-            splitContainer2.Panel2.Padding = new Padding(0, 2, 3, 2);
-            splitContainer2.Size = new Size(396, 28);
-            splitContainer2.SplitterDistance = 351;
-            splitContainer2.TabIndex = 5;
+            cfgLabelBackgroundColor.AutoSize = true;
+            cfgLabelBackgroundColor.Dock = DockStyle.Top;
+            cfgLabelBackgroundColor.Location = new Point(3, 19);
+            cfgLabelBackgroundColor.Name = "cfgLabelBackgroundColor";
+            cfgLabelBackgroundColor.Padding = new Padding(0, 5, 0, 1);
+            cfgLabelBackgroundColor.Size = new Size(103, 21);
+            cfgLabelBackgroundColor.TabIndex = 6;
+            cfgLabelBackgroundColor.Text = "Background Color";
             // 
-            // button4
+            // cfgBoxTileSettings
             // 
-            button4.Dock = DockStyle.Fill;
-            button4.Location = new Point(0, 2);
-            button4.Margin = new Padding(3, 2, 3, 2);
-            button4.Name = "button4";
-            button4.Size = new Size(38, 24);
-            button4.TabIndex = 2;
-            button4.Text = "...";
-            button4.UseVisualStyleBackColor = true;
+            cfgBoxTileSettings.Controls.Add(cfgLabelTileSpacing);
+            cfgBoxTileSettings.Controls.Add(cfgLabelTileMargin);
+            cfgBoxTileSettings.Controls.Add(cfgLabelTileHeight);
+            cfgBoxTileSettings.Controls.Add(cfgLabelTileWidth);
+            cfgBoxTileSettings.Controls.Add(cfgTileSpacing);
+            cfgBoxTileSettings.Controls.Add(cfgTileMargin);
+            cfgBoxTileSettings.Controls.Add(cfgTileHeight);
+            cfgBoxTileSettings.Controls.Add(cfgTileWidth);
+            cfgBoxTileSettings.Dock = DockStyle.Top;
+            cfgBoxTileSettings.Location = new Point(3, 133);
+            cfgBoxTileSettings.Name = "cfgBoxTileSettings";
+            cfgBoxTileSettings.Size = new Size(402, 78);
+            cfgBoxTileSettings.TabIndex = 1;
+            cfgBoxTileSettings.TabStop = false;
+            cfgBoxTileSettings.Text = "Tile Settings";
             // 
-            // textBox1
+            // cfgLabelTileSpacing
             // 
-            textBox1.Dock = DockStyle.Fill;
-            textBox1.Location = new Point(3, 2);
-            textBox1.Margin = new Padding(3, 2, 3, 2);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(347, 23);
-            textBox1.TabIndex = 1;
+            cfgLabelTileSpacing.AutoSize = true;
+            cfgLabelTileSpacing.Location = new Point(303, 19);
+            cfgLabelTileSpacing.Name = "cfgLabelTileSpacing";
+            cfgLabelTileSpacing.Padding = new Padding(0, 5, 0, 1);
+            cfgLabelTileSpacing.Size = new Size(70, 21);
+            cfgLabelTileSpacing.TabIndex = 8;
+            cfgLabelTileSpacing.Text = "Tile Spacing";
             // 
-            // groupBox2
+            // cfgLabelTileMargin
             // 
-            groupBox2.Controls.Add(label6);
-            groupBox2.Controls.Add(label5);
-            groupBox2.Controls.Add(label4);
-            groupBox2.Controls.Add(label3);
-            groupBox2.Controls.Add(numericUpDown4);
-            groupBox2.Controls.Add(numericUpDown3);
-            groupBox2.Controls.Add(numericUpDown2);
-            groupBox2.Controls.Add(numericUpDown1);
-            groupBox2.Dock = DockStyle.Top;
-            groupBox2.Location = new Point(3, 133);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(402, 78);
-            groupBox2.TabIndex = 1;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Tile Settings";
+            cfgLabelTileMargin.AutoSize = true;
+            cfgLabelTileMargin.Location = new Point(204, 19);
+            cfgLabelTileMargin.Name = "cfgLabelTileMargin";
+            cfgLabelTileMargin.Padding = new Padding(0, 5, 0, 1);
+            cfgLabelTileMargin.Size = new Size(66, 21);
+            cfgLabelTileMargin.TabIndex = 7;
+            cfgLabelTileMargin.Text = "Tile Margin";
             // 
-            // groupBox3
+            // cfgLabelTileHeight
             // 
-            groupBox3.Controls.Add(configLayerFormat);
-            groupBox3.Controls.Add(label8);
-            groupBox3.Controls.Add(label9);
-            groupBox3.Controls.Add(numericUpDown6);
-            groupBox3.Controls.Add(splitContainer3);
-            groupBox3.Controls.Add(label7);
-            groupBox3.Dock = DockStyle.Top;
-            groupBox3.Location = new Point(3, 211);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(402, 78);
-            groupBox3.TabIndex = 2;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Tilemap Settings";
+            cfgLabelTileHeight.AutoSize = true;
+            cfgLabelTileHeight.Location = new Point(105, 19);
+            cfgLabelTileHeight.Name = "cfgLabelTileHeight";
+            cfgLabelTileHeight.Padding = new Padding(0, 5, 0, 1);
+            cfgLabelTileHeight.Size = new Size(64, 21);
+            cfgLabelTileHeight.TabIndex = 6;
+            cfgLabelTileHeight.Text = "Tile Height";
             // 
-            // tabControl2
+            // cfgLabelTileWidth
             // 
-            tabControl2.Controls.Add(tabPage2);
-            tabControl2.Dock = DockStyle.Fill;
-            tabControl2.Location = new Point(0, 0);
-            tabControl2.Name = "tabControl2";
-            tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new Size(416, 325);
-            tabControl2.TabIndex = 0;
+            cfgLabelTileWidth.AutoSize = true;
+            cfgLabelTileWidth.Location = new Point(6, 19);
+            cfgLabelTileWidth.Name = "cfgLabelTileWidth";
+            cfgLabelTileWidth.Padding = new Padding(0, 5, 0, 1);
+            cfgLabelTileWidth.Size = new Size(60, 21);
+            cfgLabelTileWidth.TabIndex = 5;
+            cfgLabelTileWidth.Text = "Tile Width";
+            // 
+            // cfgTileSpacing
+            // 
+            cfgTileSpacing.Location = new Point(303, 43);
+            cfgTileSpacing.Name = "cfgTileSpacing";
+            cfgTileSpacing.Size = new Size(93, 23);
+            cfgTileSpacing.TabIndex = 4;
+            // 
+            // cfgTileMargin
+            // 
+            cfgTileMargin.Location = new Point(204, 43);
+            cfgTileMargin.Name = "cfgTileMargin";
+            cfgTileMargin.Size = new Size(93, 23);
+            cfgTileMargin.TabIndex = 3;
+            // 
+            // cfgTileHeight
+            // 
+            cfgTileHeight.Location = new Point(105, 43);
+            cfgTileHeight.Name = "cfgTileHeight";
+            cfgTileHeight.Size = new Size(93, 23);
+            cfgTileHeight.TabIndex = 2;
+            // 
+            // cfgTileWidth
+            // 
+            cfgTileWidth.Location = new Point(6, 43);
+            cfgTileWidth.Name = "cfgTileWidth";
+            cfgTileWidth.Size = new Size(93, 23);
+            cfgTileWidth.TabIndex = 1;
+            // 
+            // cfgBoxPrimarySettings
+            // 
+            cfgBoxPrimarySettings.Controls.Add(cfgSplitterOutput);
+            cfgBoxPrimarySettings.Controls.Add(cfgLabelOutput);
+            cfgBoxPrimarySettings.Controls.Add(cfgSplitterInput);
+            cfgBoxPrimarySettings.Controls.Add(cfgLabelInput);
+            cfgBoxPrimarySettings.Dock = DockStyle.Top;
+            cfgBoxPrimarySettings.Location = new Point(3, 3);
+            cfgBoxPrimarySettings.Name = "cfgBoxPrimarySettings";
+            cfgBoxPrimarySettings.Size = new Size(402, 130);
+            cfgBoxPrimarySettings.TabIndex = 0;
+            cfgBoxPrimarySettings.TabStop = false;
+            cfgBoxPrimarySettings.Text = "Primary Settings";
+            // 
+            // cfgSplitterOutput
+            // 
+            cfgSplitterOutput.Dock = DockStyle.Top;
+            cfgSplitterOutput.FixedPanel = FixedPanel.Panel2;
+            cfgSplitterOutput.IsSplitterFixed = true;
+            cfgSplitterOutput.Location = new Point(3, 89);
+            cfgSplitterOutput.Margin = new Padding(3, 2, 3, 2);
+            cfgSplitterOutput.Name = "cfgSplitterOutput";
+            // 
+            // cfgSplitterOutput.Panel1
+            // 
+            cfgSplitterOutput.Panel1.Controls.Add(cfgTextOutput);
+            cfgSplitterOutput.Panel1.Padding = new Padding(3, 2, 1, 2);
+            // 
+            // cfgSplitterOutput.Panel2
+            // 
+            cfgSplitterOutput.Panel2.Controls.Add(cfgButtonOutput);
+            cfgSplitterOutput.Panel2.Padding = new Padding(0, 2, 3, 2);
+            cfgSplitterOutput.Size = new Size(396, 28);
+            cfgSplitterOutput.SplitterDistance = 351;
+            cfgSplitterOutput.TabIndex = 5;
+            // 
+            // cfgTextOutput
+            // 
+            cfgTextOutput.Dock = DockStyle.Fill;
+            cfgTextOutput.Location = new Point(3, 2);
+            cfgTextOutput.Margin = new Padding(3, 2, 3, 2);
+            cfgTextOutput.Name = "cfgTextOutput";
+            cfgTextOutput.Size = new Size(347, 23);
+            cfgTextOutput.TabIndex = 1;
+            // 
+            // cfgButtonOutput
+            // 
+            cfgButtonOutput.Dock = DockStyle.Fill;
+            cfgButtonOutput.Location = new Point(0, 2);
+            cfgButtonOutput.Margin = new Padding(3, 2, 3, 2);
+            cfgButtonOutput.Name = "cfgButtonOutput";
+            cfgButtonOutput.Size = new Size(38, 24);
+            cfgButtonOutput.TabIndex = 2;
+            cfgButtonOutput.Text = "...";
+            cfgButtonOutput.UseVisualStyleBackColor = true;
+            // 
+            // cfgLabelOutput
+            // 
+            cfgLabelOutput.AutoSize = true;
+            cfgLabelOutput.Dock = DockStyle.Top;
+            cfgLabelOutput.Location = new Point(3, 68);
+            cfgLabelOutput.Name = "cfgLabelOutput";
+            cfgLabelOutput.Padding = new Padding(0, 5, 0, 1);
+            cfgLabelOutput.Size = new Size(81, 21);
+            cfgLabelOutput.TabIndex = 4;
+            cfgLabelOutput.Text = "Output Folder";
+            // 
+            // cfgSplitterInput
+            // 
+            cfgSplitterInput.Dock = DockStyle.Top;
+            cfgSplitterInput.FixedPanel = FixedPanel.Panel2;
+            cfgSplitterInput.IsSplitterFixed = true;
+            cfgSplitterInput.Location = new Point(3, 40);
+            cfgSplitterInput.Margin = new Padding(3, 2, 3, 2);
+            cfgSplitterInput.Name = "cfgSplitterInput";
+            // 
+            // cfgSplitterInput.Panel1
+            // 
+            cfgSplitterInput.Panel1.Controls.Add(cfgTextInput);
+            cfgSplitterInput.Panel1.Padding = new Padding(3, 2, 1, 2);
+            // 
+            // cfgSplitterInput.Panel2
+            // 
+            cfgSplitterInput.Panel2.Controls.Add(cfgButtonInput);
+            cfgSplitterInput.Panel2.Padding = new Padding(0, 2, 3, 2);
+            cfgSplitterInput.Size = new Size(396, 28);
+            cfgSplitterInput.SplitterDistance = 351;
+            cfgSplitterInput.TabIndex = 3;
+            // 
+            // cfgTextInput
+            // 
+            cfgTextInput.Dock = DockStyle.Fill;
+            cfgTextInput.Location = new Point(3, 2);
+            cfgTextInput.Margin = new Padding(3, 2, 3, 2);
+            cfgTextInput.Name = "cfgTextInput";
+            cfgTextInput.Size = new Size(347, 23);
+            cfgTextInput.TabIndex = 1;
+            // 
+            // cfgButtonInput
+            // 
+            cfgButtonInput.Dock = DockStyle.Fill;
+            cfgButtonInput.Location = new Point(0, 2);
+            cfgButtonInput.Margin = new Padding(3, 2, 3, 2);
+            cfgButtonInput.Name = "cfgButtonInput";
+            cfgButtonInput.Size = new Size(38, 24);
+            cfgButtonInput.TabIndex = 2;
+            cfgButtonInput.Text = "...";
+            cfgButtonInput.UseVisualStyleBackColor = true;
+            // 
+            // cfgLabelInput
+            // 
+            cfgLabelInput.AutoSize = true;
+            cfgLabelInput.Dock = DockStyle.Top;
+            cfgLabelInput.Location = new Point(3, 19);
+            cfgLabelInput.Name = "cfgLabelInput";
+            cfgLabelInput.Padding = new Padding(0, 5, 0, 1);
+            cfgLabelInput.Size = new Size(94, 21);
+            cfgLabelInput.TabIndex = 0;
+            cfgLabelInput.Text = "Input File/Folder";
+            // 
+            // mainTabConsole
+            // 
+            mainTabConsole.Controls.Add(tabPage1);
+            mainTabConsole.Dock = DockStyle.Fill;
+            mainTabConsole.Location = new Point(0, 0);
+            mainTabConsole.Name = "mainTabConsole";
+            mainTabConsole.SelectedIndex = 0;
+            mainTabConsole.Size = new Size(416, 169);
+            mainTabConsole.TabIndex = 0;
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(richTextBox1);
+            tabPage1.Controls.Add(mainTextBoxConsole);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
@@ -335,193 +503,25 @@
             tabPage1.Text = "Console";
             tabPage1.UseVisualStyleBackColor = true;
             // 
-            // richTextBox1
+            // mainTextBoxConsole
             // 
-            richTextBox1.Dock = DockStyle.Fill;
-            richTextBox1.Location = new Point(3, 3);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(402, 135);
-            richTextBox1.TabIndex = 0;
-            richTextBox1.Text = "";
-            // 
-            // tabControl1
-            // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(416, 169);
-            tabControl1.TabIndex = 0;
-            // 
-            // numericUpDown1
-            // 
-            numericUpDown1.Location = new Point(6, 43);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(93, 23);
-            numericUpDown1.TabIndex = 1;
-            // 
-            // numericUpDown2
-            // 
-            numericUpDown2.Location = new Point(105, 43);
-            numericUpDown2.Name = "numericUpDown2";
-            numericUpDown2.Size = new Size(93, 23);
-            numericUpDown2.TabIndex = 2;
-            // 
-            // numericUpDown3
-            // 
-            numericUpDown3.Location = new Point(204, 43);
-            numericUpDown3.Name = "numericUpDown3";
-            numericUpDown3.Size = new Size(93, 23);
-            numericUpDown3.TabIndex = 3;
-            // 
-            // numericUpDown4
-            // 
-            numericUpDown4.Location = new Point(303, 43);
-            numericUpDown4.Name = "numericUpDown4";
-            numericUpDown4.Size = new Size(93, 23);
-            numericUpDown4.TabIndex = 4;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(6, 19);
-            label3.Name = "label3";
-            label3.Padding = new Padding(0, 5, 0, 1);
-            label3.Size = new Size(60, 21);
-            label3.TabIndex = 5;
-            label3.Text = "Tile Width";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(105, 19);
-            label4.Name = "label4";
-            label4.Padding = new Padding(0, 5, 0, 1);
-            label4.Size = new Size(64, 21);
-            label4.TabIndex = 6;
-            label4.Text = "Tile Height";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(204, 19);
-            label5.Name = "label5";
-            label5.Padding = new Padding(0, 5, 0, 1);
-            label5.Size = new Size(66, 21);
-            label5.TabIndex = 7;
-            label5.Text = "Tile Margin";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(303, 19);
-            label6.Name = "label6";
-            label6.Padding = new Padding(0, 5, 0, 1);
-            label6.Size = new Size(70, 21);
-            label6.TabIndex = 8;
-            label6.Text = "Tile Spacing";
-            // 
-            // splitContainer3
-            // 
-            splitContainer3.FixedPanel = FixedPanel.Panel2;
-            splitContainer3.IsSplitterFixed = true;
-            splitContainer3.Location = new Point(3, 40);
-            splitContainer3.Margin = new Padding(3, 2, 3, 2);
-            splitContainer3.Name = "splitContainer3";
-            // 
-            // splitContainer3.Panel1
-            // 
-            splitContainer3.Panel1.Controls.Add(textBox2);
-            splitContainer3.Panel1.Padding = new Padding(3, 2, 1, 2);
-            // 
-            // splitContainer3.Panel2
-            // 
-            splitContainer3.Panel2.Controls.Add(button5);
-            splitContainer3.Panel2.Padding = new Padding(0, 2, 3, 2);
-            splitContainer3.Size = new Size(195, 28);
-            splitContainer3.SplitterDistance = 150;
-            splitContainer3.TabIndex = 7;
-            // 
-            // textBox2
-            // 
-            textBox2.Dock = DockStyle.Fill;
-            textBox2.Location = new Point(3, 2);
-            textBox2.Margin = new Padding(3, 2, 3, 2);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(146, 23);
-            textBox2.TabIndex = 1;
-            // 
-            // button5
-            // 
-            button5.Dock = DockStyle.Fill;
-            button5.Location = new Point(0, 2);
-            button5.Margin = new Padding(3, 2, 3, 2);
-            button5.Name = "button5";
-            button5.Size = new Size(38, 24);
-            button5.TabIndex = 2;
-            button5.Text = "...";
-            button5.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Dock = DockStyle.Top;
-            label7.Location = new Point(3, 19);
-            label7.Name = "label7";
-            label7.Padding = new Padding(0, 5, 0, 1);
-            label7.Size = new Size(103, 21);
-            label7.TabIndex = 6;
-            label7.Text = "Background Color";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(303, 19);
-            label8.Name = "label8";
-            label8.Padding = new Padding(0, 5, 0, 1);
-            label8.Size = new Size(76, 21);
-            label8.TabIndex = 12;
-            label8.Text = "Layer Format";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(204, 19);
-            label9.Name = "label9";
-            label9.Padding = new Padding(0, 5, 0, 1);
-            label9.Size = new Size(69, 21);
-            label9.TabIndex = 11;
-            label9.Text = "Frame Time";
-            // 
-            // numericUpDown6
-            // 
-            numericUpDown6.Location = new Point(204, 43);
-            numericUpDown6.Name = "numericUpDown6";
-            numericUpDown6.Size = new Size(93, 23);
-            numericUpDown6.TabIndex = 9;
-            // 
-            // configLayerFormat
-            // 
-            configLayerFormat.DropDownStyle = ComboBoxStyle.DropDownList;
-            configLayerFormat.FormattingEnabled = true;
-            configLayerFormat.Items.AddRange(new object[] { "base64", "gzip + base64", "zlib + base64", "csv" });
-            configLayerFormat.Location = new Point(303, 44);
-            configLayerFormat.Margin = new Padding(3, 2, 3, 2);
-            configLayerFormat.Name = "configLayerFormat";
-            configLayerFormat.Size = new Size(93, 23);
-            configLayerFormat.TabIndex = 13;
+            mainTextBoxConsole.Dock = DockStyle.Fill;
+            mainTextBoxConsole.Location = new Point(3, 3);
+            mainTextBoxConsole.Name = "mainTextBoxConsole";
+            mainTextBoxConsole.Size = new Size(402, 135);
+            mainTextBoxConsole.TabIndex = 0;
+            mainTextBoxConsole.Text = "";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(434, 586);
-            Controls.Add(splitContainer1);
-            Controls.Add(progressBar1);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(mainSplitContainer);
+            Controls.Add(mainProgressBar);
+            Controls.Add(mainButtonToggleConsole);
+            Controls.Add(mainButtonCancel);
+            Controls.Add(mainButtonStart);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             HelpButton = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -529,82 +529,82 @@
             MinimizeBox = false;
             Name = "MainForm";
             Padding = new Padding(6);
-            Text = "MainForm";
-            splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-            splitContainer1.ResumeLayout(false);
+            Text = "Animation2Tilemap";
+            mainSplitContainer.Panel1.ResumeLayout(false);
+            mainSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)mainSplitContainer).EndInit();
+            mainSplitContainer.ResumeLayout(false);
+            mainTabConfiguration.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            splitContainer4.Panel1.ResumeLayout(false);
-            splitContainer4.Panel1.PerformLayout();
-            splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer4).EndInit();
-            splitContainer4.ResumeLayout(false);
-            splitContainer2.Panel1.ResumeLayout(false);
-            splitContainer2.Panel1.PerformLayout();
-            splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
-            splitContainer2.ResumeLayout(false);
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
-            tabControl2.ResumeLayout(false);
+            cfgBoxTilemapSettings.ResumeLayout(false);
+            cfgBoxTilemapSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)cfgFrameTime).EndInit();
+            cfgSplitterBackgroundColor.Panel1.ResumeLayout(false);
+            cfgSplitterBackgroundColor.Panel1.PerformLayout();
+            cfgSplitterBackgroundColor.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)cfgSplitterBackgroundColor).EndInit();
+            cfgSplitterBackgroundColor.ResumeLayout(false);
+            cfgBoxTileSettings.ResumeLayout(false);
+            cfgBoxTileSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)cfgTileSpacing).EndInit();
+            ((System.ComponentModel.ISupportInitialize)cfgTileMargin).EndInit();
+            ((System.ComponentModel.ISupportInitialize)cfgTileHeight).EndInit();
+            ((System.ComponentModel.ISupportInitialize)cfgTileWidth).EndInit();
+            cfgBoxPrimarySettings.ResumeLayout(false);
+            cfgBoxPrimarySettings.PerformLayout();
+            cfgSplitterOutput.Panel1.ResumeLayout(false);
+            cfgSplitterOutput.Panel1.PerformLayout();
+            cfgSplitterOutput.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)cfgSplitterOutput).EndInit();
+            cfgSplitterOutput.ResumeLayout(false);
+            cfgSplitterInput.Panel1.ResumeLayout(false);
+            cfgSplitterInput.Panel1.PerformLayout();
+            cfgSplitterInput.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)cfgSplitterInput).EndInit();
+            cfgSplitterInput.ResumeLayout(false);
+            mainTabConsole.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
-            tabControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown4).EndInit();
-            splitContainer3.Panel1.ResumeLayout(false);
-            splitContainer3.Panel1.PerformLayout();
-            splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer3).EndInit();
-            splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)numericUpDown6).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private ProgressBar progressBar1;
-        private SplitContainer splitContainer1;
-        private TabControl tabControl2;
-        private TabPage tabPage2;
-        private GroupBox groupBox3;
-        private GroupBox groupBox2;
-        private GroupBox groupBox1;
-        private SplitContainer splitContainer2;
-        private TextBox textBox1;
-        private Button button4;
-        private Label label2;
-        private SplitContainer splitContainer4;
-        private TextBox configTextOutput;
-        private Button configButtonOutput;
-        private Label label1;
-        private TabControl tabControl1;
+        private Button cfgButtonBackgroundColor;
+        private Button cfgButtonInput;
+        private Button cfgButtonOutput;
+        private Button mainButtonCancel;
+        private Button mainButtonStart;
+        private Button mainButtonToggleConsole;
+        private ComboBox cfgLayerFormat;
+        private GroupBox cfgBoxPrimarySettings;
+        private GroupBox cfgBoxTilemapSettings;
+        private GroupBox cfgBoxTileSettings;
+        private Label cfgLabelBackgroundColor;
+        private Label cfgLabelFrameTime;
+        private Label cfgLabelInput;
+        private Label cfgLabelLayerFormat;
+        private Label cfgLabelOutput;
+        private Label cfgLabelTileHeight;
+        private Label cfgLabelTileMargin;
+        private Label cfgLabelTileSpacing;
+        private Label cfgLabelTileWidth;
+        private NumericUpDown cfgFrameTime;
+        private NumericUpDown cfgTileHeight;
+        private NumericUpDown cfgTileMargin;
+        private NumericUpDown cfgTileSpacing;
+        private NumericUpDown cfgTileWidth;
+        private ProgressBar mainProgressBar;
+        private RichTextBox mainTextBoxConsole;
+        private SplitContainer cfgSplitterBackgroundColor;
+        private SplitContainer cfgSplitterInput;
+        private SplitContainer cfgSplitterOutput;
+        private SplitContainer mainSplitContainer;
+        private TabControl mainTabConfiguration;
+        private TabControl mainTabConsole;
         private TabPage tabPage1;
-        private RichTextBox richTextBox1;
-        private Label label3;
-        private NumericUpDown numericUpDown4;
-        private NumericUpDown numericUpDown3;
-        private NumericUpDown numericUpDown2;
-        private NumericUpDown numericUpDown1;
-        private Label label6;
-        private Label label5;
-        private Label label4;
-        private SplitContainer splitContainer3;
-        private TextBox textBox2;
-        private Button button5;
-        private Label label7;
-        private Label label8;
-        private Label label9;
-        private NumericUpDown numericUpDown6;
-        private ComboBox configLayerFormat;
+        private TabPage tabPage2;
+        private TextBox cfgBackgroundColor;
+        private TextBox cfgTextInput;
+        private TextBox cfgTextOutput;
     }
 }
