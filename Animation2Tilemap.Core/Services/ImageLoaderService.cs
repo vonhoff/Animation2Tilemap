@@ -1,5 +1,6 @@
 ﻿using Animation2Tilemap.Core.Common;
 using Animation2Tilemap.Core.Services.Contracts;
+using Animation2Tilemap.Core.Workflows;
 using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -18,7 +19,7 @@ public class ImageLoaderService : IImageLoaderService
         ILogger logger,
         INamePatternService namePatternService,
         IConfirmationDialogService confirmationDialogService,
-        ApplicationOptions options)
+        MainWorkflowOptions options)
     {
         _namePatternService = namePatternService;
         _confirmationDialogService = confirmationDialogService;

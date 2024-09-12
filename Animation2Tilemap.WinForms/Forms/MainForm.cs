@@ -1,102 +1,55 @@
-﻿using Animation2Tilemap.Core;
-using Animation2Tilemap.Core.Enums;
+﻿using Animation2Tilemap.Core.Enums;
 using Animation2Tilemap.Core.Factories;
 using Animation2Tilemap.Core.Factories.Contracts;
 using Animation2Tilemap.Core.Services;
 using Animation2Tilemap.Core.Services.Contracts;
+using Animation2Tilemap.Core.Workflows;
 using Animation2Tilemap.WinForms.Dialogs;
 using Animation2Tilemap.WinForms.Extensions;
 using Animation2Tilemap.WinForms.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.RichTextBoxForms;
-using Serilog.Sinks.RichTextBoxForms.Themes;
 using SixLabors.ImageSharp.PixelFormats;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Media;
-using Application = Animation2Tilemap.Core.Application;
 using Color = System.Drawing.Color;
-using Directory = System.IO.Directory;
 using Size = SixLabors.ImageSharp.Size;
 
 namespace Animation2Tilemap.WinForms.Forms;
 
 public partial class MainForm : Form
 {
-    private const string OutputDefault = "output";
-    private const string ProjectName = "Animation2Tilemap v1.2.0";
+    private const string License = "MIT License";
+    private const string ProjectName = "Animation2Tilemap";
     private const string ProjectSite = "https://github.com/vonhoff/Animation2Tilemap";
-    private Color _selectedColor = Color.White;
+    private readonly ConsoleForm _consoleForm;
+    private Color _backgroundColor = Color.White;
     private string _selectedInputPath = string.Empty;
-    private string _selectedOutputPath = OutputDefault;
+    private string _selectedOutputPath = ".\\output";
+    private CancellationTokenSource? _cancellationTokenSource;
 
     public MainForm()
     {
         InitializeComponent();
-    }
 
-    private void configButtonColor_Click(object sender, EventArgs e)
-    {
-        var colorDialog = new ColorDialog
+        _consoleForm = new ConsoleForm();
+        _consoleForm.FormClosing += (_, e) =>
         {
-            Color = _selectedColor
+            e.Cancel = true;
+            ToggleConsole();
         };
+        _consoleForm.Show();
+        _consoleForm.Hide();
 
-        if (colorDialog.ShowDialog() == DialogResult.OK)
-        {
-            configTextColor.Text = ColorTranslator.ToHtml(colorDialog.Color);
-            UpdateColor();
-        }
+        InitializeLogger();
     }
 
-    private void configButtonInput_Click(object sender, EventArgs e)
+    // Initialization and Configuration
+    private static ServiceProvider ConfigureServices(MainWorkflowOptions mainWorkflowOptions)
     {
-        var fileFolderDialog = new FileFolderDialog();
-
-        if (fileFolderDialog.ShowDialog() == DialogResult.OK)
-        {
-            configTextInput.Text = fileFolderDialog.SelectedPath;
-            UpdateInputPath();
-        }
-    }
-
-    private void configButtonOutput_Click(object sender, EventArgs e)
-    {
-        var folderDialog = new FolderBrowserDialog
-        {
-            ShowNewFolderButton = true
-        };
-
-        if (folderDialog.ShowDialog() == DialogResult.OK)
-        {
-            configTextOutput.Text = folderDialog.SelectedPath;
-            UpdateOutputPath();
-        }
-    }
-
-    private void configButtonStart_Click(object sender, EventArgs e)
-    {
-        Log.Information("{Text}", "A new operation has been started.");
-
-        var applicationOptions = new ApplicationOptions
-        {
-            FrameDuration = (int)Math.Round(configNumberFrameTime.Value),
-            Input = configTextInput.Text,
-            Output = configTextOutput.Text,
-            TileSize = new Size((int)Math.Round(configNumberWidth.Value), (int)Math.Round(configNumberHeight.Value)),
-            TileMargin = (int)Math.Round(configNumberMargin.Value),
-            TileSpacing = (int)Math.Round(configNumberSpacing.Value),
-            TransparentColor = Rgba32.ParseHex(configTextColor.Text),
-            TileLayerFormat = (TileLayerFormat)configLayerFormat.SelectedIndex,
-            Verbose = true
-        };
-
         var services = new ServiceCollection();
-        services.AddScoped<MainForm>();
         services.AddSingleton(Log.Logger);
-        services.AddSingleton(applicationOptions);
+        services.AddSingleton(mainWorkflowOptions);
         services.AddSingleton<IConfirmationDialogService, ConfirmationDialogService>();
         services.AddSingleton<INamePatternService, NamePatternService>();
         services.AddSingleton<IImageAlignmentService, ImageAlignmentService>();
@@ -107,244 +60,353 @@ public partial class MainForm : Form
         services.AddSingleton<ITilesetFactory, TilesetFactory>();
         services.AddSingleton<ITilemapFactory, TilemapFactory>();
         services.AddSingleton<ITilesetImageFactory, TilesetImageFactory>();
-        services.AddSingleton<Application>();
+        services.AddSingleton<MainWorkflow>();
 
-        ToggleStartButton(false);
-        tabControl2.Enabled = false;
-        Cursor = Cursors.WaitCursor;
-        outputBox.Cursor = Cursors.WaitCursor;
-
-        var serviceProvider = services.BuildServiceProvider();
-        var coreApplication = serviceProvider.GetRequiredService<Application>();
-        var resultTask = Task.Run(() => coreApplication.Run());
-
-        resultTask.ContinueWith(task =>
-        {
-            ToggleStartButton(true);
-            tabControl2.Enabled = true;
-            Cursor = Cursors.Default;
-            outputBox.Cursor = Cursors.Default;
-
-            switch (task.Result)
-            {
-                case ApplicationResult.Successful:
-                    {
-                        SystemSounds.Beep.Play();
-                        var openFolderResult = MessageBox.Show(
-                            "The operation has been completed successfully. Would you like to open the output folder?",
-                            "Operation successful",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Information
-                        );
-
-                        if (openFolderResult == DialogResult.Yes)
-                        {
-                            Process.Start("explorer.exe", applicationOptions.Output);
-                        }
-
-                        break;
-                    }
-                case ApplicationResult.PartiallySuccessful:
-                    {
-                        SystemSounds.Exclamation.Play();
-                        var openFolderResult = MessageBox.Show(
-                            "The operation was partially successful, review the console output for additional details. Would you like to open the output folder?",
-                            "Operation successful",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Information
-                        );
-
-                        if (openFolderResult == DialogResult.Yes)
-                        {
-                            Process.Start("explorer.exe", applicationOptions.Output);
-                        }
-
-                        break;
-                    }
-                case ApplicationResult.Failed:
-                    {
-                        SystemSounds.Hand.Play();
-                        MessageBox.Show(
-                            "The operation failed. Check the console output for more information.",
-                            "Operation failed",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
-                        break;
-                    }
-            }
-        }, TaskScheduler.FromCurrentSynchronizationContext());
+        return services.BuildServiceProvider();
     }
 
-    private void configTextColor_KeyDown(object sender, KeyEventArgs e)
+    private void InitializeLogger()
     {
-        if (e.KeyCode == Keys.Enter)
-        {
-            UpdateColor();
-            configButtonColor.Focus();
-        }
-    }
-
-    private void configTextColor_Leave(object sender, EventArgs e)
-    {
-        UpdateColor();
-    }
-
-    private void configTextInput_KeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.KeyCode == Keys.Enter)
-        {
-            configButtonInput.Focus();
-        }
-    }
-
-    private void configTextInput_Leave(object sender, EventArgs e)
-    {
-        UpdateInputPath();
-    }
-
-    private void configTextOutput_KeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.KeyCode == Keys.Enter)
-        {
-            configButtonOutput.Focus();
-        }
-    }
-
-    private void configTextOutput_Leave(object sender, EventArgs e)
-    {
-        UpdateOutputPath();
-    }
-
-    private void MainForm_HelpButtonClicked(object sender, CancelEventArgs e)
-    {
-        try
-        {
-            Process.Start(
-                new ProcessStartInfo
-                {
-                    FileName = ProjectSite,
-                    UseShellExecute = true
-                }
-            );
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error opening web page.");
-            Log.Information("Please visit {Url} in your web browser for information about this program.", ProjectSite);
-        }
-    }
-
-    private void MainForm_Load(object sender, EventArgs e)
-    {
-        configLayerFormat.SelectedIndex = 2;
-
-        var options = new RichTextBoxSinkOptions(ThemePresets.Dark, 25, 5, true);
-        var sink = new RichTextBoxSink(outputBox, options);
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
-            .WriteTo.Sink(sink, LogEventLevel.Verbose)
+            .WriteTo.RichTextBox(_consoleForm.OutputBox)
             .CreateLogger();
 
         Log.Information("{Name} — For more information, click the Help button.", ProjectName);
-        Log.Information("Select an image or folder that contains animated frames.");
+        Log.Information("This software is released under the {License}. © 2024 Simon Vonhoff", License);
     }
 
-    private void ToggleStartButton(bool toggle)
+    // Main Operation Handling
+    private async void mainButtonStart_Click(object sender, EventArgs e)
     {
-        if (toggle)
-        {
-            configButtonStart.BackColor = Color.FromArgb(0, 123, 255);
-            configButtonStart.ForeColor = Color.White;
-            configButtonStart.Enabled = true;
-        }
-        else
-        {
-            configButtonStart.BackColor = Color.Transparent;
-            configButtonStart.ForeColor = Color.Black;
-            configButtonStart.Enabled = false;
-        }
-    }
-
-    private void ToggleInputHighlight(bool toggle)
-    {
-        splitContainer3.BackColor = toggle ? Color.Gold : Color.Transparent;
-    }
-
-    private void UpdateColor()
-    {
-        var code = _selectedColor.ToHex();
-
-        if (configTextColor.Text != code)
-        {
-            try
-            {
-                var color = ColorTranslator.FromHtml(configTextColor.Text);
-                _selectedColor = color;
-            }
-            catch
-            {
-                Log.Error("The specified color is invalid, the previous color is restored.");
-            }
-        }
-
-        configTextColor.Text = _selectedColor.ToHex();
-    }
-
-    private void UpdateInputPath()
-    {
-        if (_selectedInputPath == configTextInput.Text)
+        if (_cancellationTokenSource != null)
         {
             return;
         }
 
-        if (Directory.Exists(configTextInput.Text))
+        Log.Information("A new operation has been started.");
+        _cancellationTokenSource = new CancellationTokenSource();
+
+        var mainWorkflowOptions = new MainWorkflowOptions
         {
-            Log.Information("Input Folder: {Path}", configTextInput.Text);
-            ToggleStartButton(true);
-            ToggleInputHighlight(false);
+            FrameDuration = (int)Math.Round(cfgFrameTime.Value),
+            Input = cfgInputPath.Text,
+            Output = cfgOutputPath.Text,
+            TileSize = new Size((int)Math.Round(cfgTileWidth.Value), (int)Math.Round(cfgTileHeight.Value)),
+            TileMargin = (int)Math.Round(cfgTileMargin.Value),
+            TileSpacing = (int)Math.Round(cfgTileSpacing.Value),
+            TransparentColor = Rgba32.ParseHex(cfgBackgroundColor.Text),
+            TileLayerFormat = (TileLayerFormat)cfgLayerFormat.SelectedIndex,
+            Verbose = true,
+            Progress = new Progress<(double, string)>(UpdateProgress),
+            CancellationToken = _cancellationTokenSource.Token
+        };
+
+        var services = ConfigureServices(mainWorkflowOptions);
+
+        Cursor = Cursors.WaitCursor;
+        mainButtonStart.Enabled = false;
+        mainButtonCancel.Enabled = true;
+
+        try
+        {
+            var workflow = services.GetRequiredService<MainWorkflow>();
+            var result = await Task.Run(workflow.Run, _cancellationTokenSource.Token);
+
+            if (_cancellationTokenSource.Token.IsCancellationRequested)
+            {
+                ResetProgress();
+                Log.Information("Operation was canceled by the user.");
+                MessageBox.Show("The operation was successfully canceled.", "Operation canceled", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (result)
+            {
+                await HandleSuccessfulOperation(mainWorkflowOptions.Output);
+            }
+            else
+            {
+                HandleFailedOperation();
+            }
         }
-        else if (File.Exists(configTextInput.Text))
+        catch (Exception ex)
         {
-            Log.Information("Input File: {Path}", configTextInput.Text);
-            ToggleStartButton(true);
-            ToggleInputHighlight(false);
+            Log.Error(ex, "An unexpected error occurred during the operation.");
+            HandleFailedOperation();
+        }
+        finally
+        {
+            Cursor = Cursors.Default;
+            mainButtonStart.Enabled = true;
+            mainButtonCancel.Enabled = false;
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = null;
+            ResetProgress();
+        }
+    }
+
+    private void mainButtonCancel_Click(object sender, EventArgs e)
+    {
+        _cancellationTokenSource?.Cancel();
+        mainButtonCancel.Enabled = false;
+        mainProgressBar.Style = ProgressBarStyle.Marquee;
+        mainProgressFile.Text = "Cancelling operation...";
+    }
+
+    // Progress Handling
+    private void UpdateProgress((double percentage, string fileName) progress)
+    {
+        if (InvokeRequired)
+        {
+            Invoke(() => UpdateProgress(progress));
+            return;
+        }
+
+        if (_cancellationTokenSource is { IsCancellationRequested: true })
+        {
+            return;
+        }
+
+        if ((int)progress.percentage == 100)
+        {
+            mainProgressBar.Style = ProgressBarStyle.Marquee;
+            mainProgressFile.Text = "Generating, please wait...";
         }
         else
         {
-            Log.Error("The specified input path does not point to an existing file or folder.");
-            configTextInput.Text = string.Empty;
-            ToggleStartButton(false);
-            ToggleInputHighlight(true);
+            mainProgressBar.Value = (int)progress.percentage;
+            mainProgressFile.Text = $@"Loading: {progress.percentage:F2}% | {progress.fileName}";
+        }
+    }
+
+    private void ResetProgress()
+    {
+        mainProgressBar.Value = 0;
+        mainProgressBar.Style = ProgressBarStyle.Blocks;
+        mainProgressFile.Text = "Ready";
+    }
+
+    // Operation Result Handling
+    private static void HandleFailedOperation()
+    {
+        System.Media.SystemSounds.Hand.Play();
+        MessageBox.Show(
+            "The operation failed. Check the console output for more information.",
+            "Operation failed",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error
+        );
+    }
+
+    private static async Task HandleSuccessfulOperation(string outputPath)
+    {
+        System.Media.SystemSounds.Beep.Play();
+        var result = MessageBox.Show(
+            "The operation has been completed successfully. Do you want to open the output folder?",
+            "Operation successful",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Information
+        );
+
+        if (result == DialogResult.Yes)
+        {
+            await Task.Run(() => Process.Start("explorer.exe", outputPath));
+        }
+    }
+
+    // UI Event Handlers
+    private void MainForm_Load(object sender, EventArgs e)
+    {
+        cfgLayerFormat.SelectedIndex = 2;
+        cfgInputPath.Text = _selectedInputPath;
+        cfgOutputPath.Text = _selectedOutputPath;
+    }
+
+    private void MainForm_HelpButtonClicked(object sender, CancelEventArgs e) => OpenProjectSite();
+
+    private void cfgButtonInput_Click(object sender, EventArgs e) => SelectInputPath();
+
+    private void cfgButtonOutput_Click(object sender, EventArgs e)
+    {
+        using var folderDialog = new FolderBrowserDialog();
+        folderDialog.ShowNewFolderButton = true;
+
+        if (folderDialog.ShowDialog() == DialogResult.OK)
+        {
+            cfgOutputPath.Text = folderDialog.SelectedPath;
+            UpdateOutputPath();
+        }
+    }
+
+    private void cfgBackgroundColor_DoubleClick(object sender, EventArgs e) => ChangeBackgroundColor();
+
+    private void cfgBackgroundColor_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Enter)
+        {
+            UpdateColor();
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+        }
+    }
+
+    private void cfgBackgroundColor_Leave(object sender, EventArgs e) => UpdateColor();
+
+    private void cfgInputPath_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Enter)
+        {
+            UpdateInputPath();
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+        }
+    }
+
+    private void cfgInputPath_Leave(object sender, EventArgs e) => UpdateInputPath();
+
+    private void cfgOutputPath_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Enter)
+        {
+            UpdateOutputPath();
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+        }
+    }
+
+    private void mainButtonToggleConsole_Click(object sender, EventArgs e) => ToggleConsole();
+
+    // Helper Methods
+    private static void OpenProjectSite()
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo(ProjectSite) { UseShellExecute = true });
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Failed to open the project site: {ProjectSite}", ProjectSite);
+            MessageBox.Show(
+                $"The project site couldn't be opened automatically. Please visit {ProjectSite} in your web browser for information about this program.",
+                "Project Site Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private void SelectInputPath()
+    {
+        using var fileFolderDialog = new FileFolderDialog();
+
+        if (fileFolderDialog.ShowDialog() == DialogResult.OK)
+        {
+            cfgInputPath.Text = fileFolderDialog.SelectedPath;
+            UpdateInputPath();
+        }
+    }
+
+    private void ToggleConsole()
+    {
+        if (_consoleForm.Visible)
+        {
+            mainButtonToggleConsole.Text = "Show Console";
+            _consoleForm.Hide();
+        }
+        else
+        {
+            mainButtonToggleConsole.Text = "Hide Console";
+            _consoleForm.Show();
+        }
+    }
+
+    private void ChangeBackgroundColor()
+    {
+        using var colorDialog = new ColorDialog();
+        colorDialog.Color = _backgroundColor;
+
+        if (colorDialog.ShowDialog() == DialogResult.OK)
+        {
+            cfgBackgroundColor.Text = ColorTranslator.ToHtml(colorDialog.Color);
+            UpdateColor();
+        }
+    }
+
+    private void UpdateColor()
+    {
+        try
+        {
+            var color = ColorTranslator.FromHtml(cfgBackgroundColor.Text);
+            cfgBackgroundColor.BackColor = color;
+            _backgroundColor = color;
+            Log.Information("Background color updated to: {Color}", _backgroundColor.ToHex());
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Invalid background color specified: {Color}. Restoring previous color.",
+                cfgBackgroundColor.Text);
+            MessageBox.Show(
+                "The specified color is invalid. The previous color has been restored to ensure proper functionality.",
+                "Color Format Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        _selectedInputPath = configTextInput.Text;
+        cfgBackgroundColor.Text = _backgroundColor.ToHex();
+        cfgBackgroundColor.ForeColor = _backgroundColor.ContrastColor();
+    }
+
+    private void UpdateInputPath()
+    {
+        if (_selectedInputPath == cfgInputPath.Text)
+        {
+            return;
+        }
+
+        if (Directory.Exists(cfgInputPath.Text))
+        {
+            Log.Information("Input folder set to: {Path}", cfgInputPath.Text);
+        }
+        else if (File.Exists(cfgInputPath.Text))
+        {
+            Log.Information("Input file set to: {Path}", cfgInputPath.Text);
+        }
+        else
+        {
+            Log.Warning("Invalid input path specified: {Path}", cfgInputPath.Text);
+            MessageBox.Show(
+                "The specified path doesn't exist or is inaccessible. Please select a valid file or folder to proceed.",
+                "Invalid Input Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            cfgInputPath.Text = _selectedInputPath;
+            return;
+        }
+
+        _selectedInputPath = cfgInputPath.Text;
     }
 
     private void UpdateOutputPath()
     {
-        if (string.IsNullOrWhiteSpace(configTextOutput.Text))
+        if (string.IsNullOrWhiteSpace(cfgOutputPath.Text))
         {
-            Log.Warning("An empty output path is not allowed, the default path is restored.");
-            configTextOutput.Text = OutputDefault;
+            cfgOutputPath.Text = ".";
+            Log.Information("Empty output path specified. Set to folder: {Path}", Path.GetFullPath("."));
         }
 
-        if (_selectedOutputPath != configTextOutput.Text)
-        {
-            Log.Information("Output Folder: {Path}", Path.GetFullPath(configTextOutput.Text));
-            _selectedOutputPath = configTextOutput.Text;
+        if (_selectedOutputPath == cfgOutputPath.Text) return;
 
-            if (Directory.Exists(configTextOutput.Text) == false)
-            {
-                Log.Information("The output folder does not exist, it will be created at run time.");
-            }
-            else
-            {
-                if (Directory.GetFiles(configTextOutput.Text).Length != 0)
-                {
-                    Log.Warning("The output folder is not empty, existing files will be overwritten.");
-                }
-            }
+        var fullPath = Path.GetFullPath(cfgOutputPath.Text);
+        Log.Information("Output folder set to: {Path}", fullPath);
+        _selectedOutputPath = cfgOutputPath.Text;
+
+        if (!Directory.Exists(fullPath))
+        {
+            Log.Information("Output folder does not exist. It will be created at runtime: {Path}", fullPath);
+            MessageBox.Show(
+                "The specified output folder doesn't exist yet. It will be created automatically when the process runs.",
+                "New Output Folder", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        else if (Directory.GetFiles(fullPath).Length != 0)
+        {
+            Log.Warning("Output folder is not empty. Existing files may be overwritten: {Path}", fullPath);
+            MessageBox.Show(
+                "The specified output folder contains existing files. These files may be overwritten during the process.",
+                "Existing Files in Output Folder", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }

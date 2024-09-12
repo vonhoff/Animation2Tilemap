@@ -1,5 +1,5 @@
-﻿using System.Xml.Serialization;
-using Animation2Tilemap.Core.Services;
+﻿using Animation2Tilemap.Core.Services;
+using System.Xml.Serialization;
 
 namespace Animation2Tilemap.Core.Test.Services;
 

@@ -1,6 +1,6 @@
 ﻿using Animation2Tilemap.Console.CommandLineOptions.Contracts;
-using Animation2Tilemap.Core;
 using Animation2Tilemap.Core.Enums;
+using Animation2Tilemap.Core.Workflows;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.CommandLine;
@@ -8,32 +8,44 @@ using System.CommandLine.Binding;
 
 namespace Animation2Tilemap.Console.CommandLineOptions.Binding;
 
-public class ApplicationOptionsBinder(
-    Command rootCommand,
-    ICommandLineOption<int> frameDurationOption,
-    ICommandLineOption<string> inputOption,
-    ICommandLineOption<string> outputOption,
-    ICommandLineOption<int> tileHeightOption,
-    ICommandLineOption<int> tileWidthOption,
-    ICommandLineOption<int> tileMarginOption,
-    ICommandLineOption<int> tileSpacingOption,
-    ICommandLineOption<string> transparentColorOption,
-    ICommandLineOption<string> tileLayerFormatOption,
-    ICommandLineOption<bool> verboseOption)
-    : BinderBase<ApplicationOptions>
+public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
 {
-    private readonly Option<int> _frameDurationOption = frameDurationOption.Register(rootCommand);
-    private readonly Option<string> _inputOption = inputOption.Register(rootCommand);
-    private readonly Option<string> _outputOption = outputOption.Register(rootCommand);
-    private readonly Option<int> _tileHeightOption = tileHeightOption.Register(rootCommand);
-    private readonly Option<string> _tileLayerFormatOption = tileLayerFormatOption.Register(rootCommand);
-    private readonly Option<int> _tileMarginOption = tileMarginOption.Register(rootCommand);
-    private readonly Option<int> _tileSpacingOption = tileSpacingOption.Register(rootCommand);
-    private readonly Option<int> _tileWidthOption = tileWidthOption.Register(rootCommand);
-    private readonly Option<string> _transparentColorOption = transparentColorOption.Register(rootCommand);
-    private readonly Option<bool> _verboseOption = verboseOption.Register(rootCommand);
+    private readonly Option<int> _frameDurationOption;
+    private readonly Option<string> _inputOption;
+    private readonly Option<string> _outputOption;
+    private readonly Option<int> _tileHeightOption;
+    private readonly Option<string> _tileLayerFormatOption;
+    private readonly Option<int> _tileMarginOption;
+    private readonly Option<int> _tileSpacingOption;
+    private readonly Option<int> _tileWidthOption;
+    private readonly Option<string> _transparentColorOption;
+    private readonly Option<bool> _verboseOption;
 
-    protected override ApplicationOptions GetBoundValue(BindingContext bindingContext)
+    public MainWorkflowOptionsBinder(Command rootCommand,
+        ICommandLineOption<int> frameDurationOption,
+        ICommandLineOption<string> inputOption,
+        ICommandLineOption<string> outputOption,
+        ICommandLineOption<int> tileHeightOption,
+        ICommandLineOption<int> tileWidthOption,
+        ICommandLineOption<int> tileMarginOption,
+        ICommandLineOption<int> tileSpacingOption,
+        ICommandLineOption<string> transparentColorOption,
+        ICommandLineOption<string> tileLayerFormatOption,
+        ICommandLineOption<bool> verboseOption)
+    {
+        _frameDurationOption = frameDurationOption.Register(rootCommand);
+        _inputOption = inputOption.Register(rootCommand);
+        _outputOption = outputOption.Register(rootCommand);
+        _tileHeightOption = tileHeightOption.Register(rootCommand);
+        _tileLayerFormatOption = tileLayerFormatOption.Register(rootCommand);
+        _tileMarginOption = tileMarginOption.Register(rootCommand);
+        _tileSpacingOption = tileSpacingOption.Register(rootCommand);
+        _tileWidthOption = tileWidthOption.Register(rootCommand);
+        _transparentColorOption = transparentColorOption.Register(rootCommand);
+        _verboseOption = verboseOption.Register(rootCommand);
+    }
+
+    protected override MainWorkflowOptions GetBoundValue(BindingContext bindingContext)
     {
         var parseResult = bindingContext.ParseResult;
 
@@ -59,7 +71,7 @@ public class ApplicationOptionsBinder(
             _ => throw new IndexOutOfRangeException("Invalid tile layer format.")
         };
 
-        return new ApplicationOptions
+        return new MainWorkflowOptions
         {
             FrameDuration = frameDuration,
             Input = input,

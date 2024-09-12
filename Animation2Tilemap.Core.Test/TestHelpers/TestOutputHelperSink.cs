@@ -5,10 +5,16 @@ using Xunit.Abstractions;
 
 namespace Animation2Tilemap.Core.Test.TestHelpers;
 
-public class TestOutputHelperSink(ITestOutputHelper output) : ILogEventSink
+public class TestOutputHelperSink : ILogEventSink
 {
     private readonly MessageTemplateTextFormatter _exceptionFormatter = new("{Exception}");
     private readonly MessageTemplateTextFormatter _formatter = new("[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}");
+    private readonly ITestOutputHelper _output;
+
+    public TestOutputHelperSink(ITestOutputHelper output)
+    {
+        _output = output;
+    }
 
     public void Emit(LogEvent logEvent)
     {
@@ -17,12 +23,12 @@ public class TestOutputHelperSink(ITestOutputHelper output) : ILogEventSink
 
         _formatter.Format(logEvent, writer);
         _exceptionFormatter.Format(logEvent, exceptionWriter);
-        output.WriteLine(writer.ToString());
+        _output.WriteLine(writer.ToString());
 
         var exception = exceptionWriter.ToString();
         if (string.IsNullOrWhiteSpace(exception) == false)
         {
-            output.WriteLine(exception);
+            _output.WriteLine(exception);
         }
     }
 }

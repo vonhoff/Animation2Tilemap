@@ -16,7 +16,7 @@ public class XmlSerializerService : IXmlSerializerService
 
         var serializer = new XmlSerializer(typeof(T));
         using var memoryStream = new MemoryStream();
-        var namespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+        var namespaces = new XmlSerializerNamespaces([XmlQualifiedName.Empty]);
         var settings = new XmlWriterSettings
         {
             Encoding = new UTF8Encoding(false),

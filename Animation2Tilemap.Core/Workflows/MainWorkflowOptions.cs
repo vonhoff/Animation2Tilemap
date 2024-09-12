@@ -2,9 +2,9 @@
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Animation2Tilemap.Core;
+namespace Animation2Tilemap.Core.Workflows;
 
-public class ApplicationOptions
+public class MainWorkflowOptions
 {
     public int FrameDuration { get; set; }
     public string Input { get; set; } = null!;
@@ -15,4 +15,6 @@ public class ApplicationOptions
     public Rgba32 TransparentColor { get; set; }
     public TileLayerFormat TileLayerFormat { get; set; }
     public bool Verbose { get; set; }
+    public IProgress<(double, string)>? Progress { get; set; }
+    public CancellationToken CancellationToken { get; set; } = default;
 }

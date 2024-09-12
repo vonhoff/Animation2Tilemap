@@ -1,6 +1,7 @@
 ﻿using Animation2Tilemap.Core.Services;
 using Animation2Tilemap.Core.Services.Contracts;
 using Animation2Tilemap.Core.Test.TestHelpers;
+using Animation2Tilemap.Core.Workflows;
 using Moq;
 using Serilog;
 using Serilog.Core;
@@ -8,16 +9,21 @@ using Xunit.Abstractions;
 
 namespace Animation2Tilemap.Core.Test.Services;
 
-public class ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
+public class ImageLoaderServiceTests
 {
     private readonly Mock<IConfirmationDialogService> _confirmationDialogServiceMock = new();
 
-    private readonly Logger _logger = new LoggerConfiguration()
-        .MinimumLevel.Verbose()
-        .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
-        .CreateLogger();
+    private readonly Logger _logger;
 
     private readonly Mock<INamePatternService> _namePatternServiceMock = new();
+
+    public ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
+    {
+        _logger = new LoggerConfiguration()
+            .MinimumLevel.Verbose()
+            .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
+            .CreateLogger();
+    }
 
     [Fact]
     public void TryLoadImages_ShouldReturnFalse_WhenInputPathIsInvalid()
@@ -27,7 +33,7 @@ public class ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions { Input = path });
+            new MainWorkflowOptions { Input = path });
 
         // Act
         var result = imageLoader.TryLoadImages(out var images);
@@ -45,7 +51,7 @@ public class ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions { Input = path });
+            new MainWorkflowOptions { Input = path });
 
         // Act
         var result = imageLoader.TryLoadImages(out var images);
@@ -63,7 +69,7 @@ public class ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions { Input = path });
+            new MainWorkflowOptions { Input = path });
 
         // Act
         var result = imageLoader.TryLoadImages(out var images);
@@ -82,7 +88,7 @@ public class ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions { Input = path });
+            new MainWorkflowOptions { Input = path });
 
         // Act
         var result = imageLoader.TryLoadImages(out var images);
@@ -101,7 +107,7 @@ public class ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions { Input = path });
+            new MainWorkflowOptions { Input = path });
 
         // Act
         var result = imageLoader.TryLoadImages(out var images);
@@ -124,7 +130,7 @@ public class ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
         var imageLoader = new ImageLoaderService(_logger,
             _namePatternServiceMock.Object,
             _confirmationDialogServiceMock.Object,
-            new ApplicationOptions { Input = path });
+            new MainWorkflowOptions { Input = path });
 
         _confirmationDialogServiceMock.Setup(c => c.Confirm(It.IsAny<string>(), It.IsAny<bool>())).Returns(true);
         _namePatternServiceMock.Setup(n => n.GetMostNotablePattern(It.IsAny<List<string>>())).Returns("anim");

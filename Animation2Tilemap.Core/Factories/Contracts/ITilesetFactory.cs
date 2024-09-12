@@ -4,7 +4,7 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace Animation2Tilemap.Core.Factories.Contracts;
 
-public interface ITilesetFactory
+public interface ITilesetFactory : IFrameProcessingNotifier
 {
     Tileset CreateFromImage(string fileName, List<Image<Rgba32>> frames);
 }
