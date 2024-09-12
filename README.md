@@ -38,13 +38,13 @@ Image source: https://x.com/jmw327/status/1405872936783802384
 
 Basic usage:
 
-```powershell
+```
 animation2tilemap.console -i <input> -o <output>
 ```
 
 For a full list of options, use:
 
-```powershell
+```
 animation2tilemap.console --help
 ```
 
