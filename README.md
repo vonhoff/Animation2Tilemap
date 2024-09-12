@@ -16,6 +16,16 @@ and tilesets, compatible with [Tiled](https://www.mapeditor.org/) and other tile
 - **Tiled Compatibility**: Generate tilesets and tilemaps in various formats (base64, zlib, gzip, csv).
 - **Dual Interface**: Utilize both command-line and user-friendly GUI options.
 
+## Example
+
+Convert an animation into a tileset and tilemap:
+
+|   Input Animation   |    Output Tilemap     |
+|:-------------------:|:---------------------:|
+| ![Input](input.gif) | ![Output](result.png) |
+
+Image source: https://x.com/jmw327/status/1405872936783802384
+
 ## Installation
 
 1. Ensure you have [.NET 8 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed.
@@ -43,16 +53,6 @@ animation2tilemap.console --help
 Launch the `Animation2Tilemap.exe` file for an intuitive, visual interface.
 
 ![Program screenshot](screenshot.png)
-
-## Example
-
-Convert an animation into a tileset and tilemap:
-
-|   Input Animation   |    Output Tilemap     |
-|:-------------------:|:---------------------:|
-| ![Input](input.gif) | ![Output](result.png) |
-
-Image source: https://x.com/jmw327/status/1405872936783802384
 
 ## Motivation
 
