@@ -52,7 +52,7 @@ animation2tilemap.console --help
 
 Launch the `Animation2Tilemap.exe` file for an intuitive, visual interface.
 
-![Program screenshot](screenshot.png)
+![Program screenshot](screenshot_win.png)
 
 ## Motivation
 
