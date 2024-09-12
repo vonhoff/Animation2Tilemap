@@ -11,8 +11,15 @@ using Serilog.Events;
 
 namespace Animation2Tilemap.Console;
 
-public class Startup(MainWorkflowOptions mainWorkflowOptions)
+public class Startup
 {
+    private readonly MainWorkflowOptions _mainWorkflowOptions;
+
+    public Startup(MainWorkflowOptions mainWorkflowOptions)
+    {
+        _mainWorkflowOptions = mainWorkflowOptions;
+    }
+
     public MainWorkflow BuildApplication()
     {
         var services = new ServiceCollection();
@@ -26,7 +33,7 @@ public class Startup(MainWorkflowOptions mainWorkflowOptions)
     private void ConfigureLogging(IServiceCollection services)
     {
         var logConfig = new LoggerConfiguration()
-            .MinimumLevel.Is(mainWorkflowOptions.Verbose ? LogEventLevel.Verbose : LogEventLevel.Information)
+            .MinimumLevel.Is(_mainWorkflowOptions.Verbose ? LogEventLevel.Verbose : LogEventLevel.Information)
             .WriteTo.Console(theme: SerilogConsoleThemes.CustomLiterate);
 
         Log.Logger = logConfig.CreateLogger();
@@ -35,7 +42,7 @@ public class Startup(MainWorkflowOptions mainWorkflowOptions)
 
     private void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton(mainWorkflowOptions);
+        services.AddSingleton(_mainWorkflowOptions);
         services.AddSingleton<IConfirmationDialogService, ConfirmationDialogService>();
         services.AddSingleton<INamePatternService, NamePatternService>();
         services.AddSingleton<IImageAlignmentService, ImageAlignmentService>();

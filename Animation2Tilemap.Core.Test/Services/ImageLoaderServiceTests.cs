@@ -9,16 +9,21 @@ using Xunit.Abstractions;
 
 namespace Animation2Tilemap.Core.Test.Services;
 
-public class ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
+public class ImageLoaderServiceTests
 {
     private readonly Mock<IConfirmationDialogService> _confirmationDialogServiceMock = new();
 
-    private readonly Logger _logger = new LoggerConfiguration()
-        .MinimumLevel.Verbose()
-        .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
-        .CreateLogger();
+    private readonly Logger _logger;
 
     private readonly Mock<INamePatternService> _namePatternServiceMock = new();
+
+    public ImageLoaderServiceTests(ITestOutputHelper testOutputHelper)
+    {
+        _logger = new LoggerConfiguration()
+            .MinimumLevel.Verbose()
+            .WriteTo.Sink(new TestOutputHelperSink(testOutputHelper))
+            .CreateLogger();
+    }
 
     [Fact]
     public void TryLoadImages_ShouldReturnFalse_WhenInputPathIsInvalid()

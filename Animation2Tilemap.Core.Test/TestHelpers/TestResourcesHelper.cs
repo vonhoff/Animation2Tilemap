@@ -28,7 +28,7 @@ public static class TestResourcesHelper
         }
 
         using var fs = new FileStream(filePath, FileMode.Open);
-        return JsonSerializer.Deserialize<T[]>(fs) ?? Array.Empty<T>();
+        return JsonSerializer.Deserialize<T[]>(fs) ?? [];
     }
 
     public static string ImportText(string fileName)

@@ -15,4 +15,6 @@ public class MainWorkflowOptions
     public Rgba32 TransparentColor { get; set; }
     public TileLayerFormat TileLayerFormat { get; set; }
     public bool Verbose { get; set; }
+    public IProgress<(double, string)>? Progress { get; set; }
+    public CancellationToken CancellationToken { get; set; } = default;
 }

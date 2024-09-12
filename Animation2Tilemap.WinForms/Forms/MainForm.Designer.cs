@@ -86,6 +86,7 @@
             mainButtonCancel.TabIndex = 1;
             mainButtonCancel.Text = "Cancel";
             mainButtonCancel.UseVisualStyleBackColor = true;
+            mainButtonCancel.Click += mainButtonCancel_Click;
             // 
             // mainButtonToggleConsole
             // 
@@ -340,10 +341,12 @@
             // 
             mainProgressFile.AutoSize = true;
             mainProgressFile.Dock = DockStyle.Bottom;
-            mainProgressFile.Location = new Point(6, 53);
+            mainProgressFile.Location = new Point(6, 47);
             mainProgressFile.Name = "mainProgressFile";
-            mainProgressFile.Size = new Size(0, 15);
+            mainProgressFile.Padding = new Padding(0, 1, 0, 5);
+            mainProgressFile.Size = new Size(39, 21);
             mainProgressFile.TabIndex = 22;
+            mainProgressFile.Text = "Ready";
             // 
             // mainBoxProgress
             // 

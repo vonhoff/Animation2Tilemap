@@ -6,9 +6,18 @@ using Animation2Tilemap.Core.Workflows;
 
 namespace Animation2Tilemap.Core.Factories;
 
-public class TilemapFactory(MainWorkflowOptions options, ITilemapDataService tilemapDataService) : ITilemapFactory
+public class TilemapFactory : ITilemapFactory
 {
-    private readonly TileLayerFormat _tileLayerFormat = options.TileLayerFormat;
+    private readonly TileLayerFormat _tileLayerFormat;
+    private readonly ITilemapDataService _tilemapDataService;
+    private readonly CancellationToken _cancellationToken;
+
+    public TilemapFactory(MainWorkflowOptions options, ITilemapDataService tilemapDataService)
+    {
+        _tilemapDataService = tilemapDataService;
+        _tileLayerFormat = options.TileLayerFormat;
+        _cancellationToken = options.CancellationToken;
+    }
 
     public Tilemap CreateFromTileset(Tileset tileset)
     {
@@ -20,14 +29,17 @@ public class TilemapFactory(MainWorkflowOptions options, ITilemapDataService til
         var i = 0;
         foreach (var hashAccumulation in tileset.HashAccumulations.Values)
         {
+            _cancellationToken.ThrowIfCancellationRequested();
+
             if (hashToTileId.TryGetValue(hashAccumulation, out var tileId))
             {
                 mapData[i] = tileId;
             }
+
             i++;
         }
 
-        var layerData = tilemapDataService.SerializeData(mapData, _tileLayerFormat);
+        var layerData = _tilemapDataService.SerializeData(mapData, _tileLayerFormat);
         var width = tileset.OriginalSize.Width / tileset.TileWidth;
         var height = tileset.OriginalSize.Height / tileset.TileHeight;
 

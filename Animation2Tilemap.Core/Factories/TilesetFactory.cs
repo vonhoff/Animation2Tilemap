@@ -10,13 +10,33 @@ using System.Diagnostics;
 
 namespace Animation2Tilemap.Core.Factories;
 
-public class TilesetFactory(MainWorkflowOptions options, ITilesetImageFactory tilesetImageFactory, IImageHashService imageHashService, ILogger logger)
-    : ITilesetFactory
+public class TilesetFactory : ITilesetFactory
 {
-    private readonly int _frameDuration = options.FrameDuration;
-    private readonly int _tileMargin = options.TileMargin;
-    private readonly Size _tileSize = options.TileSize;
-    private readonly int _tileSpacing = options.TileSpacing;
+    private readonly int _frameDuration;
+    private readonly int _tileMargin;
+    private readonly Size _tileSize;
+    private readonly int _tileSpacing;
+    private readonly ITilesetImageFactory _tilesetImageFactory;
+    private readonly IImageHashService _imageHashService;
+    private readonly ILogger _logger;
+    private readonly CancellationToken _cancellationToken;
+
+    public TilesetFactory(MainWorkflowOptions options,
+        ITilesetImageFactory tilesetImageFactory,
+        IImageHashService imageHashService,
+        ILogger logger)
+    {
+        _tilesetImageFactory = tilesetImageFactory;
+        _imageHashService = imageHashService;
+        _logger = logger;
+        _frameDuration = options.FrameDuration;
+        _tileMargin = options.TileMargin;
+        _tileSize = options.TileSize;
+        _tileSpacing = options.TileSpacing;
+        _cancellationToken = options.CancellationToken;
+    }
+
+    public event Action<string>? FrameProcessed;
 
     public Tileset CreateFromImage(string fileName, List<Image<Rgba32>> frames)
     {
@@ -28,13 +48,15 @@ public class TilesetFactory(MainWorkflowOptions options, ITilesetImageFactory ti
 
         foreach (var frame in frames)
         {
+            _cancellationToken.ThrowIfCancellationRequested();
+
             foreach (var tileLocation in GetTileLocations(frame.Width, frame.Height))
             {
                 var tileBounds = new Rectangle(tileLocation, _tileSize);
                 var tileFrame = frame.Clone();
                 tileFrame.Mutate(ctx => ctx.Crop(tileBounds));
 
-                var tileHash = imageHashService.Compute(tileFrame);
+                var tileHash = _imageHashService.Compute(tileFrame);
                 var tileImage = new TilesetTileImage(tileFrame, tileHash);
 
                 if (hashAccumulations.TryGetValue(tileLocation, out var accumulation))
@@ -48,16 +70,20 @@ public class TilesetFactory(MainWorkflowOptions options, ITilesetImageFactory ti
 
                 if (tileImages.TryGetValue(tileLocation, out var locationImages) == false)
                 {
-                    locationImages = new List<TilesetTileImage>();
+                    locationImages = [];
                     tileImages.Add(tileLocation, locationImages);
                 }
 
                 locationImages.Add(tileImage);
             }
+
+            FrameProcessed?.Invoke(fileName);
         }
 
         foreach (var (tileLocation, hashAccumulation) in hashAccumulations.DistinctBy(h => h.Value))
         {
+            _cancellationToken.ThrowIfCancellationRequested();
+
             var tileImageCollection = tileImages[tileLocation];
             var tile = new TilesetTile
             {
@@ -74,6 +100,8 @@ public class TilesetFactory(MainWorkflowOptions options, ITilesetImageFactory ti
             var previousFrameDuration = 0;
             foreach (var currentTileImage in tileImageCollection)
             {
+                _cancellationToken.ThrowIfCancellationRequested();
+
                 if (currentTileImage.Equals(previousTileImage))
                 {
                     previousFrameDuration += _frameDuration;
@@ -92,10 +120,10 @@ public class TilesetFactory(MainWorkflowOptions options, ITilesetImageFactory ti
         var animationTiles = registeredTiles.Where(t => t.Animation is { Frames.Count: > 1 }).ToList();
         stopwatch.Stop();
 
-        logger.Verbose("Registered {HashCount} distinct tile(s) and {AnimationCount} tile animation(s) for {FileName}. Took: {Elapsed}ms",
+        _logger.Verbose("Registered {HashCount} distinct tile(s) and {AnimationCount} tile animation(s) for {FileName}. Took: {Elapsed}ms",
             registeredTiles.Count, animationTiles.Count, fileName, stopwatch.ElapsedMilliseconds);
 
-        var tilesetImage = tilesetImageFactory.CreateFromTiles(registeredTiles, fileName);
+        var tilesetImage = _tilesetImageFactory.CreateFromTiles(registeredTiles, fileName);
         var tileset = new Tileset
         {
             Name = fileName,

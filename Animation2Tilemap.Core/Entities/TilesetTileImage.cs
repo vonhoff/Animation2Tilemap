@@ -3,11 +3,17 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace Animation2Tilemap.Core.Entities;
 
-public readonly struct TilesetTileImage(Image<Rgba32> data, uint hash) : IEquatable<TilesetTileImage>
+public readonly struct TilesetTileImage : IEquatable<TilesetTileImage>
 {
-    public Image<Rgba32> Data { get; } = data;
+    public Image<Rgba32> Data { get; }
 
-    private readonly uint _hash = hash;
+    private readonly uint _hash;
+
+    public TilesetTileImage(Image<Rgba32> data, uint hash)
+    {
+        Data = data;
+        _hash = hash;
+    }
 
     public static bool operator !=(TilesetTileImage left, TilesetTileImage right)
     {

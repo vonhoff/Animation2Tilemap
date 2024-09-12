@@ -21,7 +21,7 @@ public class ImageAlignmentService : IImageAlignmentService
 
     public bool TryAlignImage(string fileName, List<Image<Rgba32>> frames)
     {
-        var alignmentStopwatch = new Stopwatch();
+        var alignmentStopwatch = Stopwatch.StartNew();
 
         for (var i = 0; i < frames.Count; i++)
         {

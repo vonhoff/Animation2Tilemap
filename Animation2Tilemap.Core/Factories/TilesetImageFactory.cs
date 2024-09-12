@@ -7,12 +7,20 @@ using SixLabors.ImageSharp.Processing;
 
 namespace Animation2Tilemap.Core.Factories;
 
-public class TilesetImageFactory(MainWorkflowOptions options) : ITilesetImageFactory
+public class TilesetImageFactory : ITilesetImageFactory
 {
-    private readonly int _tileMargin = options.TileMargin;
-    private readonly Size _tileSize = options.TileSize;
-    private readonly int _tileSpacing = options.TileSpacing;
-    private readonly Rgba32 _transparentColor = options.TransparentColor;
+    private readonly int _tileMargin;
+    private readonly Size _tileSize;
+    private readonly int _tileSpacing;
+    private readonly Rgba32 _transparentColor;
+
+    public TilesetImageFactory(MainWorkflowOptions options)
+    {
+        _tileMargin = options.TileMargin;
+        _tileSize = options.TileSize;
+        _tileSpacing = options.TileSpacing;
+        _transparentColor = options.TransparentColor;
+    }
 
     public TilesetImage CreateFromTiles(IReadOnlyList<TilesetTile> registeredTiles, string fileName)
     {
