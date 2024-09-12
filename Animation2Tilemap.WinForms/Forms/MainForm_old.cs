@@ -1,5 +1,4 @@
-﻿using Animation2Tilemap.Core;
-using Animation2Tilemap.Core.Enums;
+﻿using Animation2Tilemap.Core.Enums;
 using Animation2Tilemap.Core.Factories;
 using Animation2Tilemap.Core.Factories.Contracts;
 using Animation2Tilemap.Core.Services;
@@ -9,9 +8,6 @@ using Animation2Tilemap.WinForms.Extensions;
 using Animation2Tilemap.WinForms.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.RichTextBoxForms;
-using Serilog.Sinks.RichTextBoxForms.Themes;
 using SixLabors.ImageSharp.PixelFormats;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -53,7 +49,7 @@ public partial class MainForm_old : Form
 
     private void configButtonInput_Click(object sender, EventArgs e)
     {
-        var fileFolderDialog = new FileFolderDialog();
+        using var fileFolderDialog = new FileFolderDialog();
 
         if (fileFolderDialog.ShowDialog() == DialogResult.OK)
         {
@@ -64,10 +60,8 @@ public partial class MainForm_old : Form
 
     private void configButtonOutput_Click(object sender, EventArgs e)
     {
-        var folderDialog = new FolderBrowserDialog
-        {
-            ShowNewFolderButton = true
-        };
+        using var folderDialog = new FolderBrowserDialog();
+        folderDialog.ShowNewFolderButton = true;
 
         if (folderDialog.ShowDialog() == DialogResult.OK)
         {
@@ -310,7 +304,7 @@ public partial class MainForm_old : Form
 
             if (Directory.Exists(configTextOutput.Text) == false)
             {
-                Log.Information("The output folder does not exist, it will be created at run time.");
+                Log.Information("The output folder does not exist, it will be created at runtime.");
             }
             else
             {
