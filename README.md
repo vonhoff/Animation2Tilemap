@@ -4,7 +4,7 @@
 [![version](https://img.shields.io/badge/version-2.0.0-blue)](https://github.com/vonhoff/Animation2Tilemap/releases)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-Animation2Tilemap is a powerful tool that simplifies the process of converting images or animated images into tilemaps
+Animation to Tilemap is a tool that converts images or GIF animations into tilemaps
 and tilesets, compatible with [Tiled](https://www.mapeditor.org/) and other tile-based game development tools.
 
 ## Features
@@ -18,11 +18,11 @@ and tilesets, compatible with [Tiled](https://www.mapeditor.org/) and other tile
 
 ## Example
 
-Convert an animation into a tileset and tilemap:
+Convert a GIF animation into a tileset and tilemap:
 
-|   Input Animation   |    Output Tilemap     |
-|:-------------------:|:---------------------:|
-| ![Input](input.gif) | ![Output](result.png) |
+|   Input GIF Animation   |    Output Tilemap     |
+|:-----------------------:|:---------------------:|
+| ![Input](input.gif)     | ![Output](result.png) |
 
 Image source: https://x.com/jmw327/status/1405872936783802384
 
@@ -56,17 +56,17 @@ Launch the `Animation2Tilemap.WinForms.exe` file for a visual interface.
 
 ## Motivation
 
-This tool was created to streamline the process of transforming pre-rendered images and animations into efficient,
-usable tilemaps and tilesets. Manually slicing large images, manipulating animations, and optimizing tiles can be
-time-consuming and error-prone.
+This tool was created to streamline the process of converting a GIF to a tileset and tilemap. 
+Manually slicing each frame, manipulating animations, and optimizing tiles can be
+time-consuming and error-prone. 
 
-The tool aims to solve several key problems:
+Animation to Tilemap aims to solve these problems:
 
 - Automate the process of slicing images and animations into individual tiles
 - Identify and remove duplicate tiles to optimize memory usage
 - Convert assets into game engine compatible formats
 
-These features are useful in several scenarios:
+They are also useful in these scenarios:
 
 - Converting detailed backgrounds into tile-based formats
 - Converting character animations into sprite sheets
