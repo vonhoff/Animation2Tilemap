@@ -14,6 +14,7 @@ public class ImageLoaderService : IImageLoaderService
     private readonly string _inputPath;
     private readonly ILogger _logger;
     private readonly INamePatternService _namePatternService;
+    private readonly bool _assumeAnimation;
 
     public ImageLoaderService(
         ILogger logger,
@@ -25,6 +26,7 @@ public class ImageLoaderService : IImageLoaderService
         _confirmationDialogService = confirmationDialogService;
         _logger = logger;
         _inputPath = options.Input;
+        _assumeAnimation = options.AssumeAnimation;
     }
 
     public bool TryLoadImages(out Dictionary<string, List<Image<Rgba32>>> images)
@@ -51,16 +53,30 @@ public class ImageLoaderService : IImageLoaderService
 
             if (suitableForAnimation)
             {
-                var requestAnimation = _confirmationDialogService.Confirm("The loaded images can be processed as animation frames. \n" +
-                                                                          "Do you want to create an animation from these images?", true);
-                if (requestAnimation)
+                bool requestAnimation;
+                
+                if (_assumeAnimation)
                 {
-                    _logger.Information("The loaded images will be processed as animation frames.");
-                    TransformImagesToAnimation(ref images);
+                    requestAnimation = true;
+                    _logger.Information("The loaded images will be processed as animation frames (--assume-animation is set).");
                 }
                 else
                 {
-                    _logger.Information("The loaded images will be processed individually.");
+                    requestAnimation = _confirmationDialogService.Confirm("The loaded images can be processed as animation frames. \n" +
+                                                                          "Do you want to create an animation from these images?", true);
+                    if (requestAnimation)
+                    {
+                        _logger.Information("The loaded images will be processed as animation frames.");
+                    }
+                    else
+                    {
+                        _logger.Information("The loaded images will be processed individually.");
+                    }
+                }
+                
+                if (requestAnimation)
+                {
+                    TransformImagesToAnimation(ref images);
                 }
             }
             else

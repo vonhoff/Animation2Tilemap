@@ -50,17 +50,17 @@ Animation to Tilemap was created to make it easier to convert animations into ti
 
 ## Algorithm Details
 
-The conversion process begins by loading any specified input images. These can be standard image files, multi-frame GIFs, or sequences of images from a directory. If the input is a multi-frame format such as a GIF, the frames are automatically grouped together.
+The conversion process begins by loading the input images, which can be standard image files, multi-frame GIFs, or sequences from a directory. Multi-frame formats such as GIFs are automatically grouped into animations.
 
-If the input is a directory of images with matching dimensions, the tool checks if they could form an animation. If so, it asks the user if they should be treated as animation frames. If the user agrees, the images are grouped into a single animation. A base name for the group is automatically generated, it is usually based on common patterns in the filenames, and the tool creates a set of output files representing the complete animation. If the user declines, each image is processed separately, resulting in individual output files for each.
+For directories of images with matching dimensions, the tool checks if they could form an animation. If so, it prompts the user for confirmation, unless the `--assume-animation` flag is set to skip the prompt. If confirmed (or if the flag is set), the images are grouped into one animation with a base name inferred from the filename patterns. Otherwise, each image is processed individually.
 
-Once grouped, all frames go through an alignment process. The tool finds the maximum width and height of all the frames in the group, then rounds these dimensions up to the nearest multiple of the tile size. Each frame is then centered on a new canvas of that size, with transparent padding added as needed so that all the frames are uniformly sized.
+The grouped frames are aligned: the tool calculates the maximum width and height of all the frames, rounds them to the nearest multiple of the tile size, and centers each frame on a new canvas with transparent padding to ensure uniform dimensions.
 
-Next, the tool processes the aligned frames to generate the tileset and tile animations. Each frame is divided into tiles based on the specified tile size. For every tile position, the tool tracks the sequence of tile images appearing at that position across all frames of the animation.
+The aligned frames are then divided into tiles. The tool tracks tile sequences at each position across frames and uses image hashing to detect unique tiles, ensuring that duplicates are stored only once in the tileset.
 
-Image hashing is used to identify unique tile images across all frames and positions, ensuring that only one copy of each unique tile image is stored in the final tileset file. The tool then defines tile animations within the tiled tileset file. For each tile position in the grid, as its appearance changes across frames, a tile animation sequence is created. This sequence lists the unique IDs of the tiles appearing at that position, along with the duration for which each tile should be displayed. Durations for consecutive identical tile images within the sequence are combined into a single animation frame entry.
+Tile animations are defined by listing, for each grid position, the sequence of unique tile IDs and their display durations. Identical consecutive tiles are merged into a single frame with a combined duration.
 
-The tool then generates the tilemap file. This file references the tileset created in the previous step. It reconstructs the original animation sequence by creating a map layer where each tile corresponds to a frame of the original input animation. It uses the unique tile IDs assigned during tileset creation to place the correct tiles in the correct order on the map.
+Finally, the tool generates a tilemap that references the tileset and reconstructs the original animation. It creates a map layer where each tile corresponds to a frame in the animation, using the tile IDs to place them in order.
 
 ## Support
 

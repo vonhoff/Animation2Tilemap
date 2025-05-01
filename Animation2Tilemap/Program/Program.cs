@@ -57,6 +57,7 @@ public static class Program
         ICommandLineOption<string> transparentColorOption = new TransparentColorOption();
         ICommandLineOption<string> tileLayerFormatOption = new TileLayerFormatOption();
         ICommandLineOption<bool> verboseOption = new VerboseOption();
+        ICommandLineOption<bool> assumeAnimationOption = new AssumeAnimationOption();
 
         return new MainWorkflowOptionsBinder(
             rootCommand,
@@ -69,7 +70,8 @@ public static class Program
             spacingOption,
             transparentColorOption,
             tileLayerFormatOption,
-            verboseOption
+            verboseOption,
+            assumeAnimationOption
         );
     }
 }

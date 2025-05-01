@@ -20,6 +20,7 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
     private readonly Option<int> _tileWidthOption;
     private readonly Option<string> _transparentColorOption;
     private readonly Option<bool> _verboseOption;
+    private readonly Option<bool> _assumeAnimationOption;
 
     public MainWorkflowOptionsBinder(Command rootCommand,
         ICommandLineOption<int> frameDurationOption,
@@ -31,7 +32,8 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
         ICommandLineOption<int> tileSpacingOption,
         ICommandLineOption<string> transparentColorOption,
         ICommandLineOption<string> tileLayerFormatOption,
-        ICommandLineOption<bool> verboseOption)
+        ICommandLineOption<bool> verboseOption,
+        ICommandLineOption<bool> assumeAnimationOption)
     {
         _frameDurationOption = frameDurationOption.Register(rootCommand);
         _inputOption = inputOption.Register(rootCommand);
@@ -43,6 +45,7 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
         _tileWidthOption = tileWidthOption.Register(rootCommand);
         _transparentColorOption = transparentColorOption.Register(rootCommand);
         _verboseOption = verboseOption.Register(rootCommand);
+        _assumeAnimationOption = assumeAnimationOption.Register(rootCommand);
     }
 
     protected override MainWorkflowOptions GetBoundValue(BindingContext bindingContext)
@@ -59,6 +62,7 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
         var transparentHex = parseResult.GetValueForOption(_transparentColorOption)!;
         var tileLayerFormatString = parseResult.GetValueForOption(_tileLayerFormatOption)!;
         var verbose = parseResult.GetValueForOption(_verboseOption);
+        var assumeAnimation = parseResult.GetValueForOption(_assumeAnimationOption);
 
         var tileSize = new Size(tileWidth, tileHeight);
         var transparentColor = Rgba32.ParseHex(transparentHex);
@@ -81,7 +85,8 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
             TileSpacing = tileSpacing,
             TransparentColor = transparentColor,
             TileLayerFormat = tileLayerFormat,
-            Verbose = verbose
+            Verbose = verbose,
+            AssumeAnimation = assumeAnimation
         };
     }
 }
