@@ -4,7 +4,7 @@
 [![version](https://img.shields.io/badge/version-2.1.0-blue)](https://github.com/vonhoff/Animation2Tilemap/releases)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-Animation to Tilemap is a tool that converts images or GIF animations into tilemaps and tilesets, compatible with [Tiled](https://www.mapeditor.org/) and other tile-based game development tools.
+Animation2Tilemap is a tool that converts images or GIF animations into tilemaps and tilesets, compatible with [Tiled](https://www.mapeditor.org/) and other tile-based game development tools.
 
 ## Key Features
 
@@ -46,7 +46,7 @@ animation2tilemap --help
 
 ## How It Works
 
-Animation to Tilemap was created to make it easier to convert animations into tilesets and tilemaps. I found the process of manually slicing frames, creating animations, and manually removing duplicate tiles to be both time consuming and error prone.
+Animation2Tilemap was created to make it easier to convert animations into tilesets and tilemaps. I found the process of manually slicing frames, creating animations, and manually removing duplicate tiles to be both time consuming and error prone.
 
 The conversion process begins by loading the input images, which can be standard image files, multi-frame GIFs, or sequences from a directory. Multi-frame formats such as GIFs are automatically grouped into animations.
 
