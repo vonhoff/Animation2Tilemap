@@ -18,9 +18,9 @@ Animation to Tilemap is a tool that converts images or GIF animations into tilem
 
 Convert a GIF animation into a tileset and tilemap:
 
-| Input GIF Animation |    Output Tilemap     |
-|:-------------------:|:---------------------:|
-| ![Input](input.gif) | ![Output](result.png) |
+|      Input GIF Animation      |         Output Tilemap          |
+|:-----------------------------:|:-------------------------------:|
+| ![Input](Resources/input.gif) | ![Output](Resources/result.png) |
 
 Image source: https://x.com/jmw327/status/1405872936783802384
 
@@ -46,7 +46,7 @@ animation2tilemap --help
 
 ## Motivation
 
-Animation to Tilemap was created to make converting animations into tilesets and tilemaps easier. I think the usual process of manually slicing frames, managing animations, and optimizing tiles is both time-consuming and prone to errors.
+Animation to Tilemap was created to make it easier to convert animations into tilesets and tilemaps. I found the process of manually slicing frames, creating animations, and manually removing duplicate tiles to be both time consuming and error prone.
 
 ## Algorithm Details
 
@@ -56,9 +56,9 @@ If the input is a directory of images with matching dimensions, the tool checks 
 
 Once grouped, all frames go through an alignment process. The tool finds the maximum width and height of all the frames in the group, then rounds these dimensions up to the nearest multiple of the tile size. Each frame is then centered on a new canvas of that size, with transparent padding added as needed so that all the frames are uniformly sized.
 
-Next, the tool processes the aligned frames to generate the tileset and tile animations. Each frame is divided into tiles based on the specified tile size. For every tile position (e.g., top-left tile, the one next to it, etc.), the tool tracks the sequence of tile images appearing at that position across all frames of the animation.
+Next, the tool processes the aligned frames to generate the tileset and tile animations. Each frame is divided into tiles based on the specified tile size. For every tile position, the tool tracks the sequence of tile images appearing at that position across all frames of the animation.
 
-Image hashing is used to identify unique tile images across all frames and positions, ensuring that only one copy of each unique tile image is stored in the final tileset image file. The tool then defines tile animations within the tiled tileset file. For each tile position in the grid, as its appearance changes across frames, a tile animation sequence is created. This sequence lists the unique IDs of the tiles appearing at that position, along with the duration for which each tile should be displayed. Durations for consecutive identical tile images within the sequence are combined into a single animation frame entry.
+Image hashing is used to identify unique tile images across all frames and positions, ensuring that only one copy of each unique tile image is stored in the final tileset file. The tool then defines tile animations within the tiled tileset file. For each tile position in the grid, as its appearance changes across frames, a tile animation sequence is created. This sequence lists the unique IDs of the tiles appearing at that position, along with the duration for which each tile should be displayed. Durations for consecutive identical tile images within the sequence are combined into a single animation frame entry.
 
 The tool then generates the tilemap file. This file references the tileset created in the previous step. It reconstructs the original animation sequence by creating a map layer where each tile corresponds to a frame of the original input animation. It uses the unique tile IDs assigned during tileset creation to place the correct tiles in the correct order on the map.
 
