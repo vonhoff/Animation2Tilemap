@@ -6,7 +6,7 @@
 
 Animation2Tilemap is a tool that converts images or GIF animations into tilemaps and tilesets, compatible with [Tiled](https://www.mapeditor.org/) and other tile-based game development tools.
 
-## Key Features
+## Features
 
 - **Wide Format Support** - Process PNG, BMP, GIF, JPEG, PBM, TIFF, TGA, and WebP images
 - **Animation Detection** - Automatically convert animations from folders or multi-frame images
@@ -46,19 +46,11 @@ animation2tilemap --help
 
 ## How It Works
 
-Animation2Tilemap was created to make it easier to convert animations into tilesets and tilemaps. I found the process of manually slicing frames, creating animations, and manually removing duplicate tiles to be both time-consuming and error-prone.
+The process begins by loading the input, which can be a single image, a multi-frame file (such as a GIF), or a folder of images. Multi-frame files are automatically treated as animations. When processing a folder where all images have the same dimensions, they are assumed to be animation frames; confirmation is requested unless the `--assume-animation` option is used.
 
-The conversion process begins by loading the input images, which can be standard image files, multi-frame GIFs, or sequences from a directory. Multi-frame formats such as GIFs are automatically grouped into animations.
+Next, the tileset factory divides each frame into tiles and uses image hashing to track unique tiles at each grid position, ensuring that only unique tiles are stored for a compact tileset. For each grid position, a unique identifier is generated to represent the sequence of tiles across frames, capturing any tile animation patterns.
 
-For directories of images with matching dimensions, the tool checks if they could form an animation. If so, it prompts the user for confirmation (unless the `--assume-animation` flag is set). If confirmed, the images are grouped into one animation with a base name inferred from the filename patterns. Otherwise, each image is processed individually.
-
-The grouped frames are aligned: the tool calculates the maximum width and height of all the frames, rounds them to the nearest multiple of the tile size, and centers each frame on a new canvas with transparent padding to ensure uniform dimensions.
-
-The aligned frames are then divided into tiles. The tool tracks tile sequences at each position across frames and uses image hashing to detect unique tiles, ensuring that duplicates are stored only once in the tileset.
-
-Tile animations are defined by listing, for each grid position, the sequence of unique tile IDs and their display durations. Identical consecutive tiles are merged into a single frame with a combined duration.
-
-Finally, the tool generates a tilemap that references the tileset and reconstructs the original animation. It creates a map layer where each tile corresponds to a frame in the animation, using the tile IDs to place them in order.
+Finally, the tilemap factory constructs a tilemap that references the generated tileset, creating a map layer that reflects the original frame layout. It then uses the calculated sequence IDs to assign the correct animated tile ID to each grid position, reconstructing the original animation.
 
 ## Support and Contribute
 
