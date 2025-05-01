@@ -46,12 +46,11 @@ animation2tilemap --help
 
 ## How It Works
 
-Animation2Tilemap was created to make it easier to convert animations into tilesets and tilemaps. I found the process of manually slicing frames, creating animations, and manually removing duplicate tiles to be both time consuming and error prone.
+Animation2Tilemap was created to make it easier to convert animations into tilesets and tilemaps. I found the process of manually slicing frames, creating animations, and manually removing duplicate tiles to be both time-consuming and error-prone.
 
 The conversion process begins by loading the input images, which can be standard image files, multi-frame GIFs, or sequences from a directory. Multi-frame formats such as GIFs are automatically grouped into animations.
 
-For directories of images with matching dimensions, the tool checks if they could form an animation. If so, it prompts the user for confirmation, unless the
-`--assume-animation` flag is set to skip the prompt. If confirmed (or if the flag is set), the images are grouped into one animation with a base name inferred from the filename patterns. Otherwise, each image is processed individually.
+For directories of images with matching dimensions, the tool checks if they could form an animation. If so, it prompts the user for confirmation (unless the `--assume-animation` flag is set). If confirmed, the images are grouped into one animation with a base name inferred from the filename patterns. Otherwise, each image is processed individually.
 
 The grouped frames are aligned: the tool calculates the maximum width and height of all the frames, rounds them to the nearest multiple of the tile size, and centers each frame on a new canvas with transparent padding to ensure uniform dimensions.
 
@@ -61,12 +60,13 @@ Tile animations are defined by listing, for each grid position, the sequence of 
 
 Finally, the tool generates a tilemap that references the tileset and reconstructs the original animation. It creates a map layer where each tile corresponds to a frame in the animation, using the tile IDs to place them in order.
 
-## Support
+## Support and Contribute
 
-If you find Animation2Tilemap useful:
+If you find value in this project, there are several ways you can contribute:
 
-- ⭐ Star the [project on GitHub](https://github.com/vonhoff/Animation2Tilemap)
-- 💖 Consider [becoming a sponsor](https://github.com/sponsors/vonhoff)
+- Give the [project](https://github.com/vonhoff/Animation2Tilemap) a star on GitHub.
+- Support the project through [GitHub Sponsors](https://github.com/sponsors/vonhoff).
+- Improve documentation, report bugs, or submit pull requests.
 
 ## License
 
