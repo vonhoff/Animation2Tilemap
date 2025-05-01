@@ -19,7 +19,7 @@ public class ConfirmationDialogServiceTests
         // Arrange
         const string message = "Are you sure?";
         var inputReader = new StringReader(input);
-        System.Console.SetIn(inputReader);
+        Console.SetIn(inputReader);
 
         // Act
         var actual = _confirmationDialogService.Confirm(message, defaultOption);
@@ -36,7 +36,7 @@ public class ConfirmationDialogServiceTests
         const bool defaultOption = true;
         const string input = "X\nY";
         var inputReader = new StringReader(input);
-        System.Console.SetIn(inputReader);
+        Console.SetIn(inputReader);
 
         // Act
         var actual = _confirmationDialogService.Confirm(message, defaultOption);

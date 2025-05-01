@@ -18,8 +18,8 @@ public static class Program
 
     public static async Task Main(string[] args)
     {
-        System.Console.InputEncoding = Encoding.UTF8;
-        System.Console.OutputEncoding = Encoding.UTF8;
+        Console.InputEncoding = Encoding.UTF8;
+        Console.OutputEncoding = Encoding.UTF8;
 
         var rootCommand = new RootCommand(Description);
         var optionsBinder = BuildMainWorkflowOptionsBinder(rootCommand);

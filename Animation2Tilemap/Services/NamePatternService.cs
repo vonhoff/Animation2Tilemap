@@ -1,7 +1,7 @@
-﻿using Serilog;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Animation2Tilemap.Services.Contracts;
+using Serilog;
 
 namespace Animation2Tilemap.Services;
 

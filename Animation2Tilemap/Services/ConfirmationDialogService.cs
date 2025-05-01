@@ -10,10 +10,10 @@ public class ConfirmationDialogService : IConfirmationDialogService
         var response = defaultOption;
         while (isValidInput == false)
         {
-            System.Console.WriteLine();
+            Console.WriteLine();
             var defaultText = defaultOption ? "[Y]" : "[N]";
-            System.Console.Write(message + " (Y/N) " + defaultText + ": ");
-            var input = System.Console.ReadLine()?.Trim().ToUpper();
+            Console.Write(message + " (Y/N) " + defaultText + ": ");
+            var input = Console.ReadLine()?.Trim().ToUpper();
 
             if (string.IsNullOrEmpty(input))
             {
@@ -38,7 +38,7 @@ public class ConfirmationDialogService : IConfirmationDialogService
                         }
                     default:
                         {
-                            System.Console.WriteLine("Invalid input. Please enter Y or N.");
+                            Console.WriteLine("Invalid input. Please enter Y or N.");
                             break;
                         }
                 }

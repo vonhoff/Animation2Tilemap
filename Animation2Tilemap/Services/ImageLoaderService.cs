@@ -1,10 +1,10 @@
-﻿using Serilog;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Animation2Tilemap.Common;
 using Animation2Tilemap.Services.Contracts;
 using Animation2Tilemap.Workflows;
+using Serilog;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Animation2Tilemap.Services;
 
