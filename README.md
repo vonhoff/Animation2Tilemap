@@ -8,13 +8,11 @@ Animation to Tilemap is a tool that converts images or GIF animations into tilem
 
 ## Key Features
 
-| Feature                    | Description                                                         |
-|----------------------------|---------------------------------------------------------------------|
-| **Wide Format Support**    | Process PNG, BMP, GIF, JPEG, PBM, TIFF, TGA, and WebP images        |
-| **Animation Detection**    | Automatically convert animations from folders or multi-frame images |
-| **Tileset Generation**     | Create optimized animated tilesets with duplicate tile detection    |
-| **Tilemap Creation**       | Generate complete tilemaps that recreate your original animations   |
-| **Advanced Customization** | Control tile size, transparency settings, and frame timing          |
+- **Wide Format Support** - Process PNG, BMP, GIF, JPEG, PBM, TIFF, TGA, and WebP images
+- **Animation Detection** - Automatically convert animations from folders or multi-frame images
+- **Tileset Generation** - Create optimized animated tilesets with duplicate tile detection
+- **Tilemap Generation** - Generate complete tilemaps that recreate your original animations
+- **Advanced Customization** - Control tile size, transparency settings, and frame timing
 
 ## Example
 
