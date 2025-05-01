@@ -8,14 +8,14 @@ namespace Animation2Tilemap.Workflows;
 
 public class MainWorkflow
 {
-    private readonly string _outputFolder;
     private readonly IImageAlignmentService _imageAlignmentService;
     private readonly IImageLoaderService _imageLoaderService;
-    private readonly ITilesetFactory _tilesetFactory;
-    private readonly ITilemapFactory _tilemapFactory;
-    private readonly IXmlSerializerService _xmlSerializerService;
     private readonly ILogger _logger;
     private readonly MainWorkflowOptions _options;
+    private readonly string _outputFolder;
+    private readonly ITilemapFactory _tilemapFactory;
+    private readonly ITilesetFactory _tilesetFactory;
+    private readonly IXmlSerializerService _xmlSerializerService;
 
     public MainWorkflow(IImageAlignmentService imageAlignmentService,
         IImageLoaderService imageLoaderService,
@@ -35,11 +35,11 @@ public class MainWorkflow
         _outputFolder = Path.GetFullPath(options.Output);
     }
 
-    public bool Run()
+    public void Run()
     {
         if (_imageLoaderService.TryLoadImages(out var images) == false)
         {
-            return false;
+            return;
         }
 
         Directory.CreateDirectory(_outputFolder);
@@ -60,7 +60,10 @@ public class MainWorkflow
 
             try
             {
-                if (_imageAlignmentService.TryAlignImage(fileName, frames) == false) return;
+                if (_imageAlignmentService.TryAlignImage(fileName, frames) == false)
+                {
+                    return;
+                }
 
                 var taskStopwatch = Stopwatch.StartNew();
                 var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
@@ -96,8 +99,6 @@ public class MainWorkflow
 
         _logger.Information("Finished. {SuccessfulImages} of {TotalImages} images were successfully processed.",
             successfulImages, images.Count);
-
-        return successfulImages == images.Count;
     }
 
     private void ReportProgress(ref int completedFrames, int totalFrames, string fileName)

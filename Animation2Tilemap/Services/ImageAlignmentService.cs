@@ -43,7 +43,8 @@ public class ImageAlignmentService : IImageAlignmentService
             frames[i] = alignedFrame;
         }
 
-        _logger.Verbose("Aligned {FrameCount} frame(s) of {FileName}. Took: {Elapsed}ms", frames.Count, fileName, alignmentStopwatch.ElapsedMilliseconds);
+        _logger.Verbose("Aligned {FrameCount} frame(s) of {FileName}. Took: {Elapsed}ms", frames.Count, fileName,
+            alignmentStopwatch.ElapsedMilliseconds);
         return true;
     }
 }

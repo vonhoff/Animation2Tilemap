@@ -10,11 +10,11 @@ namespace Animation2Tilemap.Services;
 
 public class ImageLoaderService : IImageLoaderService
 {
+    private readonly bool _assumeAnimation;
     private readonly IConfirmationDialogService _confirmationDialogService;
     private readonly string _inputPath;
     private readonly ILogger _logger;
     private readonly INamePatternService _namePatternService;
-    private readonly bool _assumeAnimation;
 
     public ImageLoaderService(
         ILogger logger,
@@ -54,7 +54,7 @@ public class ImageLoaderService : IImageLoaderService
             if (suitableForAnimation)
             {
                 bool requestAnimation;
-                
+
                 if (_assumeAnimation)
                 {
                     requestAnimation = true;
@@ -73,7 +73,7 @@ public class ImageLoaderService : IImageLoaderService
                         _logger.Information("The loaded images will be processed individually.");
                     }
                 }
-                
+
                 if (requestAnimation)
                 {
                     TransformImagesToAnimation(ref images);

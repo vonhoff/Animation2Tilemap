@@ -77,7 +77,8 @@ public class TilemapDataService : ITilemapDataService
 
         var encoded = format switch
         {
-            TileLayerFormat.Base64Uncompressed or TileLayerFormat.Base64ZLib or TileLayerFormat.Base64GZip => Convert.ToBase64String(outputStream.ToArray()),
+            TileLayerFormat.Base64Uncompressed or TileLayerFormat.Base64ZLib or TileLayerFormat.Base64GZip => Convert.ToBase64String(
+                outputStream.ToArray()),
             TileLayerFormat.Csv => string.Join(",", data.Select(d => d.ToString())),
             _ => throw new ArgumentOutOfRangeException(nameof(format), format, null)
         };

@@ -8,9 +8,9 @@ namespace Animation2Tilemap.Factories;
 
 public class TilemapFactory : ITilemapFactory
 {
+    private readonly CancellationToken _cancellationToken;
     private readonly TileLayerFormat _tileLayerFormat;
     private readonly ITilemapDataService _tilemapDataService;
-    private readonly CancellationToken _cancellationToken;
 
     public TilemapFactory(MainWorkflowOptions options, ITilemapDataService tilemapDataService)
     {

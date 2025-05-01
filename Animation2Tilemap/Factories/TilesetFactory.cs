@@ -12,14 +12,14 @@ namespace Animation2Tilemap.Factories;
 
 public class TilesetFactory : ITilesetFactory
 {
+    private readonly CancellationToken _cancellationToken;
     private readonly int _frameDuration;
-    private readonly int _tileMargin;
-    private readonly Size _tileSize;
-    private readonly int _tileSpacing;
-    private readonly ITilesetImageFactory _tilesetImageFactory;
     private readonly IImageHashService _imageHashService;
     private readonly ILogger _logger;
-    private readonly CancellationToken _cancellationToken;
+    private readonly int _tileMargin;
+    private readonly ITilesetImageFactory _tilesetImageFactory;
+    private readonly Size _tileSize;
+    private readonly int _tileSpacing;
 
     public TilesetFactory(MainWorkflowOptions options,
         ITilesetImageFactory tilesetImageFactory,
