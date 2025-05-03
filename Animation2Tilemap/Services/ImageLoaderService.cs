@@ -193,7 +193,9 @@ public class ImageLoaderService : IImageLoaderService
         var frames = images.Values.Select(v => v.First()).ToList();
         images = new Dictionary<string, List<Image<Rgba32>>>
         {
-            { name, frames }
+            {
+                name, frames
+            }
         };
     }
 }

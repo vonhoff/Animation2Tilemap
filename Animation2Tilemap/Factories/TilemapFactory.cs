@@ -8,7 +8,6 @@ namespace Animation2Tilemap.Factories;
 
 public class TilemapFactory : ITilemapFactory
 {
-    private readonly CancellationToken _cancellationToken;
     private readonly TileLayerFormat _tileLayerFormat;
     private readonly ITilemapDataService _tilemapDataService;
 
@@ -16,7 +15,6 @@ public class TilemapFactory : ITilemapFactory
     {
         _tilemapDataService = tilemapDataService;
         _tileLayerFormat = options.TileLayerFormat;
-        _cancellationToken = options.CancellationToken;
     }
 
     public Tilemap CreateFromTileset(Tileset tileset)
@@ -29,8 +27,6 @@ public class TilemapFactory : ITilemapFactory
         var i = 0;
         foreach (var hashAccumulation in tileset.HashAccumulations.Values)
         {
-            _cancellationToken.ThrowIfCancellationRequested();
-
             if (hashToTileId.TryGetValue(hashAccumulation, out var tileId))
             {
                 mapData[i] = tileId;

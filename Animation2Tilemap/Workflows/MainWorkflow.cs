@@ -43,12 +43,7 @@ public class MainWorkflow
         }
 
         Directory.CreateDirectory(_outputFolder);
-
-        var totalFrames = images.Sum(image => image.Value.Count);
-        var completedFrames = 0;
         var successfulImages = 0;
-
-        _tilesetFactory.FrameProcessed += fileName => ReportProgress(ref completedFrames, totalFrames, fileName);
 
         Parallel.ForEach(images, frameCollection =>
         {
@@ -99,12 +94,5 @@ public class MainWorkflow
 
         _logger.Information("Finished. {SuccessfulImages} of {TotalImages} images were successfully processed.",
             successfulImages, images.Count);
-    }
-
-    private void ReportProgress(ref int completedFrames, int totalFrames, string fileName)
-    {
-        Interlocked.Increment(ref completedFrames);
-        var percentage = (double)completedFrames / totalFrames * 100.0;
-        _options.Progress?.Report((percentage, fileName));
     }
 }

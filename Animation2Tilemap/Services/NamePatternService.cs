@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Animation2Tilemap.Services.Contracts;
 using Serilog;
 
@@ -19,7 +20,6 @@ public partial class NamePatternService : INamePatternService
     public string? GetMostNotablePattern(List<string> names)
     {
         var stopwatch = Stopwatch.StartNew();
-
         var patternCount = CountPatterns(names, _namePattern);
         _logger.Verbose("Found {PatternCount} name pattern(s). Took: {Elapsed}ms", patternCount.Count, stopwatch.ElapsedMilliseconds);
 
@@ -51,15 +51,13 @@ public partial class NamePatternService : INamePatternService
     private static Dictionary<string, int> CountPatterns(IEnumerable<string> names, Regex regex)
     {
         var patternCount = new Dictionary<string, int>();
-        foreach (var pattern in from name in names from Match match in regex.Matches(name) select match.Value)
+        foreach (var name in names)
         {
-            if (patternCount.TryGetValue(pattern, out var count))
+            foreach (Match match in regex.Matches(name))
             {
+                var pattern = match.Value;
+                patternCount.TryGetValue(pattern, out var count);
                 patternCount[pattern] = count + 1;
-            }
-            else
-            {
-                patternCount[pattern] = 1;
             }
         }
         return patternCount;
@@ -70,16 +68,15 @@ public partial class NamePatternService : INamePatternService
         string? maxPattern = null;
         var maxCount = 0;
         var longestLength = 0;
+
         foreach (var (pattern, count) in patternCount)
         {
-            if (count <= maxCount && (count != maxCount || pattern.Length <= longestLength))
+            if (count > maxCount || (count == maxCount && pattern.Length > longestLength))
             {
-                continue;
+                maxPattern = pattern;
+                maxCount = count;
+                longestLength = pattern.Length;
             }
-
-            maxPattern = pattern;
-            maxCount = count;
-            longestLength = pattern.Length;
         }
 
         return maxPattern;
@@ -93,7 +90,9 @@ public partial class NamePatternService : INamePatternService
 
     private bool IsPresentInAll(IEnumerable<string> strings, string pattern)
     {
-        if (strings.Any(str => !Regex.IsMatch(str, pattern)))
+        var regex = new Regex(pattern, RegexOptions.Compiled);
+
+        if (strings.Any(str => !regex.IsMatch(str)))
         {
             _logger.Verbose("Candidate name pattern {Pattern} does not occur in all filenames.", pattern);
             return false;

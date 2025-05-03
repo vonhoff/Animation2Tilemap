@@ -20,4 +20,4 @@ public class AssumeAnimationOption : ICommandLineOption<bool>
         command.Add(Option);
         return Option;
     }
-} 
+}
