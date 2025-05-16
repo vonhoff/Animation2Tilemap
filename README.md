@@ -1,92 +1,64 @@
 # Animation2Tilemap
 
 ![workflow](https://img.shields.io/github/actions/workflow/status/vonhoff/Animation2Tilemap/dotnet.yml)
-[![version](https://img.shields.io/badge/version-2.0.0-blue)](https://github.com/vonhoff/Animation2Tilemap/releases)
+[![version](https://img.shields.io/badge/version-2.1.0-blue)](https://github.com/vonhoff/Animation2Tilemap/releases)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-Animation to Tilemap is a tool that converts images or GIF animations into tilemaps
-and tilesets, compatible with [Tiled](https://www.mapeditor.org/) and other tile-based game development tools.
+Animation2Tilemap is a tool that converts images or GIF animations into tilemaps and tilesets, compatible with [Tiled](https://www.mapeditor.org/) and other tile-based game development tools.
 
 ## Features
 
-- **Versatile Input Support**: Process Bmp, Gif, Jpeg, Pbm, Png, Tiff, Tga, and WebP formats.
-- **Flexible Animation Handling**: Convert animations from folders or multi-frame images.
-- **Animated Tileset Generation**: Create animated tilesets from single images or frame folders.
-- **Customization Options**: Adjust tile size, transparent color, and frame duration.
-- **Tiled Compatibility**: Generate tilesets and tilemaps in various formats (base64, zlib, gzip, csv).
-- **Dual Interface**: Utilize both command-line and user-friendly GUI options.
+- **Wide Format Support** - Process PNG, BMP, GIF, JPEG, PBM, TIFF, TGA, and WebP images
+- **Animation Detection** - Automatically convert animations from folders or multi-frame images
+- **Tileset Generation** - Create optimized animated tilesets with duplicate tile detection
+- **Tilemap Generation** - Generate complete tilemaps that recreate your original animations
+- **Advanced Customization** - Control tile size, transparency settings, and frame timing
 
 ## Example
 
 Convert a GIF animation into a tileset and tilemap:
 
-|   Input GIF Animation   |    Output Tilemap     |
-|:-----------------------:|:---------------------:|
-| ![Input](input.gif)     | ![Output](result.png) |
+|      Input GIF Animation      |         Output Tilemap          |
+|:-----------------------------:|:-------------------------------:|
+| ![Input](Resources/input.gif) | ![Output](Resources/result.png) |
 
 Image source: https://x.com/jmw327/status/1405872936783802384
 
-## Installation
+## Getting Started
+
+### Installation
 
 1. Ensure you have [.NET 8 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed.
 2. Download the latest release from the [releases page](https://github.com/vonhoff/Animation2Tilemap/releases).
 3. Extract the zip file to your preferred location.
 
-## Usage
-
-### Command-line Interface
-
-Basic usage:
+### Usage
 
 ```
-animation2tilemap.console -i <input> -o <output>
+animation2tilemap -i <input file/folder> -o <output folder>
 ```
 
 For a full list of options, use:
 
 ```
-animation2tilemap.console --help
+animation2tilemap --help
 ```
 
-### Graphical User Interface
+## How It Works
 
-Launch the `Animation2Tilemap.WinForms.exe` file for a visual interface.
+It begins by loading the input, which can be a single image, a multi-frame file (such as a GIF), or a folder of images. Multi-frame files are automatically treated as animations. When processing a folder where all images have the same dimensions, they are assumed to be animation frames; confirmation is requested unless the `--assume-animation` option is used.
 
-![Program screenshot](screenshot_win.png)
+Next, the tileset factory divides each frame into tiles and uses image hashing to track unique tiles at each grid position, ensuring that only unique tiles are stored for a compact tileset. For each grid position, a unique identifier is generated to represent the sequence of tiles across frames, capturing any tile animation patterns.
 
-## Motivation
+Finally, the tilemap factory constructs a tilemap that references the generated tileset, creating a map layer that reflects the original frame layout. It then uses the calculated sequence IDs to assign the correct animated tile ID to each grid position, reconstructing the original animation.
 
-This tool was created to streamline the process of converting a GIF to a tileset and tilemap. 
-Manually slicing each frame, manipulating animations, and optimizing tiles can be
-time-consuming and error-prone. 
+## Support and Contribute
 
-Animation to Tilemap aims to solve these problems:
+If you find value in this project, there are several ways you can contribute:
 
-- Automate the process of slicing images and animations into individual tiles
-- Identify and remove duplicate tiles to optimize memory usage
-- Convert assets into game engine compatible formats
-
-They are also useful in these scenarios:
-
-- Converting detailed backgrounds into tile-based formats
-- Converting character animations into sprite sheets
-- Optimize large maps or procedurally generated worlds
-
-## Contributing
-
-Contributions are welcome! Here's how you can help:
-
-- **Report Issues**: Submit bugs or suggest features
-  via [GitHub Issues](https://github.com/vonhoff/Animation2Tilemap/issues).
-- **Pull Requests**: Improve code, documentation, or add new features.
-- **Feedback**: Share your experience or ideas for improvement.
-
-## Support
-
-If you find Animation2Tilemap useful:
-
-- ⭐ Star the [project on GitHub](https://github.com/vonhoff/Animation2Tilemap)
-- 💖 Consider [becoming a sponsor](https://github.com/sponsors/vonhoff)
+- Give the [project](https://github.com/vonhoff/Animation2Tilemap) a star on GitHub.
+- Support the project through [GitHub Sponsors](https://github.com/sponsors/vonhoff).
+- Improve documentation, report bugs, or submit pull requests.
 
 ## License
 
