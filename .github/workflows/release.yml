@@ -46,7 +46,6 @@ jobs:
             --runtime ${{ matrix.platform }}-${{ matrix.arch }} \
             --self-contained true \
             -p:PublishSingleFile=true \
-            -p:PublishTrimmed=true \
             -p:UseAppHost=true \
             -o ./publish
 
