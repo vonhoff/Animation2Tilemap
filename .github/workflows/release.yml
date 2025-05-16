@@ -41,13 +41,7 @@ jobs:
         run: dotnet test --configuration Release --no-build --verbosity normal
 
       - name: Publish
-        run: |
-          dotnet publish --configuration Release --no-build \
-            --runtime ${{ matrix.platform }}-${{ matrix.arch }} \
-            --self-contained true \
-            -p:PublishSingleFile=true \
-            -p:PublishTrimmed=true \
-            -o ./publish
+        run: dotnet publish Animation2Tilemap/Animation2Tilemap.csproj --configuration Release --runtime ${{ matrix.platform }}-${{ matrix.arch }} --self-contained true -p:PublishSingleFile=true -p:UseAppHost=true -o ./publish
 
       - name: Create Release Package
         shell: bash
