@@ -12,38 +12,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test with coverage
-      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory TestResults
-    
-    - name: Install ReportGenerator
-      run: dotnet tool install -g dotnet-reportgenerator-globaltool
-      
-    - name: Generate coverage report
-      run: reportgenerator -reports:**/TestResults/*/coverage.cobertura.xml -targetdir:./CodeCoverage -reporttypes:Html
-      
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v4
-      with:
-        name: code-coverage-report
-        path: ./CodeCoverage
-        
-    - name: Coverage check
-      run: |
-        REPORT=$(find . -type f -path "*/TestResults/*/coverage.cobertura.xml" | head -n1)
-        echo "Using coverage report at $REPORT"
-        TOTAL_COVERAGE=$(grep -oP 'line-rate="\K[0-9.]+' "$REPORT" | head -n1)
-        TOTAL_COVERAGE_PERCENT=$(echo "$TOTAL_COVERAGE * 100" | bc)
-        echo "Total coverage: $TOTAL_COVERAGE_PERCENT%"
-        if (( $(echo "$TOTAL_COVERAGE_PERCENT < 70" | bc -l) )); then
-          echo "Code coverage is below 70%"
-          exit 1
-        fi
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 10.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test with coverage
+        run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory TestResults
+
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+      - name: Generate coverage report
+        run: reportgenerator -reports:**/TestResults/*/coverage.cobertura.xml -targetdir:./CodeCoverage -reporttypes:Html
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report
+          path: ./CodeCoverage
+          
+      - name: Coverage check
+        run: |
+          REPORT=$(find . -type f -path "*/TestResults/*/coverage.cobertura.xml" | head -n1)
+          echo "Using coverage report at $REPORT"
+          TOTAL_COVERAGE=$(grep -oP 'line-rate="\K[0-9.]+' "$REPORT" | head -n1)
+          TOTAL_COVERAGE_PERCENT=$(echo "$TOTAL_COVERAGE * 100" | bc)
+          echo "Total coverage: $TOTAL_COVERAGE_PERCENT%"
+          if (( $(echo "$TOTAL_COVERAGE_PERCENT < 70" | bc -l) )); then
+            echo "Code coverage is below 70%"
+            exit 1
+          fi
