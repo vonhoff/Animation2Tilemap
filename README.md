@@ -28,7 +28,7 @@ Image source: https://x.com/jmw327/status/1405872936783802384
 
 ### Installation
 
-1. Ensure you have [.NET 8 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed.
+1. Ensure you have [.NET 10 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) installed.
 2. Download the latest release from the [releases page](https://github.com/vonhoff/Animation2Tilemap/releases).
 3. Extract the zip file to your preferred location.
 
