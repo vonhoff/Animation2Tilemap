@@ -41,4 +41,7 @@ public class Tileset
 
     [XmlIgnore]
     public Size OriginalSize { get; set; }
+
+    [XmlElement("properties")]
+    public List<TilesetProperty>? Properties { get; set; }
 }

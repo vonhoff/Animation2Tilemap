@@ -78,6 +78,7 @@ public class ImageLoaderServiceTests
         Assert.True(result);
         Assert.Single(images);
         Assert.Single(images.First().Value);
+        Assert.Equal(100, images.First().Value[0].FrameTime); // Default frame time for non-GIF
     }
 
     [Fact]
@@ -97,6 +98,8 @@ public class ImageLoaderServiceTests
         Assert.True(result);
         Assert.Single(images);
         Assert.Equal(18, images.First().Value.Count);
+        // Verify that frame times are present (they should be non-zero for a GIF)
+        Assert.All(images.First().Value, frame => Assert.True(frame.FrameTime > 0));
     }
 
     [Fact]
@@ -119,6 +122,7 @@ public class ImageLoaderServiceTests
         foreach (var image in images)
         {
             Assert.Single(image.Value);
+            Assert.Equal(100, image.Value[0].FrameTime); // Default frame time for non-GIF
         }
     }
 
@@ -143,9 +147,9 @@ public class ImageLoaderServiceTests
         Assert.Equal(8, images["anim"].Count);
         Assert.Single(images);
 
-        foreach (var image in images["anim"])
+        foreach (var frame in images["anim"])
         {
-            Assert.Single(image.Frames);
+            Assert.Equal(100, frame.FrameTime); // Default frame time for non-GIF
         }
     }
 }

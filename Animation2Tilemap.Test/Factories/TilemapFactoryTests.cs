@@ -47,12 +47,14 @@ public class TilemapFactoryTests
             }
         };
 
+        var frameTimes = new List<int> { 100, 200 };
+
         _tilemapDataServiceMock
             .Setup(x => x.SerializeData(It.IsAny<uint[]>(), TileLayerFormat.Csv))
             .Returns("1,2");
 
         // Act
-        var result = _factory.CreateFromTileset(tileset);
+        var result = _factory.CreateFromTileset(tileset, frameTimes);
 
         // Assert
         Assert.Equal("1.0", result.Version);
@@ -69,6 +71,13 @@ public class TilemapFactoryTests
         Assert.Equal("csv", result.TilemapLayer.Data.Encoding);
         Assert.Null(result.TilemapLayer.Data.Compression);
         Assert.Equal("1,2", result.TilemapLayer.Data.Text);
+
+        // Verify frame timing information was added to tileset properties
+        Assert.NotNull(tileset.Properties);
+        var frameTimesProperty = tileset.Properties.FirstOrDefault(p => p.Name == "frameTimes");
+        Assert.NotNull(frameTimesProperty);
+        Assert.Equal("string", frameTimesProperty.Type);
+        Assert.Equal("100,200", frameTimesProperty.Value);
 
         _tilemapDataServiceMock.Verify(
             x => x.SerializeData(
@@ -104,16 +113,55 @@ public class TilemapFactoryTests
             }
         };
 
+        var frameTimes = new List<int> { 100 };
+
         _tilemapDataServiceMock
             .Setup(x => x.SerializeData(It.IsAny<uint[]>(), format))
             .Returns("data");
 
         // Act
-        var result = factory.CreateFromTileset(tileset);
+        var result = factory.CreateFromTileset(tileset, frameTimes);
 
         // Assert
         Assert.NotNull(result.TilemapLayer?.Data);
         Assert.Equal(expectedEncoding, result.TilemapLayer.Data.Encoding);
         Assert.Equal(expectedCompression, result.TilemapLayer.Data.Compression);
+
+        // Verify frame timing information was added to tileset properties
+        Assert.NotNull(tileset.Properties);
+        var frameTimesProperty = tileset.Properties.FirstOrDefault(p => p.Name == "frameTimes");
+        Assert.NotNull(frameTimesProperty);
+        Assert.Equal("string", frameTimesProperty.Type);
+        Assert.Equal("100", frameTimesProperty.Value);
+    }
+
+    [Fact]
+    public void CreateFromTileset_WithEmptyFrameTimes_DoesNotAddFrameTimesProperty()
+    {
+        // Arrange
+        var tileset = new Tileset
+        {
+            Name = "test",
+            TileWidth = 32,
+            TileHeight = 32,
+            OriginalSize = new Size(32, 32),
+            RegisteredTiles = new List<TilesetTile>(),
+            HashAccumulations = new Dictionary<Point, uint>
+            {
+                { new Point(0, 0), 1u }
+            }
+        };
+
+        var frameTimes = new List<int>();
+
+        _tilemapDataServiceMock
+            .Setup(x => x.SerializeData(It.IsAny<uint[]>(), TileLayerFormat.Csv))
+            .Returns("1");
+
+        // Act
+        var result = _factory.CreateFromTileset(tileset, frameTimes);
+
+        // Assert
+        Assert.Null(tileset.Properties);
     }
 } 

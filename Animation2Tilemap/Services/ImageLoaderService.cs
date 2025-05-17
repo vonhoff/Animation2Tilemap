@@ -5,6 +5,7 @@ using Animation2Tilemap.Workflows;
 using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Formats.Gif;
 
 namespace Animation2Tilemap.Services;
 
@@ -29,7 +30,7 @@ public class ImageLoaderService : IImageLoaderService
         _assumeAnimation = options.AssumeAnimation;
     }
 
-    public bool TryLoadImages(out Dictionary<string, List<Image<Rgba32>>> images)
+    public bool TryLoadImages(out Dictionary<string, List<(Image<Rgba32> Image, int FrameTime)>> images)
     {
         images = [];
 
@@ -94,9 +95,9 @@ public class ImageLoaderService : IImageLoaderService
         return true;
     }
 
-    private Dictionary<string, List<Image<Rgba32>>> LoadFromDirectory(string path, out bool suitableForAnimation)
+    private Dictionary<string, List<(Image<Rgba32> Image, int FrameTime)>> LoadFromDirectory(string path, out bool suitableForAnimation)
     {
-        var images = new Dictionary<string, List<Image<Rgba32>>>();
+        var images = new Dictionary<string, List<(Image<Rgba32> Image, int FrameTime)>>();
         var stopwatch = Stopwatch.StartNew();
         var files = Directory
             .GetFiles(path, "*.*")
@@ -131,13 +132,13 @@ public class ImageLoaderService : IImageLoaderService
                 continue;
             }
 
-            var current = frames[0];
+            var current = frames[0].Image;
             if (previous != null && previous.Size.Equals(current.Size) == false || frames.Count > 1)
             {
                 suitableForAnimation = false;
             }
 
-            previous = frames[0];
+            previous = frames[0].Image;
         }
 
         _logger.Information("Loaded {ImageCount} of {InputCount} file(s) containing a total of {FrameCount} frame(s). Took: {Elapsed}ms",
@@ -145,22 +146,29 @@ public class ImageLoaderService : IImageLoaderService
         return images;
     }
 
-    private List<Image<Rgba32>> LoadFromFile(string file)
+    private List<(Image<Rgba32> Image, int FrameTime)> LoadFromFile(string file)
     {
-        var frames = new List<Image<Rgba32>>();
+        var frames = new List<(Image<Rgba32> Image, int FrameTime)>();
 
         try
         {
             using var stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
-            Image.DetectFormat(stream);
+            var format = Image.DetectFormat(stream);
 
             stream.Position = 0;
             var image = Image.Load(stream);
             frames = [];
+            
             for (var i = 0; i < image.Frames.Count; i++)
             {
                 var frame = image.Frames.CloneFrame(i);
-                frames.Add(frame.CloneAs<Rgba32>());
+                int frameTime = 100;
+                if (format.Name == "GIF")
+                {
+                    var meta = image.Frames[i].Metadata.GetGifMetadata();
+                    frameTime = meta?.FrameDelay is int delay ? delay * 10 : 100;
+                }
+                frames.Add((frame.CloneAs<Rgba32>(), frameTime));
             }
 
             _logger.Information("Loaded {FrameCount} frame(s) from {Path}", image.Frames.Count, file);
@@ -178,7 +186,7 @@ public class ImageLoaderService : IImageLoaderService
         }
     }
 
-    private void TransformImagesToAnimation(ref Dictionary<string, List<Image<Rgba32>>> images)
+    private void TransformImagesToAnimation(ref Dictionary<string, List<(Image<Rgba32> Image, int FrameTime)>> images)
     {
         List<string> fileNames = images.Keys.Select(Path.GetFileNameWithoutExtension).ToList()!;
 
@@ -191,7 +199,7 @@ public class ImageLoaderService : IImageLoaderService
 
         _logger.Information("Using {Name} as the animation name.", name);
         var frames = images.Values.Select(v => v.First()).ToList();
-        images = new Dictionary<string, List<Image<Rgba32>>>
+        images = new Dictionary<string, List<(Image<Rgba32> Image, int FrameTime)>>
         {
             {
                 name, frames

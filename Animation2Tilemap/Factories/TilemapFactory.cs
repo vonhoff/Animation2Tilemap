@@ -17,7 +17,7 @@ public class TilemapFactory : ITilemapFactory
         _tileLayerFormat = options.TileLayerFormat;
     }
 
-    public Tilemap CreateFromTileset(Tileset tileset)
+    public Tilemap CreateFromTileset(Tileset tileset, List<int> frameTimes)
     {
         var hashToTileId = tileset.RegisteredTiles
             .Where(t => t.Animation?.Hash != null)
@@ -51,6 +51,18 @@ public class TilemapFactory : ITilemapFactory
             TileLayerFormat.Base64ZLib => "zlib",
             _ => null
         };
+
+        // Add frame timing information to tileset properties
+        if (frameTimes.Count > 0)
+        {
+            tileset.Properties ??= new List<TilesetProperty>();
+            tileset.Properties.Add(new TilesetProperty
+            {
+                Name = "frameTimes",
+                Type = "string",
+                Value = string.Join(",", frameTimes)
+            });
+        }
 
         return new Tilemap
         {

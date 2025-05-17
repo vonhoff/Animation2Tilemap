@@ -55,18 +55,18 @@ public class MainWorkflow
 
             try
             {
-                if (_imageAlignmentService.TryAlignImage(fileName, frames) == false)
+                if (_imageAlignmentService.TryAlignImage(fileName, frames.Select(f => f.Image).ToList()) == false)
                 {
                     return;
                 }
 
                 var taskStopwatch = Stopwatch.StartNew();
-                var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
+                var tileset = _tilesetFactory.CreateFromImage(fileName, frames.Select(f => f.Image).ToList());
                 _logger.Verbose("Created tileset from {FileName}. Took: {Elapsed}ms",
                     fileName, taskStopwatch.ElapsedMilliseconds);
 
                 taskStopwatch.Restart();
-                var tilemap = _tilemapFactory.CreateFromTileset(tileset);
+                var tilemap = _tilemapFactory.CreateFromTileset(tileset, frames.Select(f => f.FrameTime).ToList());
                 _logger.Verbose("Created tilemap from tileset {FileName}. Took: {Elapsed}ms",
                     fileName, taskStopwatch.ElapsedMilliseconds);
 
