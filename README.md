@@ -18,11 +18,9 @@ Animation2Tilemap is a tool that converts images or GIF animations into tilemaps
 
 Convert a GIF animation into a tileset and tilemap:
 
-|      Input GIF Animation      |         Output Tilemap          |
-|:-----------------------------:|:-------------------------------:|
-| ![Input](Resources/input.gif) | ![Output](Resources/result.png) |
-
-Image source: https://x.com/jmw327/status/1405872936783802384
+|                          From                          |                         To                             |
+|:------------------------------------------------------:|:------------------------------------------------------:|
+| <img src="Resources/Sonic_md_fg1.gif" width="1280">    | ![Input](Resources/Screenshot%20from%202025-05-17.png) |
 
 ## Getting Started
 
