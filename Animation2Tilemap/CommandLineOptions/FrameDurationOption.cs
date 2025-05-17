@@ -10,7 +10,7 @@ public class FrameDurationOption : ICommandLineOption<int>
         Option = new Option<int>(
             name: "--duration",
             description: "Animation frame duration",
-            getDefaultValue: () => 125);
+            getDefaultValue: () => 42);
         Option.AddAlias("-d");
     }
 
