@@ -54,6 +54,10 @@ Next, the tileset factory divides each frame into tiles and uses image hashing t
 
 Finally, the tilemap factory constructs a tilemap that references the generated tileset, creating a map layer that reflects the original frame layout. It then uses the calculated sequence IDs to assign the correct animated tile ID to each grid position, reconstructing the original animation.
 
+## Related Projects
+
+For converting tilemaps to GIFs, check out [Tilemap2Animation](https://github.com/vonhoff/Tilemap2Animation).
+
 ## Support and Contribute
 
 If you find value in this project, there are several ways you can contribute:
