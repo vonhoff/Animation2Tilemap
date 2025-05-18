@@ -122,7 +122,7 @@ public class ImageLoaderService : IImageLoaderService
 
             if (images.TryAdd(Path.GetFileNameWithoutExtension(file), frames) == false)
             {
-                images.Add(Path.GetFileName(file), frames);
+                images.Add(Path.GetFileNameWithoutExtension(file), frames);
             }
             totalFrames += frames.Count;
 
