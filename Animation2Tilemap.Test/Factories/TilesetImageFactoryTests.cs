@@ -40,7 +40,7 @@ public class TilesetImageFactoryTests
         };
 
         // Act
-        var result = _factory.CreateFromTiles(tiles, "test.png");
+        var result = _factory.CreateFromTiles(tiles, "test");
 
         // Assert
         Assert.Equal("test.png", result.Path);
@@ -84,7 +84,7 @@ public class TilesetImageFactoryTests
         };
 
         // Act
-        var result = _factory.CreateFromTiles(tiles, "test.png");
+        var result = _factory.CreateFromTiles(tiles, "test");
 
         // Assert
         Assert.Equal(66, result.Width);
