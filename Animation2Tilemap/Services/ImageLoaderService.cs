@@ -44,7 +44,7 @@ public class ImageLoaderService : IImageLoaderService
             var frames = LoadFromFile(_inputPath);
             if (frames.Count != 0)
             {
-                images.Add(Path.GetFileName(_inputPath), frames);
+                images.Add(Path.GetFileNameWithoutExtension(_inputPath), frames);
             }
         }
         else
@@ -120,10 +120,7 @@ public class ImageLoaderService : IImageLoaderService
                 continue;
             }
 
-            if (images.TryAdd(Path.GetFileNameWithoutExtension(file), frames) == false)
-            {
-                images.Add(Path.GetFileNameWithoutExtension(file), frames);
-            }
+            images.Add(Path.GetFileNameWithoutExtension(file), frames);
             totalFrames += frames.Count;
 
             if (suitableForAnimation == false)
