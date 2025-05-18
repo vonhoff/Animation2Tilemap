@@ -54,7 +54,7 @@ public class TilesetImageFactory : ITilesetImageFactory
 
         var tilesetImage = new TilesetImage
         {
-            Path = fileName,
+            Path = fileName + ".png",
             Trans = _transparentColor.ToHex(),
             Width = outputImage.Width,
             Height = outputImage.Height,
