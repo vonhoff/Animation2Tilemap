@@ -28,7 +28,7 @@ public class TilesetFactory : ITilesetFactory
         _tilesetImageFactory = tilesetImageFactory;
         _imageHashService = imageHashService;
         _logger = logger;
-        _frameDuration = options.FrameDuration;
+        _frameDuration = 1000 / options.Fps;
         _tileMargin = options.TileMargin;
         _tileSize = options.TileSize;
         _tileSpacing = options.TileSpacing;
@@ -52,7 +52,7 @@ public class TilesetFactory : ITilesetFactory
         var animationTiles = registeredTiles.Where(t => t.Animation is { Frames.Count: > 1 }).ToList();
         stopwatch.Stop();
 
-        _logger.Verbose("Registered {HashCount} distinct tile(s) and {AnimationCount} tile animation(s) for {FileName}. Took: {Elapsed}ms",
+        _logger.Information("Registered {HashCount} distinct tile(s) and {AnimationCount} tile animation(s) for {FileName}. Took: {Elapsed}ms",
             registeredTiles.Count, animationTiles.Count, fileName, stopwatch.ElapsedMilliseconds);
 
         // Generate the final tileset image containing all unique tiles
@@ -140,20 +140,20 @@ public class TilesetFactory : ITilesetFactory
 
             // Optimize animation by combining consecutive identical frames
             var previousTileImage = tileImageCollection[0];
-            var previousFrameDuration = 0;
+            var previousFps = 0;
             foreach (var currentTileImage in tileImageCollection)
             {
                 if (currentTileImage.Equals(previousTileImage))
                 {
                     // If current frame is identical to previous, extend the duration rather than add new frame
-                    previousFrameDuration += _frameDuration;
+                    previousFps += _frameDuration;
                 }
                 else
                 {
                     // When a change is detected, add the previous frame with its accumulated duration
-                    AddAnimationFrame(tile, registeredTiles, previousTileImage, previousFrameDuration, imageTileMap);
+                    AddAnimationFrame(tile, registeredTiles, previousTileImage, previousFps, imageTileMap);
                     previousTileImage = currentTileImage;
-                    previousFrameDuration = _frameDuration;
+                    previousFps = _frameDuration;
                 }
             }
 

@@ -47,7 +47,7 @@ public static class Program
 
     private static MainWorkflowOptionsBinder BuildMainWorkflowOptionsBinder(Command rootCommand)
     {
-        ICommandLineOption<int> frameDurationOption = new FrameDurationOption();
+        ICommandLineOption<int> fpsOption = new FpsOption();
         ICommandLineOption<string> inputOption = new InputOption();
         ICommandLineOption<string> outputOption = new OutputOption();
         ICommandLineOption<int> heightOption = new HeightOption();
@@ -56,12 +56,11 @@ public static class Program
         ICommandLineOption<int> spacingOption = new SpacingOption();
         ICommandLineOption<string> transparentColorOption = new TransparentColorOption();
         ICommandLineOption<string> tileLayerFormatOption = new TileLayerFormatOption();
-        ICommandLineOption<bool> verboseOption = new VerboseOption();
         ICommandLineOption<bool> assumeAnimationOption = new AssumeAnimationOption();
 
         return new MainWorkflowOptionsBinder(
             rootCommand,
-            frameDurationOption,
+            fpsOption,
             inputOption,
             outputOption,
             heightOption,
@@ -70,7 +69,6 @@ public static class Program
             spacingOption,
             transparentColorOption,
             tileLayerFormatOption,
-            verboseOption,
             assumeAnimationOption
         );
     }

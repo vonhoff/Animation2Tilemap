@@ -3,21 +3,21 @@ using Animation2Tilemap.CommandLineOptions;
 
 namespace Animation2Tilemap.Test.CommandLineOptions;
 
-public class FrameDurationOptionTests
+public class FpsOptionTests
 {
     [Theory]
     [InlineData(null)]
     [InlineData(0)]
     [InlineData(-10)]
-    public void FrameDurationOption_InvalidDuration_ReturnsError(int? duration)
+    public void FpsOption_InvalidDuration_ReturnsError(int? duration)
     {
         // Arrange
-        var frameDurationOption = new FrameDurationOption();
+        var frameDurationOption = new FpsOption();
         var command = new Command("test");
 
         // Act
         frameDurationOption.Register(command);
-        var result = command.Parse($"--duration {duration}");
+        var result = command.Parse($"--fps {duration}");
 
         // Assert
         Assert.NotEmpty(result.Errors);
@@ -27,15 +27,15 @@ public class FrameDurationOptionTests
     [InlineData(1)]
     [InlineData(50)]
     [InlineData(1000)]
-    public void FrameDurationOption_ValidDuration_ReturnsValue(int duration)
+    public void FpsOption_ValidDuration_ReturnsValue(int duration)
     {
         // Arrange
-        var frameDurationOption = new FrameDurationOption();
+        var frameDurationOption = new FpsOption();
         var command = new Command("test");
 
         // Act
         frameDurationOption.Register(command);
-        var result = command.Parse($"--duration {duration}");
+        var result = command.Parse($"--fps {duration}");
 
         // Assert
         Assert.Equal(duration, result.GetValueForOption(frameDurationOption.Option));

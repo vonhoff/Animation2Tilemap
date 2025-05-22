@@ -21,10 +21,10 @@ public partial class NamePatternService : INamePatternService
     {
         var stopwatch = Stopwatch.StartNew();
         var patternCount = CountPatterns(names, _namePattern);
-        _logger.Verbose("Found {PatternCount} name pattern(s). Took: {Elapsed}ms", patternCount.Count, stopwatch.ElapsedMilliseconds);
+        _logger.Information("Found {PatternCount} name pattern(s). Took: {Elapsed}ms", patternCount.Count, stopwatch.ElapsedMilliseconds);
 
         var patternCountAlt = CountPatterns(names, _namePatternAlt);
-        _logger.Verbose("Found {PatternCount} alternative name pattern(s). Took: {Elapsed}ms", patternCountAlt.Count, stopwatch.ElapsedMilliseconds);
+        _logger.Information("Found {PatternCount} alternative name pattern(s). Took: {Elapsed}ms", patternCountAlt.Count, stopwatch.ElapsedMilliseconds);
 
         var maxPattern = FindMaxPattern(patternCount);
         var maxPatternAlt = FindMaxPattern(patternCountAlt);
@@ -32,14 +32,14 @@ public partial class NamePatternService : INamePatternService
         if (maxPattern != null && IsPresentInAll(names, maxPattern))
         {
             stopwatch.Stop();
-            _logger.Verbose("A notable name pattern is {MaxPattern}. Took: {Elapsed}ms", maxPattern, stopwatch.ElapsedMilliseconds);
+            _logger.Information("A notable name pattern is {MaxPattern}. Took: {Elapsed}ms", maxPattern, stopwatch.ElapsedMilliseconds);
             return maxPattern;
         }
 
         if (maxPatternAlt != null && IsPresentInAll(names, maxPatternAlt))
         {
             stopwatch.Stop();
-            _logger.Verbose("A notable alternative name pattern is {MaxPatternAlt}. Took: {Elapsed}ms", maxPatternAlt, stopwatch.ElapsedMilliseconds);
+            _logger.Information("A notable alternative name pattern is {MaxPatternAlt}. Took: {Elapsed}ms", maxPatternAlt, stopwatch.ElapsedMilliseconds);
             return maxPatternAlt;
         }
 
@@ -94,11 +94,11 @@ public partial class NamePatternService : INamePatternService
 
         if (strings.Any(str => !regex.IsMatch(str)))
         {
-            _logger.Verbose("Candidate name pattern {Pattern} does not occur in all filenames.", pattern);
+            _logger.Information("Candidate name pattern {Pattern} does not occur in all filenames.", pattern);
             return false;
         }
 
-        _logger.Verbose("Candidate name pattern {Pattern} does occur in all filenames.", pattern);
+        _logger.Information("Candidate name pattern {Pattern} does occur in all filenames.", pattern);
         return true;
     }
 }

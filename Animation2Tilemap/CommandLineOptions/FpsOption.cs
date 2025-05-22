@@ -3,15 +3,15 @@ using Animation2Tilemap.CommandLineOptions.Contracts;
 
 namespace Animation2Tilemap.CommandLineOptions;
 
-public class FrameDurationOption : ICommandLineOption<int>
+public class FpsOption : ICommandLineOption<int>
 {
-    public FrameDurationOption()
+    public FpsOption()
     {
         Option = new Option<int>(
-            name: "--duration",
-            description: "Animation frame duration",
-            getDefaultValue: () => 42);
-        Option.AddAlias("-d");
+            name: "--fps",
+            description: "Animation frames per second (FPS)",
+            getDefaultValue: () => 24);
+        Option.AddAlias("-f");
     }
 
     public Option<int> Option { get; }
@@ -22,19 +22,19 @@ public class FrameDurationOption : ICommandLineOption<int>
         command.AddValidator(result =>
         {
             var optionResult = result.FindResultFor(Option);
-            int? duration;
+            int? fps;
             try
             {
-                duration = optionResult?.GetValueOrDefault<int>();
+                fps = optionResult?.GetValueOrDefault<int>();
             }
             catch (InvalidOperationException)
             {
-                duration = null;
+                fps = null;
             }
 
-            if (duration is not > 0)
+            if (fps is not > 0)
             {
-                result.ErrorMessage = $"Invalid frame duration '{duration}'. Animation frame duration should be greater than 0.";
+                result.ErrorMessage = $"Invalid FPS value '{fps}'. Animation FPS should be greater than 0.";
             }
         });
         return Option;

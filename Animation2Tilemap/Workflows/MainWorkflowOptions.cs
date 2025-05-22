@@ -6,7 +6,7 @@ namespace Animation2Tilemap.Workflows;
 
 public class MainWorkflowOptions
 {
-    public int FrameDuration { get; set; }
+    public int Fps { get; set; }
     public string Input { get; set; } = null!;
     public string Output { get; set; } = null!;
     public Size TileSize { get; set; }

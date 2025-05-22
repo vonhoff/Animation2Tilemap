@@ -104,7 +104,7 @@ public class ImageLoaderService : IImageLoaderService
             .ToList();
 
         stopwatch.Stop();
-        _logger.Verbose("Found {Count} file(s) in {Directory}. Took: {Elapsed}ms",
+        _logger.Information("Found {Count} file(s) in {Directory}. Took: {Elapsed}ms",
             files.Count, path, stopwatch.ElapsedMilliseconds);
 
         var totalFrames = 0;

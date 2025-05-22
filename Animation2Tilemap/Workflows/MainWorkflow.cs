@@ -50,7 +50,7 @@ public class MainWorkflow
             var fileName = frameCollection.Key;
             var frames = frameCollection.Value;
 
-            _logger.Verbose("Processing image {FileName} with {FrameCount} frame(s).", fileName, frames.Count);
+            _logger.Information("Processing image {FileName} with {FrameCount} frame(s).", fileName, frames.Count);
             var totalStopwatch = Stopwatch.StartNew();
 
             try
@@ -62,19 +62,21 @@ public class MainWorkflow
 
                 var taskStopwatch = Stopwatch.StartNew();
                 var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
-                _logger.Verbose("Created tileset from {FileName}. Took: {Elapsed}ms",
+                taskStopwatch.Stop();
+                _logger.Information("Created tileset from {FileName}. Took: {Elapsed}ms",
                     fileName, taskStopwatch.ElapsedMilliseconds);
 
                 taskStopwatch.Restart();
                 var tilemap = _tilemapFactory.CreateFromTileset(tileset);
-                _logger.Verbose("Created tilemap from tileset {FileName}. Took: {Elapsed}ms",
+                taskStopwatch.Stop();
+                _logger.Information("Created tilemap from tileset {FileName}. Took: {Elapsed}ms",
                     fileName, taskStopwatch.ElapsedMilliseconds);
 
                 var tilesetImageOutput = Path.Combine(_outputFolder, fileName + ".png");
                 var tilesetOutput = Path.Combine(_outputFolder, fileName + ".tsx");
                 var tilemapOutput = Path.Combine(_outputFolder, fileName + ".tmx");
 
-                _logger.Verbose("Saving files for {FileName} to {OutputFolder}", fileName, _outputFolder);
+                _logger.Information("Saving files for {FileName} to {OutputFolder}", fileName, _outputFolder);
                 tileset.Image.Data.SaveAsPng(tilesetImageOutput);
                 File.WriteAllText(tilesetOutput, _xmlSerializerService.Serialize(tileset));
                 File.WriteAllText(tilemapOutput, _xmlSerializerService.Serialize(tilemap));

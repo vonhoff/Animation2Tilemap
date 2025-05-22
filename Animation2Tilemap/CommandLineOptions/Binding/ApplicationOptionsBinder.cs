@@ -10,7 +10,7 @@ namespace Animation2Tilemap.CommandLineOptions.Binding;
 
 public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
 {
-    private readonly Option<int> _frameDurationOption;
+    private readonly Option<int> _frameFpsOption;
     private readonly Option<string> _inputOption;
     private readonly Option<string> _outputOption;
     private readonly Option<int> _tileHeightOption;
@@ -19,11 +19,10 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
     private readonly Option<int> _tileSpacingOption;
     private readonly Option<int> _tileWidthOption;
     private readonly Option<string> _transparentColorOption;
-    private readonly Option<bool> _verboseOption;
     private readonly Option<bool> _assumeAnimationOption;
 
     public MainWorkflowOptionsBinder(Command rootCommand,
-        ICommandLineOption<int> frameDurationOption,
+        ICommandLineOption<int> frameFpsOption,
         ICommandLineOption<string> inputOption,
         ICommandLineOption<string> outputOption,
         ICommandLineOption<int> tileHeightOption,
@@ -32,10 +31,9 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
         ICommandLineOption<int> tileSpacingOption,
         ICommandLineOption<string> transparentColorOption,
         ICommandLineOption<string> tileLayerFormatOption,
-        ICommandLineOption<bool> verboseOption,
         ICommandLineOption<bool> assumeAnimationOption)
     {
-        _frameDurationOption = frameDurationOption.Register(rootCommand);
+        _frameFpsOption = frameFpsOption.Register(rootCommand);
         _inputOption = inputOption.Register(rootCommand);
         _outputOption = outputOption.Register(rootCommand);
         _tileHeightOption = tileHeightOption.Register(rootCommand);
@@ -44,7 +42,6 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
         _tileSpacingOption = tileSpacingOption.Register(rootCommand);
         _tileWidthOption = tileWidthOption.Register(rootCommand);
         _transparentColorOption = transparentColorOption.Register(rootCommand);
-        _verboseOption = verboseOption.Register(rootCommand);
         _assumeAnimationOption = assumeAnimationOption.Register(rootCommand);
     }
 
@@ -52,7 +49,7 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
     {
         var parseResult = bindingContext.ParseResult;
 
-        var frameDuration = parseResult.GetValueForOption(_frameDurationOption);
+        var frameFps = parseResult.GetValueForOption(_frameFpsOption);
         var input = parseResult.GetValueForOption(_inputOption)!;
         var output = parseResult.GetValueForOption(_outputOption)!;
         var tileWidth = parseResult.GetValueForOption(_tileHeightOption);
@@ -61,7 +58,6 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
         var tileSpacing = parseResult.GetValueForOption(_tileSpacingOption);
         var transparentHex = parseResult.GetValueForOption(_transparentColorOption)!;
         var tileLayerFormatString = parseResult.GetValueForOption(_tileLayerFormatOption)!;
-        var verbose = parseResult.GetValueForOption(_verboseOption);
         var assumeAnimation = parseResult.GetValueForOption(_assumeAnimationOption);
 
         var tileSize = new Size(tileWidth, tileHeight);
@@ -77,7 +73,7 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
 
         return new MainWorkflowOptions
         {
-            FrameDuration = frameDuration,
+            Fps = frameFps,
             Input = input,
             Output = output,
             TileSize = tileSize,
@@ -85,7 +81,6 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
             TileSpacing = tileSpacing,
             TransparentColor = transparentColor,
             TileLayerFormat = tileLayerFormat,
-            Verbose = verbose,
             AssumeAnimation = assumeAnimation
         };
     }

@@ -20,7 +20,7 @@ public class TilesetFactoryTests
     {
         var options = new MainWorkflowOptions
         {
-            FrameDuration = 100,
+            Fps = 60,
             TileMargin = 1,
             TileSize = new Size(32, 32),
             TileSpacing = 1
@@ -119,8 +119,8 @@ public class TilesetFactoryTests
 
         var animatedTile = result.AnimatedTiles[0];
         Assert.Equal(2, animatedTile.Animation!.Frames.Count);
-        Assert.Equal(100, animatedTile.Animation.Frames[0].Duration);
-        Assert.Equal(100, animatedTile.Animation.Frames[1].Duration);
+        Assert.Equal(16, animatedTile.Animation.Frames[0].Duration);
+        Assert.Equal(16, animatedTile.Animation.Frames[1].Duration);
     }
 
     [Fact]
@@ -159,7 +159,7 @@ public class TilesetFactoryTests
 
         var animatedTile = result.AnimatedTiles[0];
         Assert.Equal(2, animatedTile.Animation!.Frames.Count);
-        Assert.Equal(200, animatedTile.Animation.Frames[0].Duration); // First two frames combined
-        Assert.Equal(100, animatedTile.Animation.Frames[1].Duration);
+        Assert.Equal(32, animatedTile.Animation.Frames[0].Duration);
+        Assert.Equal(16, animatedTile.Animation.Frames[1].Duration);
     }
 } 
