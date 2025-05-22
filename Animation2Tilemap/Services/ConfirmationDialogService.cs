@@ -25,22 +25,22 @@ public class ConfirmationDialogService : IConfirmationDialogService
                 switch (input)
                 {
                     case "Y":
-                        {
-                            response = true;
-                            isValidInput = true;
-                            break;
-                        }
+                    {
+                        response = true;
+                        isValidInput = true;
+                        break;
+                    }
                     case "N":
-                        {
-                            response = false;
-                            isValidInput = true;
-                            break;
-                        }
+                    {
+                        response = false;
+                        isValidInput = true;
+                        break;
+                    }
                     default:
-                        {
-                            Console.WriteLine("Invalid input. Please enter Y or N.");
-                            break;
-                        }
+                    {
+                        Console.WriteLine("Invalid input. Please enter Y or N.");
+                        break;
+                    }
                 }
             }
         }

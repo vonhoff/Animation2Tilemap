@@ -8,7 +8,7 @@ public class OutputOption : ICommandLineOption<string>
     public OutputOption()
     {
         Option = new Option<string>(
-            name: "--output",
+            "--output",
             description: "Output folder",
             getDefaultValue: () => "output");
         Option.AddAlias("-o");
@@ -32,10 +32,7 @@ public class OutputOption : ICommandLineOption<string>
                 outputPath = string.Empty;
             }
 
-            if (outputPath.Equals(string.Empty))
-            {
-                return;
-            }
+            if (outputPath.Equals(string.Empty)) return;
 
             if (outputPath.Any(c => Path.GetInvalidPathChars().Contains(c)))
             {
@@ -46,9 +43,11 @@ public class OutputOption : ICommandLineOption<string>
             try
             {
                 Directory.CreateDirectory(outputPath);
-                using var testFile = File.Create(Path.Combine(outputPath, Path.GetRandomFileName()), 1, FileOptions.DeleteOnClose);
+                using var testFile = File.Create(Path.Combine(outputPath, Path.GetRandomFileName()), 1,
+                    FileOptions.DeleteOnClose);
             }
-            catch (Exception ex) when (ex is UnauthorizedAccessException or DirectoryNotFoundException or PathTooLongException)
+            catch (Exception ex) when (ex is UnauthorizedAccessException or DirectoryNotFoundException
+                                           or PathTooLongException)
             {
                 result.ErrorMessage = $"The provided output folder '{outputPath}' is not accessible: {ex.Message}";
             }

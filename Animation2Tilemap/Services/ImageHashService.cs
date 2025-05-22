@@ -33,6 +33,7 @@ public class ImageHashService : IImageHashService
                 hash = hash * Prime7 + y;
                 x++;
             }
+
             y++;
             x = 0;
         }

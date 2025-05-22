@@ -8,7 +8,7 @@ public class WidthOption : ICommandLineOption<int>
     public WidthOption()
     {
         Option = new Option<int>(
-            name: "--width",
+            "--width",
             description: "Tile width",
             getDefaultValue: () => 8);
         Option.AddAlias("-w");
@@ -32,10 +32,7 @@ public class WidthOption : ICommandLineOption<int>
                 width = 0;
             }
 
-            if (width <= 0)
-            {
-                result.ErrorMessage = $"Invalid width '{width}'. Width should be greater than 0.";
-            }
+            if (width <= 0) result.ErrorMessage = $"Invalid width '{width}'. Width should be greater than 0.";
         });
         return Option;
     }

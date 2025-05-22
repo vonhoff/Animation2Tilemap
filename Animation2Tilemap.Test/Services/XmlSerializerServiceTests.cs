@@ -49,25 +49,19 @@ public class XmlSerializerServiceTests
     [XmlRoot("Person")]
     public class Person
     {
-        [XmlElement("Name")]
-        public string Name { get; set; } = null!;
+        [XmlElement("Name")] public string Name { get; set; } = null!;
 
-        [XmlElement("Age")]
-        public int Age { get; set; }
+        [XmlElement("Age")] public int Age { get; set; }
 
-        [XmlElement("Address")]
-        public Address Address { get; set; } = null!;
+        [XmlElement("Address")] public Address Address { get; set; } = null!;
     }
 
     public class Address
     {
-        [XmlElement("Street")]
-        public string Street { get; set; } = null!;
+        [XmlElement("Street")] public string Street { get; set; } = null!;
 
-        [XmlElement("City")]
-        public string City { get; set; } = null!;
+        [XmlElement("City")] public string City { get; set; } = null!;
 
-        [XmlElement("ZipCode")]
-        public string ZipCode { get; set; } = null!;
+        [XmlElement("ZipCode")] public string ZipCode { get; set; } = null!;
     }
 }

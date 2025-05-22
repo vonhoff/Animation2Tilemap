@@ -13,8 +13,8 @@ namespace Animation2Tilemap.Test.Factories;
 public class TilesetFactoryTests
 {
     private readonly TilesetFactory _factory;
-    private readonly Mock<ITilesetImageFactory> _tilesetImageFactoryMock;
     private readonly Mock<IImageHashService> _imageHashServiceMock;
+    private readonly Mock<ITilesetImageFactory> _tilesetImageFactoryMock;
 
     public TilesetFactoryTests()
     {
@@ -48,7 +48,7 @@ public class TilesetFactoryTests
         var hashCalls = 0;
         _imageHashServiceMock
             .Setup(x => x.Compute(It.IsAny<Image<Rgba32>>()))
-            .Returns(() => (uint)(++hashCalls)); // Return incrementing hash values
+            .Returns(() => (uint)++hashCalls); // Return incrementing hash values
 
         var expectedTilesetImage = new TilesetImage
         {
@@ -162,4 +162,4 @@ public class TilesetFactoryTests
         Assert.Equal(32, animatedTile.Animation.Frames[0].Duration);
         Assert.Equal(16, animatedTile.Animation.Frames[1].Duration);
     }
-} 
+}

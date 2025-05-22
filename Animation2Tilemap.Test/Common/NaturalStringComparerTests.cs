@@ -29,7 +29,8 @@ public class NaturalStringComparerTests
     [InlineData("abc2def", "abc10def", -1)]
     [InlineData("abc123def", "abc22def", 1)]
     [InlineData("abc22def", "abc123def", -1)]
-    public void Compare_ShouldReturnExpectedResult_WhenComparingStringsContainingNumbers(string x, string y, int expected)
+    public void Compare_ShouldReturnExpectedResult_WhenComparingStringsContainingNumbers(string x, string y,
+        int expected)
     {
         // Act
         var result = _comparer.Compare(x, y);

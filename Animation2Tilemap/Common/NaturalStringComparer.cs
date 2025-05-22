@@ -9,19 +9,16 @@ public class NaturalStringComparer : IComparer<string>
         switch (x)
         {
             case null when y == null:
-                {
-                    return 0;
-                }
+            {
+                return 0;
+            }
             case null:
-                {
-                    return -1;
-                }
+            {
+                return -1;
+            }
         }
 
-        if (y == null)
-        {
-            return 1;
-        }
+        if (y == null) return 1;
 
         var lx = x.Length;
         var ly = y.Length;
@@ -29,7 +26,6 @@ public class NaturalStringComparer : IComparer<string>
         var my = 0;
 
         while (mx < lx && my < ly)
-        {
             if (char.IsDigit(x[mx]) && char.IsDigit(y[my]))
             {
                 var vx = 0.0;
@@ -47,23 +43,16 @@ public class NaturalStringComparer : IComparer<string>
                     my++;
                 }
 
-                if (Math.Abs(vx - vy) > 0)
-                {
-                    return vx > vy ? 1 : -1;
-                }
+                if (Math.Abs(vx - vy) > 0) return vx > vy ? 1 : -1;
             }
             else
             {
                 var cmp = string.Compare(x, mx, y, my, 1, StringComparison.InvariantCulture);
-                if (cmp != 0)
-                {
-                    return cmp;
-                }
+                if (cmp != 0) return cmp;
 
                 mx++;
                 my++;
             }
-        }
 
         return lx - ly;
     }

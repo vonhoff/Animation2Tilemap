@@ -32,10 +32,7 @@ public readonly struct TilesetTileImage : IEquatable<TilesetTileImage>
 
     public override bool Equals(object? obj)
     {
-        if (obj is TilesetTileImage other)
-        {
-            return Equals(other);
-        }
+        if (obj is TilesetTileImage other) return Equals(other);
 
         return false;
     }

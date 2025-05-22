@@ -6,18 +6,13 @@ namespace Animation2Tilemap.Entities;
 [XmlRoot("layer")]
 public class TilemapLayer
 {
-    [XmlAttribute("id")]
-    public int Id { get; set; }
+    [XmlAttribute("id")] public int Id { get; set; }
 
-    [XmlAttribute("name")]
-    public string? Name { get; set; }
+    [XmlAttribute("name")] public string? Name { get; set; }
 
-    [XmlAttribute("width")]
-    public int Width { get; set; }
+    [XmlAttribute("width")] public int Width { get; set; }
 
-    [XmlAttribute("height")]
-    public int Height { get; set; }
+    [XmlAttribute("height")] public int Height { get; set; }
 
-    [XmlElement("data")]
-    public TilemapLayerData? Data { get; set; }
+    [XmlElement("data")] public TilemapLayerData? Data { get; set; }
 }

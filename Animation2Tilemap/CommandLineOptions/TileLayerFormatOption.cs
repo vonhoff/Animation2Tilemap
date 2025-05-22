@@ -8,7 +8,7 @@ public class TileLayerFormatOption : ICommandLineOption<string>
     public TileLayerFormatOption()
     {
         Option = new Option<string>(
-            name: "--format",
+            "--format",
             description: "Tile layer format",
             getDefaultValue: () => "zlib");
         Option.AddAlias("-f");
@@ -35,10 +35,8 @@ public class TileLayerFormatOption : ICommandLineOption<string>
             }
 
             if (format == null || availableOptions.Contains(format) == false)
-            {
                 result.ErrorMessage = $"Invalid format '{format}'. " +
                                       $"Format must be one of the following options: {string.Join(", ", availableOptions)}";
-            }
         });
         return Option;
     }

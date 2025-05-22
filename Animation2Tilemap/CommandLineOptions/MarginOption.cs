@@ -8,7 +8,7 @@ public class MarginOption : ICommandLineOption<int>
     public MarginOption()
     {
         Option = new Option<int>(
-            name: "--margin",
+            "--margin",
             description: "Tile margin",
             getDefaultValue: () => 0);
         Option.AddAlias("-m");
@@ -33,9 +33,7 @@ public class MarginOption : ICommandLineOption<int>
             }
 
             if (margin < 0)
-            {
                 result.ErrorMessage = $"Invalid margin '{margin}'. Margin should be equal or greater than 0.";
-            }
         });
         return Option;
     }

@@ -116,10 +116,7 @@ public class ImageLoaderServiceTests
         Assert.True(result);
         Assert.Equal(8, images.Count);
 
-        foreach (var image in images)
-        {
-            Assert.Single(image.Value);
-        }
+        foreach (var image in images) Assert.Single(image.Value);
     }
 
     [Fact]
@@ -143,9 +140,6 @@ public class ImageLoaderServiceTests
         Assert.Equal(8, images["anim"].Count);
         Assert.Single(images);
 
-        foreach (var image in images["anim"])
-        {
-            Assert.Single(image.Frames);
-        }
+        foreach (var image in images["anim"]) Assert.Single(image.Frames);
     }
 }

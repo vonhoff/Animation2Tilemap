@@ -42,10 +42,7 @@ public class ImageLoaderService : IImageLoaderService
         if (File.Exists(_inputPath))
         {
             var frames = LoadFromFile(_inputPath);
-            if (frames.Count != 0)
-            {
-                images.Add(Path.GetFileNameWithoutExtension(_inputPath), frames);
-            }
+            if (frames.Count != 0) images.Add(Path.GetFileNameWithoutExtension(_inputPath), frames);
         }
         else
         {
@@ -58,26 +55,21 @@ public class ImageLoaderService : IImageLoaderService
                 if (_assumeAnimation)
                 {
                     requestAnimation = true;
-                    _logger.Information("The loaded images will be processed as animation frames (--assume-animation is set).");
+                    _logger.Information(
+                        "The loaded images will be processed as animation frames (--assume-animation is set).");
                 }
                 else
                 {
-                    requestAnimation = _confirmationDialogService.Confirm("The loaded images can be processed as animation frames. \n" +
-                                                                          "Do you want to create an animation from these images?", true);
+                    requestAnimation = _confirmationDialogService.Confirm(
+                        "The loaded images can be processed as animation frames. \n" +
+                        "Do you want to create an animation from these images?", true);
                     if (requestAnimation)
-                    {
                         _logger.Information("The loaded images will be processed as animation frames.");
-                    }
                     else
-                    {
                         _logger.Information("The loaded images will be processed individually.");
-                    }
                 }
 
-                if (requestAnimation)
-                {
-                    TransformImagesToAnimation(ref images);
-                }
+                if (requestAnimation) TransformImagesToAnimation(ref images);
             }
             else
             {
@@ -115,29 +107,22 @@ public class ImageLoaderService : IImageLoaderService
         foreach (var file in files)
         {
             var frames = LoadFromFile(file);
-            if (frames.Count == 0)
-            {
-                continue;
-            }
+            if (frames.Count == 0) continue;
 
             images.Add(Path.GetFileNameWithoutExtension(file), frames);
             totalFrames += frames.Count;
 
-            if (suitableForAnimation == false)
-            {
-                continue;
-            }
+            if (suitableForAnimation == false) continue;
 
             var current = frames[0];
-            if (previous != null && previous.Size.Equals(current.Size) == false || frames.Count > 1)
-            {
+            if ((previous != null && previous.Size.Equals(current.Size) == false) || frames.Count > 1)
                 suitableForAnimation = false;
-            }
 
             previous = frames[0];
         }
 
-        _logger.Information("Loaded {ImageCount} of {InputCount} file(s) containing a total of {FrameCount} frame(s). Took: {Elapsed}ms",
+        _logger.Information(
+            "Loaded {ImageCount} of {InputCount} file(s) containing a total of {FrameCount} frame(s). Took: {Elapsed}ms",
             images.Count, files.Count, totalFrames, stopwatch.ElapsedMilliseconds);
         return images;
     }

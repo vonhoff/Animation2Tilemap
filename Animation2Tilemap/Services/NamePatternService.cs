@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Animation2Tilemap.Services.Contracts;
 using Serilog;
 
@@ -21,10 +20,12 @@ public partial class NamePatternService : INamePatternService
     {
         var stopwatch = Stopwatch.StartNew();
         var patternCount = CountPatterns(names, _namePattern);
-        _logger.Information("Found {PatternCount} name pattern(s). Took: {Elapsed}ms", patternCount.Count, stopwatch.ElapsedMilliseconds);
+        _logger.Information("Found {PatternCount} name pattern(s). Took: {Elapsed}ms", patternCount.Count,
+            stopwatch.ElapsedMilliseconds);
 
         var patternCountAlt = CountPatterns(names, _namePatternAlt);
-        _logger.Information("Found {PatternCount} alternative name pattern(s). Took: {Elapsed}ms", patternCountAlt.Count, stopwatch.ElapsedMilliseconds);
+        _logger.Information("Found {PatternCount} alternative name pattern(s). Took: {Elapsed}ms",
+            patternCountAlt.Count, stopwatch.ElapsedMilliseconds);
 
         var maxPattern = FindMaxPattern(patternCount);
         var maxPatternAlt = FindMaxPattern(patternCountAlt);
@@ -32,14 +33,16 @@ public partial class NamePatternService : INamePatternService
         if (maxPattern != null && IsPresentInAll(names, maxPattern))
         {
             stopwatch.Stop();
-            _logger.Information("A notable name pattern is {MaxPattern}. Took: {Elapsed}ms", maxPattern, stopwatch.ElapsedMilliseconds);
+            _logger.Information("A notable name pattern is {MaxPattern}. Took: {Elapsed}ms", maxPattern,
+                stopwatch.ElapsedMilliseconds);
             return maxPattern;
         }
 
         if (maxPatternAlt != null && IsPresentInAll(names, maxPatternAlt))
         {
             stopwatch.Stop();
-            _logger.Information("A notable alternative name pattern is {MaxPatternAlt}. Took: {Elapsed}ms", maxPatternAlt, stopwatch.ElapsedMilliseconds);
+            _logger.Information("A notable alternative name pattern is {MaxPatternAlt}. Took: {Elapsed}ms",
+                maxPatternAlt, stopwatch.ElapsedMilliseconds);
             return maxPatternAlt;
         }
 
@@ -52,14 +55,13 @@ public partial class NamePatternService : INamePatternService
     {
         var patternCount = new Dictionary<string, int>();
         foreach (var name in names)
+        foreach (Match match in regex.Matches(name))
         {
-            foreach (Match match in regex.Matches(name))
-            {
-                var pattern = match.Value;
-                patternCount.TryGetValue(pattern, out var count);
-                patternCount[pattern] = count + 1;
-            }
+            var pattern = match.Value;
+            patternCount.TryGetValue(pattern, out var count);
+            patternCount[pattern] = count + 1;
         }
+
         return patternCount;
     }
 
@@ -70,14 +72,12 @@ public partial class NamePatternService : INamePatternService
         var longestLength = 0;
 
         foreach (var (pattern, count) in patternCount)
-        {
             if (count > maxCount || (count == maxCount && pattern.Length > longestLength))
             {
                 maxPattern = pattern;
                 maxCount = count;
                 longestLength = pattern.Length;
             }
-        }
 
         return maxPattern;
     }

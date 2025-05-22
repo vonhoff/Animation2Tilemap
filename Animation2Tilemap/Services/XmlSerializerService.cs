@@ -9,10 +9,7 @@ public class XmlSerializerService : IXmlSerializerService
 {
     public string Serialize<T>(T obj) where T : class
     {
-        if (obj == null)
-        {
-            throw new ArgumentNullException(nameof(obj));
-        }
+        if (obj == null) throw new ArgumentNullException(nameof(obj));
 
         var serializer = new XmlSerializer(typeof(T));
         using var memoryStream = new MemoryStream();

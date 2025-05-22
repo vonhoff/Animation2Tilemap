@@ -8,7 +8,7 @@ public class FpsOption : ICommandLineOption<int>
     public FpsOption()
     {
         Option = new Option<int>(
-            name: "--fps",
+            "--fps",
             description: "Animation frames per second (FPS)",
             getDefaultValue: () => 24);
         Option.AddAlias("-f");
@@ -33,9 +33,7 @@ public class FpsOption : ICommandLineOption<int>
             }
 
             if (fps is not > 0)
-            {
                 result.ErrorMessage = $"Invalid FPS value '{fps}'. Animation FPS should be greater than 0.";
-            }
         });
         return Option;
     }

@@ -10,6 +10,7 @@ namespace Animation2Tilemap.CommandLineOptions.Binding;
 
 public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
 {
+    private readonly Option<bool> _assumeAnimationOption;
     private readonly Option<int> _frameFpsOption;
     private readonly Option<string> _inputOption;
     private readonly Option<string> _outputOption;
@@ -19,7 +20,6 @@ public class MainWorkflowOptionsBinder : BinderBase<MainWorkflowOptions>
     private readonly Option<int> _tileSpacingOption;
     private readonly Option<int> _tileWidthOption;
     private readonly Option<string> _transparentColorOption;
-    private readonly Option<bool> _assumeAnimationOption;
 
     public MainWorkflowOptionsBinder(Command rootCommand,
         ICommandLineOption<int> frameFpsOption,

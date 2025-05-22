@@ -8,7 +8,7 @@ public class SpacingOption : ICommandLineOption<int>
     public SpacingOption()
     {
         Option = new Option<int>(
-            name: "--spacing",
+            "--spacing",
             description: "Tile spacing",
             getDefaultValue: () => 0);
         Option.AddAlias("-s");
@@ -33,9 +33,7 @@ public class SpacingOption : ICommandLineOption<int>
             }
 
             if (spacing < 0)
-            {
                 result.ErrorMessage = $"Invalid spacing '{spacing}'. Spacing should be equal or greater than 0.";
-            }
         });
         return Option;
     }

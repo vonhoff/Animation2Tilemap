@@ -4,7 +4,8 @@
 [![version](https://img.shields.io/badge/version-2.1.1-blue)](https://github.com/vonhoff/Animation2Tilemap/releases)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-Animation2Tilemap is a tool that converts images or GIF animations into tilemaps and tilesets, compatible with [Tiled](https://www.mapeditor.org/) and other tile-based game development tools.
+Animation2Tilemap is a tool that converts images or GIF animations into tilemaps and tilesets, compatible
+with [Tiled](https://www.mapeditor.org/) and other tile-based game development tools.
 
 ## Features
 
@@ -22,9 +23,9 @@ Animation2Tilemap is a tool that converts images or GIF animations into tilemaps
 
 Convert a GIF animation into a tileset and tilemap:
 
-|                          From                          |                           To                            |
-|:------------------------------------------------------:|:-------------------------------------------------------:|
-| <img src="Resources/Sonic_md_fg1.gif" width="1280">    | ![Input](Resources/Screenshot%20from%202025-05-17_.png) |
+|                        From                         |                           To                            |
+|:---------------------------------------------------:|:-------------------------------------------------------:|
+| <img src="Resources/Sonic_md_fg1.gif" width="1280"> | ![Input](Resources/Screenshot%20from%202025-05-17_.png) |
 
 ## Getting Started
 
@@ -48,11 +49,18 @@ animation2tilemap --help
 
 ## How It Works
 
-It starts by loading the input, which can be a single image, a multi-frame file (such as a GIF), or a folder of images. Multi-frame files are automatically treated as animations. When processing a folder where all images have the same dimensions, they are assumed to be animation frames; confirmation is requested unless the `--assume-animation` option is used.
+It starts by loading the input, which can be a single image, a multi-frame file (such as a GIF), or a folder of images.
+Multi-frame files are automatically treated as animations. When processing a folder where all images have the same
+dimensions, they are assumed to be animation frames; confirmation is requested unless the `--assume-animation` option is
+used.
 
-Next, the tileset factory divides each frame into tiles and uses image hashing to track unique tiles at each grid position, ensuring that only unique tiles are stored for a compact tileset. For each grid position, a unique identifier is generated to represent the sequence of tiles across frames, capturing any tile animation patterns.
+Next, the tileset factory divides each frame into tiles and uses image hashing to track unique tiles at each grid
+position, ensuring that only unique tiles are stored for a compact tileset. For each grid position, a unique identifier
+is generated to represent the sequence of tiles across frames, capturing any tile animation patterns.
 
-Finally, the tilemap factory constructs a tilemap that references the generated tileset, creating a map layer that reflects the original frame layout. It then uses the calculated sequence IDs to assign the correct animated tile ID to each grid position, reconstructing the original animation.
+Finally, the tilemap factory constructs a tilemap that references the generated tileset, creating a map layer that
+reflects the original frame layout. It then uses the calculated sequence IDs to assign the correct animated tile ID to
+each grid position, reconstructing the original animation.
 
 ## Related Projects
 

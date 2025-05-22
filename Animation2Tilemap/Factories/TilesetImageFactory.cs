@@ -43,10 +43,7 @@ public class TilesetImageFactory : ITilesetImageFactory
             outputImage.Mutate(ctx => ctx.DrawImage(tile.Image.Data, new Point(x1, y1), 1f));
 
             x += _tileSize.Width + _tileSpacing;
-            if (x < outputImage.Width)
-            {
-                continue;
-            }
+            if (x < outputImage.Width) continue;
 
             x = _tileMargin;
             y += _tileSize.Height + _tileSpacing;

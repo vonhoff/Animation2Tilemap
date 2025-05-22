@@ -8,8 +8,9 @@ public class AssumeAnimationOption : ICommandLineOption<bool>
     public AssumeAnimationOption()
     {
         Option = new Option<bool>(
-            name: "--assume-animation",
-            description: "Assume images in an input directory matching animation patterns are frames, bypassing the confirmation prompt",
+            "--assume-animation",
+            description:
+            "Assume images in an input directory matching animation patterns are frames, bypassing the confirmation prompt",
             getDefaultValue: () => false);
     }
 

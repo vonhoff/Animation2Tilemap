@@ -8,8 +8,8 @@ public class InputOption : ICommandLineOption<string>
     public InputOption()
     {
         Option = new Option<string>(
-            name: "--input",
-            description: "Input file or folder path");
+            "--input",
+            "Input file or folder path");
         Option.AddAlias("-i");
         Option.IsRequired = true;
     }
@@ -22,10 +22,7 @@ public class InputOption : ICommandLineOption<string>
         command.AddValidator(result =>
         {
             var inputResult = result.FindResultFor(Option);
-            if (inputResult == null)
-            {
-                return;
-            }
+            if (inputResult == null) return;
 
             var inputPath = inputResult.GetValueOrDefault<string>();
             if (string.IsNullOrWhiteSpace(inputPath))
@@ -35,9 +32,7 @@ public class InputOption : ICommandLineOption<string>
             }
 
             if (File.Exists(inputPath) == false && Directory.Exists(inputPath) == false)
-            {
                 result.ErrorMessage = $"The input path '{inputPath}' does not exist.";
-            }
         });
         return Option;
     }

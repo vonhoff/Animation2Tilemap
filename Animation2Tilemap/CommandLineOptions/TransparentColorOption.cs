@@ -9,7 +9,7 @@ public partial class TransparentColorOption : ICommandLineOption<string>
     public TransparentColorOption()
     {
         Option = new Option<string>(
-            name: "--transparent",
+            "--transparent",
             description: "Transparent color (RGBA)",
             getDefaultValue: () => "00000000");
         Option.AddAlias("-t");
@@ -34,9 +34,8 @@ public partial class TransparentColorOption : ICommandLineOption<string>
             }
 
             if (string.IsNullOrEmpty(transparentColor) || !RgbaColorValidationRegex().IsMatch(transparentColor))
-            {
-                result.ErrorMessage = $"Invalid transparent color '{transparentColor}'. Transparent color must be a valid RGBA color string.";
-            }
+                result.ErrorMessage =
+                    $"Invalid transparent color '{transparentColor}'. Transparent color must be a valid RGBA color string.";
         });
         return Option;
     }

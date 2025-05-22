@@ -27,10 +27,7 @@ public class TilemapFactory : ITilemapFactory
         var i = 0;
         foreach (var hashAccumulation in tileset.HashAccumulations.Values)
         {
-            if (hashToTileId.TryGetValue(hashAccumulation, out var tileId))
-            {
-                mapData[i] = tileId;
-            }
+            if (hashToTileId.TryGetValue(hashAccumulation, out var tileId)) mapData[i] = tileId;
 
             i++;
         }
@@ -42,8 +39,9 @@ public class TilemapFactory : ITilemapFactory
         var encoding = _tileLayerFormat is
             TileLayerFormat.Base64Uncompressed or
             TileLayerFormat.Base64GZip or
-            TileLayerFormat.Base64ZLib ?
-            "base64" : "csv";
+            TileLayerFormat.Base64ZLib
+            ? "base64"
+            : "csv";
 
         var compression = _tileLayerFormat switch
         {

@@ -11,8 +11,8 @@ namespace Animation2Tilemap.Test.Factories;
 public class TilemapFactoryTests
 {
     private readonly TilemapFactory _factory;
-    private readonly Mock<ITilemapDataService> _tilemapDataServiceMock;
     private readonly MainWorkflowOptions _options;
+    private readonly Mock<ITilemapDataService> _tilemapDataServiceMock;
 
     public TilemapFactoryTests()
     {
@@ -116,4 +116,4 @@ public class TilemapFactoryTests
         Assert.Equal(expectedEncoding, result.TilemapLayer.Data.Encoding);
         Assert.Equal(expectedCompression, result.TilemapLayer.Data.Compression);
     }
-} 
+}

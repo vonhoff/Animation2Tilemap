@@ -8,7 +8,7 @@ public class HeightOption : ICommandLineOption<int>
     public HeightOption()
     {
         Option = new Option<int>(
-            name: "--height",
+            "--height",
             description: "Tile height",
             getDefaultValue: () => 8);
         Option.AddAlias("-h");
@@ -32,10 +32,7 @@ public class HeightOption : ICommandLineOption<int>
                 height = 0;
             }
 
-            if (height <= 0)
-            {
-                result.ErrorMessage = $"Invalid height '{height}'. Height should be greater than 0.";
-            }
+            if (height <= 0) result.ErrorMessage = $"Invalid height '{height}'. Height should be greater than 0.";
         });
         return Option;
     }

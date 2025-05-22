@@ -34,4 +34,4 @@ public class AssumeAnimationOptionTests
         // Assert
         Assert.True(result.GetValueForOption(assumeAnimationOption.Option));
     }
-} 
+}

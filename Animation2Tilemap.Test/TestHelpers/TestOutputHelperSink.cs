@@ -26,9 +26,6 @@ public class TestOutputHelperSink : ILogEventSink
         _output.WriteLine(writer.ToString());
 
         var exception = exceptionWriter.ToString();
-        if (string.IsNullOrWhiteSpace(exception) == false)
-        {
-            _output.WriteLine(exception);
-        }
+        if (string.IsNullOrWhiteSpace(exception) == false) _output.WriteLine(exception);
     }
 }

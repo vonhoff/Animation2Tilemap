@@ -37,10 +37,7 @@ public class MainWorkflow
 
     public void Run()
     {
-        if (_imageLoaderService.TryLoadImages(out var images) == false)
-        {
-            return;
-        }
+        if (_imageLoaderService.TryLoadImages(out var images) == false) return;
 
         Directory.CreateDirectory(_outputFolder);
         var successfulImages = 0;
@@ -55,10 +52,7 @@ public class MainWorkflow
 
             try
             {
-                if (_imageAlignmentService.TryAlignImage(fileName, frames) == false)
-                {
-                    return;
-                }
+                if (_imageAlignmentService.TryAlignImage(fileName, frames) == false) return;
 
                 var taskStopwatch = Stopwatch.StartNew();
                 var tileset = _tilesetFactory.CreateFromImage(fileName, frames);
