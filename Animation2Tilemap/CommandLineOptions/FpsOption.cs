@@ -9,9 +9,9 @@ public class FpsOption : ICommandLineOption<int>
     {
         Option = new Option<int>(
             "--fps",
-            description: "Animation frames per second (FPS)",
+            description: "Frames per second",
             getDefaultValue: () => 24);
-        Option.AddAlias("-f");
+        Option.AddAlias("-z");
     }
 
     public Option<int> Option { get; }
